@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="553.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
+   <children>
+      <ImageView fitHeight="553.0" fitWidth="950.0" pickOnBounds="true">
+         <image>
+            <Image url="@../image/login_background.jpg" />
+         </image>
+         <effect>
+            <GaussianBlur radius="5.89" />
+         </effect>
+      </ImageView>
+      <AnchorPane layoutX="514.0" layoutY="14.0" prefHeight="526.0" prefWidth="425.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 20;">
+         <children>
+            <ImageView fitHeight="263.0" fitWidth="261.0" layoutX="82.0" layoutY="-50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/1-removebg-preview.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Label graphicTextGap="10.0" layoutX="82.0" layoutY="218.0" prefHeight="54.0" prefWidth="371.0" style="-fx-border-color: #;" text="WELCOME BACK" textFill="WHITE">
+         <font>
+            <Font name="Bauhaus 93" size="50.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
