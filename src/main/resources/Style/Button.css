@@ -11,7 +11,7 @@
     -fx-font-smoothing-type: gray;
 }
 
-#custom {
+.custom {
     -fx-background-color: -mfx-purple;
     -fx-text-fill: white
 }

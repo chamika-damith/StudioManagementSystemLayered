@@ -6,7 +6,6 @@
 <?import java.lang.String?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,71 +14,72 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="LoginRoot" prefHeight="553.0" prefWidth="950.0" style="-fx-background-radius: 7;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
+<AnchorPane fx:id="LoginRoot" prefHeight="450.0" prefWidth="750.0" style="-fx-background-radius: 10; -fx-border-radius: 20; -fx-border-width: 0px 0px 2px 0px;" styleClass="LoginPagebackgroundColor" stylesheets="@../Style/LoginForm.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
    <children>
-      <ImageView fitHeight="553.0" fitWidth="950.0" pickOnBounds="true">
+      <MFXTextField layoutX="407.0" layoutY="120.0" prefHeight="29.0" prefWidth="300.0" promptText="Enter username" styleClass="customField" stylesheets="@../Style/textFields.css" />
+      <MFXPasswordField layoutX="407.0" layoutY="202.0" prefHeight="33.0" prefWidth="300.0" promptText="Enter password" styleClass="customPassword" stylesheets="@../Style/textFields.css" />
+      <MFXButton layoutX="504.0" layoutY="314.0" onAction="#btnLoginOnAction" prefHeight="39.0" prefWidth="80.0" stylesheets="@../Style/Button.css" text="Login">
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.7882353067398071" green="0.1568627506494522" blue="0.1568627506494522" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.21060000360012054" green="0.4309895932674408" blue="0.7799999713897705" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+         <styleClass>
+            <String fx:value="mfx-button" />
+            <String fx:value="custom" />
+            <String fx:value="mfx-ripple-generator" />
+            <String fx:value="outline-button" />
+         </styleClass>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <ImageView fitHeight="450.0" fitWidth="351.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/login_background.jpg" />
+            <Image url="@../image/Loginphoto.jpg" />
          </image>
-         <effect>
-            <GaussianBlur radius="5.89" />
-         </effect>
       </ImageView>
-      <AnchorPane layoutX="510.0" layoutY="13.0" prefHeight="526.0" prefWidth="425.0" style="-fx-background-radius: 20;" styleClass="LoginPagebackgroundColor" stylesheets="@../Style/LoginForm.css">
-         <children>
-            <Label layoutX="158.0" layoutY="24.0" opacity="0.97" text="DREAM">
-               <font>
-                  <Font name="Bauhaus 93" size="34.0" />
-               </font>
-            </Label>
-            <Label layoutX="187.0" layoutY="61.0" opacity="0.97" text="STUDIO">
-               <font>
-                  <Font name="Arial Black" size="12.0" />
-               </font>
-            </Label>
-            <MFXTextField layoutX="89.0" layoutY="146.0" prefHeight="50.0" prefWidth="300.0" promptText="username" />
-            <MFXPasswordField layoutX="89.0" layoutY="232.0" prefHeight="50.0" prefWidth="300.0" promptText="password" />
-            <MFXButton layoutX="186.0" layoutY="344.0" onAction="#btnLoginOnAction" prefHeight="39.0" prefWidth="80.0" stylesheets="@../Style/Button.css" text="Login">
-               <textFill>
-                  <LinearGradient endX="1.0" endY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.7882353067398071" green="0.1568627506494522" blue="0.1568627506494522" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.21060000360012054" green="0.4309895932674408" blue="0.7799999713897705" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
-               <styleClass>
-                  <String fx:value="mfx-button" />
-                  <String fx:value="mfx-ripple-generator" />
-                  <String fx:value="outline-button" />
-               </styleClass>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></MFXButton>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="51.0" layoutY="156.0" opacity="0.87" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Icon/user.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="51.0" layoutY="242.0" opacity="0.87" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Icon/password.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <Label graphicTextGap="10.0" layoutX="82.0" layoutY="218.0" prefHeight="54.0" prefWidth="371.0" style="-fx-border-color:#fffff;" text="WELCOME BACK" textFill="WHITE">
+      <Label layoutX="14.0" layoutY="14.0" text="Photography." textFill="WHITE">
          <font>
-            <Font name="Bauhaus 93" size="50.0" />
+            <Font name="System Bold" size="12.0" />
          </font>
       </Label>
+      <Label layoutX="119.0" layoutY="80.0" text="CLICK FOR YOUR SHOOT" textFill="WHITE">
+         <font>
+            <Font name="Arial Narrow Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="97.0" layoutY="101.0" text="Photography." textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="123.0" layoutY="350.0" text="JOURNEY EVERYWHERE" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="10.0" />
+         </font>
+      </Label>
+      <Label graphicTextGap="6.0" layoutX="408.0" layoutY="104.0" text="username">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label graphicTextGap="6.0" layoutX="409.0" layoutY="185.0" text="password">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label layoutX="530.0" layoutY="32.0" text="Login" />
    </children>
 </AnchorPane>

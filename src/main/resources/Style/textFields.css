@@ -1,0 +1,32 @@
+/**************************************************
+ * Password Fields
+**************************************************/
+
+
+.customPassword {
+    -fx-border-color: -secondary-gradient;
+}
+
+.customPassword .mfx-font-icon {
+    -mfx-color: -mfx-blue;
+}
+
+.customPassword .mfx-context-menu .mfx-menu-item:disabled .mfx-font-icon {
+    -mfx-color: #bcbcbc;
+}
+
+.customPassword .floating-text {
+    -fx-text-fill: -mfx-blue;
+}
+
+/**************************************************
+ * Text Fields
+**************************************************/
+
+.customField {
+    -fx-border-color: -common-gradient;
+}
+
+.customField .floating-text {
+    -fx-text-fill: -mfx-red;
+}
