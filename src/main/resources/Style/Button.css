@@ -12,21 +12,21 @@
 }
 
 .custom {
-    -fx-background-color: -mfx-purple;
+    -fx-background-color: #22a492;       //-mfx-purple
     -fx-text-fill: white
 }
 
 .outline-button {
     -fx-background-color: transparent;
-    -fx-border-color: -mfx-purple;
+    -fx-border-color: #22a492;
     -fx-border-radius: 3;
 
-    -fx-text-fill: -mfx-purple;
+    -fx-text-fill: #22a492;
 }
 
 .outline-button:hover,
 .outline-button:focused {
-    -fx-background-color: -mfx-purple;
+    -fx-background-color: #22a492;
     -fx-text-fill: white;
 }
 

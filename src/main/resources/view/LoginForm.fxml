@@ -12,13 +12,22 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="LoginRoot" prefHeight="450.0" prefWidth="750.0" style="-fx-background-radius: 10; -fx-border-radius: 20; -fx-border-width: 0px 0px 2px 0px;" styleClass="LoginPagebackgroundColor" stylesheets="@../Style/LoginForm.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
+<AnchorPane fx:id="LoginRoot" prefHeight="450.0" prefWidth="750.0" style="-fx-background-radius: 10; -fx-border-radius: 20; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #FFFfff;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
    <children>
-      <MFXTextField layoutX="407.0" layoutY="120.0" prefHeight="29.0" prefWidth="300.0" promptText="Enter username" styleClass="customField" stylesheets="@../Style/textFields.css" />
-      <MFXPasswordField layoutX="407.0" layoutY="202.0" prefHeight="33.0" prefWidth="300.0" promptText="Enter password" styleClass="customPassword" stylesheets="@../Style/textFields.css" />
-      <MFXButton layoutX="504.0" layoutY="314.0" onAction="#btnLoginOnAction" prefHeight="39.0" prefWidth="80.0" stylesheets="@../Style/Button.css" text="Login">
+      <MFXTextField  layoutX="408.0" layoutY="139.0" prefHeight="29.0" prefWidth="300.0" promptText="Enter username" style="-fx-background-color: #f2eff1;" stylesheets="@../Style/textFields.css">
+         <styleClass>
+            <String fx:value="customField" />
+            <String fx:value="mfx-text-field" />
+         </styleClass></MFXTextField >
+      <MFXPasswordField layoutX="408.0" layoutY="225.0" prefHeight="29.0" prefWidth="300.0" promptText="Enter password" style="-fx-background-color: #f2eff1;" stylesheets="@../Style/textFields.css">
+         <styleClass>
+            <String fx:value="customPassword" />
+            <String fx:value="mfx-text-field" />
+         </styleClass></MFXPasswordField>
+      <MFXButton layoutX="408.0" layoutY="322.0" onAction="#btnLoginOnAction" prefHeight="39.0" prefWidth="300.0" stylesheets="@../Style/Button.css" text="Login">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -70,16 +79,33 @@
             <Font name="System Bold Italic" size="10.0" />
          </font>
       </Label>
-      <Label graphicTextGap="6.0" layoutX="408.0" layoutY="104.0" text="username">
+      <Label graphicTextGap="6.0" layoutX="409.0" layoutY="123.0" text="username">
+         <font>
+            <Font name="Open Sans Regular" size="11.0" />
+         </font>
+      </Label>
+      <Label graphicTextGap="6.0" layoutX="410.0" layoutY="208.0" text="password">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label graphicTextGap="6.0" layoutX="409.0" layoutY="185.0" text="password">
+      <Label layoutX="499.0" layoutY="40.0" text="Login" textFill="#22a492">
          <font>
-            <Font size="11.0" />
+            <Font name="Arial Rounded MT Bold" size="34.0" />
+         </font></Label>
+      <Line endX="-10.5999755859375" layoutX="603.0" layoutY="83.0" startX="-100.0" stroke="#22a492" strokeLineJoin="BEVEL" strokeWidth="3.0" />
+      <ImageView fitHeight="30.0" fitWidth="33.0" layoutX="300.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Icon/menu.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="626.0" layoutY="368.0" text="Forgot password ?" textFill="#2f00ff">
+         <font>
+            <Font size="10.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Label>
-      <Label layoutX="530.0" layoutY="32.0" text="Login" />
    </children>
 </AnchorPane>
