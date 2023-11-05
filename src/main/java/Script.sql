@@ -76,6 +76,8 @@ CREATE TABLE IF NOT EXISTS Packages (
     type VARCHAR(45) NOT NULL
 );
 
+select * from employee;
+
 CREATE TABLE IF NOT EXISTS Employee(
     empId VARCHAR(45) PRIMARY KEY,
     name VARCHAR(45) NOT NULL,
@@ -85,9 +87,6 @@ CREATE TABLE IF NOT EXISTS Employee(
     type VARCHAR(45) NOT NULL,
     position ENUM('Admin','Cashier','Manager','Worker')
 );
-
-select * from employee;
-
 
 CREATE TABLE IF NOT EXISTS Attendance(
     attId VARCHAR(45) PRIMARY KEY,
