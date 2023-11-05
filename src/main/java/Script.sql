@@ -22,7 +22,9 @@ CREATE TABLE IF NOT EXISTS Item(
     description VARCHAR(100) NOT NULL,
     qty INT NOT NULL,
     name VARCHAR(45)NOT NULL,
-    price DOUBLE NOT NULL
+    price DOUBLE NOT NULL,
+    img longblob,
+    category ENUM('Camera', 'Lens', 'Drones', 'Lighting','Accesories')
 );
 
 CREATE TABLE IF NOT EXISTS order_detail(
@@ -44,6 +46,7 @@ CREATE TABLE IF NOT EXISTS Supplier_order(
     description VARCHAR(100) NOT NULL,
     orderDate DATE,
     returnDate DATE,
+    category ENUM('Camera', 'Lens', 'Drones', 'Lighting','Accesories'),
     supId VARCHAR(45) NOT NULL,
     CONSTRAINT FOREIGN KEY(supId) REFERENCES supplier(supId) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -79,7 +82,8 @@ CREATE TABLE IF NOT EXISTS Employee(
     mobile VARCHAR(45) NOT NULL,
     salary DOUBLE NOT NULL,
     email VARCHAR(45) NOT NULL,
-    type VARCHAR(45) NOT NULL
+    type VARCHAR(45) NOT NULL,
+    position ENUM('Admin','Cashier','Manager','Worker')
 );
 
 CREATE TABLE IF NOT EXISTS Attendance(

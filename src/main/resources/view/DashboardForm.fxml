@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="DashboardRoot" prefHeight="800.0" prefWidth="1550.0" style="-fx-background-radius: 6; -fx-background-color: #D3D5DA;" stylesheets="@../Style/Dashboard.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.DashboardFormController">
+<AnchorPane fx:id="DashboardRoot" prefHeight="800.0" prefWidth="1550.0" style="-fx-background-radius: 6;" styleClass="dashboard" stylesheets="@../Style/Dashboard.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.DashboardFormController">
    <children>
       <AnchorPane layoutX="-5.0" layoutY="94.0" prefHeight="606.0" prefWidth="219.0" />
-      <AnchorPane fx:id="ChildRoot" layoutX="212.0" layoutY="89.0" prefHeight="730.0" prefWidth="1330.0" style="-fx-background-radius: 4; -fx-background-color: #D3D5DA;" />
+      <AnchorPane fx:id="ChildRoot" layoutX="212.0" layoutY="123.0" prefHeight="696.0" prefWidth="1330.0" style="-fx-background-radius: 4; -fx-background-color: #D3D5DA;" />
       <ImageView fitHeight="265.0" fitWidth="264.0" layoutX="-38.0" layoutY="-99.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../image/logo.png" />
@@ -57,7 +57,7 @@
             <Image url="@../Icon/customer.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="305.0" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Booking">
+      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="305.0" onAction="#btnBookingOnAction" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Booking">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -70,7 +70,7 @@
             <Image url="@../Icon/booking.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="373.0" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Orders">
+      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="373.0" onAction="#btnOrderOnAction" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Orders">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -83,7 +83,7 @@
             <Image url="@../Icon/shopping-bag.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="441.0" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Supplier">
+      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="441.0" onAction="#btnSupplierOnAction" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Supplier">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -96,7 +96,7 @@
             <Image url="@../Icon/supplier.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="509.0" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Services">
+      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="509.0" onAction="#btnServiceOnAction" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Services">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -109,7 +109,7 @@
             <Image url="@../Icon/service.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="577.0" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Employee">
+      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="577.0" onAction="#btnEmployeeOnAction" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Employee">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -122,7 +122,7 @@
             <Image url="@../Icon/employee.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="645.0" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Report">
+      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="645.0" onAction="#btnReportOnAction" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Report">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -135,7 +135,7 @@
             <Image url="@../Icon/report.png" />
          </image>
       </ImageView>
-      <TextField layoutX="260.0" layoutY="17.0" prefHeight="38.0" prefWidth="302.0" promptText="Search..." style="-fx-background-color: #D3D5DA; -fx-border-color: #1d1f24; -fx-border-radius: 10;">
+      <TextField layoutX="260.0" layoutY="17.0" prefHeight="38.0" prefWidth="302.0" promptText="Search..." style="-fx-background-color: #D3D5DA; -fx-border-color: #1d1f24; -fx-border-radius: 10; -fx-background-radius: 10;">
          <cursor>
             <Cursor fx:constant="TEXT" />
          </cursor></TextField>
@@ -164,7 +164,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="71.0" layoutY="779.0" prefHeight="30.0" prefWidth="68.0" ripplerFill="#22a390" style="-fx-border-color: #1d1f24; -fx-border-radius: 6;" text="Logout">
+      <JFXButton buttonType="RAISED" layoutX="71.0" layoutY="779.0" onAction="#btnLogoutOnAction" prefHeight="30.0" prefWidth="68.0" ripplerFill="#22a390" style="-fx-border-color: #1d1f24; -fx-border-radius: 6;" text="Logout">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -194,5 +194,15 @@
             </ImageView>
          </children>
       </AnchorPane>
+      <Label layoutX="235.0" layoutY="74.0" text="Hi, Chamika" textFill="#1d1f24">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="22.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" graphicTextGap="5.0" layoutX="235.0" layoutY="105.0" opacity="0.67" text="Take a look for your overview">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="10.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

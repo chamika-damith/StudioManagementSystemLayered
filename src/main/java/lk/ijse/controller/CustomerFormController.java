@@ -11,7 +11,7 @@ public class CustomerFormController {
     public AnchorPane CustomerRoot;
 
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
-        Parent parent= FXMLLoader.load(getClass().getResource("/view/DashboardForm.fxml"));
+        Parent parent= FXMLLoader.load(getClass().getResource("/view/Dashboard/DashboardWindow.fxml"));
         CustomerRoot.getChildren().add(parent);
     }
 }

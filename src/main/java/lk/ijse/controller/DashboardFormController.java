@@ -16,6 +16,15 @@ public class DashboardFormController {
     public AnchorPane DashboardRoot;
     public AnchorPane ChildRoot;
 
+
+    public void initialize(){
+        try {
+            SetUi("/view/Dashboard/DashboardWindow.fxml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void btnLogoutOnAction(ActionEvent actionEvent) throws IOException {
         Parent parent= FXMLLoader.load(this.getClass().getResource("/view/LoginForm.fxml"));
         Scene scene = new Scene(parent);
@@ -43,5 +52,30 @@ public class DashboardFormController {
         Parent parent=FXMLLoader.load(getClass().getResource(location));
         ChildRoot.getChildren().clear();
         ChildRoot.getChildren().add(parent);
+    }
+
+    public void btnOrderOnAction(ActionEvent actionEvent) throws IOException {
+        SetUi("/view/Order/OrderForm.fxml");
+    }
+
+    public void btnBookingOnAction(ActionEvent actionEvent) throws IOException {
+        SetUi("/view/Booking/BookingForm.fxml");
+
+    }
+
+    public void btnEmployeeOnAction(ActionEvent actionEvent) throws IOException {
+        SetUi("/view/Employee/EmployeeForm.fxml");
+    }
+
+    public void btnServiceOnAction(ActionEvent actionEvent) throws IOException {
+        SetUi("/view/Service/ServiceForm.fxml");
+    }
+
+    public void btnReportOnAction(ActionEvent actionEvent) throws IOException {
+        SetUi("/view/Report/ReportForm.fxml");
+    }
+
+    public void btnSupplierOnAction(ActionEvent actionEvent) throws IOException {
+        SetUi("/view/Supplier/SupplierForm.fxml");
     }
 }
