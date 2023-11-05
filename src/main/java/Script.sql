@@ -86,6 +86,9 @@ CREATE TABLE IF NOT EXISTS Employee(
     position ENUM('Admin','Cashier','Manager','Worker')
 );
 
+select * from employee;
+
+
 CREATE TABLE IF NOT EXISTS Attendance(
     attId VARCHAR(45) PRIMARY KEY,
     status VARCHAR(45) NOT NULL,

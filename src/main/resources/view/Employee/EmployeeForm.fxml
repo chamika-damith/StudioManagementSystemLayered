@@ -1,11 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="730.0" prefWidth="1330.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.EmployeeFormController">
+<AnchorPane prefHeight="730.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.EmployeeFormController">
    <children>
-      <Label layoutX="804.0" layoutY="365.0" text="Employee" />
+      <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Employee Details" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.16470588743686676" green="0.7803921699523926" blue="0.615686297416687" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="215.0" layoutY="14.0" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="Make Attendance" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.9892328398384924">
+                     <color>
+                        <Color red="0.13333334028720856" green="0.6431372761726379" blue="0.572549045085907" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.16470588743686676" green="0.7803921699523926" blue="0.615686297416687" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="416.0" layoutY="14.0" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #7D7C7C; -fx-background-radius: 13;" text="Attendance Details" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.16470588743686676" green="0.7803921699523926" blue="0.615686297416687" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <Pane layoutX="45.0" layoutY="82.0" prefHeight="552.0" prefWidth="540.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
+         <children>
+            <Label layoutX="27.0" layoutY="12.0" text="Employee Details" textFill="#22a390">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <JFXTextField layoutX="75.0" layoutY="99.0" prefHeight="25.0" prefWidth="399.0" promptText="Employee Id" />
+            <JFXTextField layoutX="75.0" layoutY="165.0" prefHeight="25.0" prefWidth="399.0" promptText="Name" />
+            <JFXTextField layoutX="75.0" layoutY="229.0" prefHeight="25.0" prefWidth="399.0" promptText="Address" />
+            <JFXTextField layoutX="75.0" layoutY="294.0" prefHeight="25.0" prefWidth="399.0" promptText="Email" />
+            <JFXTextField layoutX="75.0" layoutY="359.0" prefHeight="25.0" prefWidth="399.0" promptText="Salary" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
