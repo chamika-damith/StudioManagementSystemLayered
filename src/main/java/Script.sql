@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS SaloonManagementSystem;
+CREATE DATABASE IF NOT EXISTS StudioManagementSystem;
 
-USE SaloonManagementSystem;
+USE StudioManagementSystem;
 
 CREATE TABLE IF NOT EXISTS User(
     userId VARCHAR(45) PRIMARY KEY,
@@ -76,7 +76,6 @@ CREATE TABLE IF NOT EXISTS Packages (
     type VARCHAR(45) NOT NULL
 );
 
-select * from employee;
 
 CREATE TABLE IF NOT EXISTS Employee(
     empId VARCHAR(45) PRIMARY KEY,
@@ -115,3 +114,6 @@ CREATE TABLE IF NOT EXISTS EmpBookingDetail(
     CONSTRAINT FOREIGN KEY (empId) REFERENCES Employee(empId) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT FOREIGN KEY (bookingId) REFERENCES Booking(bookingId) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+
+show tables;
