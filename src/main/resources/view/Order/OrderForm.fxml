@@ -1,10 +1,215 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.OrderFormController">
    <children>
-      <Label layoutX="552.0" layoutY="357.0" text="Orders" />
+      <Pane layoutX="42.0" layoutY="71.0" prefHeight="120.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
+         <children>
+            <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="24.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Icon/male.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="26.0" layoutY="58.0" opacity="0.7" text="Total Orders">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="29.0" layoutY="75.0" text="0">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <JFXButton buttonType="RAISED" layoutX="28.0" layoutY="17.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Order Details" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="System Bold" size="10.0" />
+         </font>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.16470588743686676" green="0.7803921699523926" blue="0.615686297416687" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="180.0" layoutY="17.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="View Table view" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.9892328398384924">
+                     <color>
+                        <Color red="0.13333334028720856" green="0.6431372761726379" blue="0.572549045085907" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
+         <font>
+            <Font name="System Bold" size="10.0" />
+         </font>
+      </JFXButton>
+      <Pane layoutX="364.0" layoutY="71.0" prefHeight="120.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
+         <children>
+            <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="24.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Icon/male.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="26.0" layoutY="58.0" opacity="0.7" text="Complete Orders">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="29.0" layoutY="75.0" text="0">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="690.0" layoutY="71.0" prefHeight="120.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
+         <children>
+            <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="24.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Icon/male.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="26.0" layoutY="58.0" opacity="0.7" text="Incomplete Orders">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="29.0" layoutY="75.0" text="0">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="1016.0" layoutY="71.0" prefHeight="120.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
+         <children>
+            <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="24.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Icon/male.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="26.0" layoutY="58.0" opacity="0.7" text="Return Orders">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="29.0" layoutY="75.0" text="0">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="106.0" layoutY="226.0" prefHeight="366.0" prefWidth="1116.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
+         <children>
+            <Label layoutX="24.0" layoutY="10.0" opacity="0.9" text="Order Details" textFill="#22a390">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+            <JFXComboBox layoutX="58.0" layoutY="124.0" prefHeight="25.0" prefWidth="399.0" promptText="Customer Id *" />
+            <JFXComboBox layoutX="56.0" layoutY="199.0" prefHeight="25.0" prefWidth="399.0" promptText="Item Id *" />
+            <JFXTextField layoutX="56.0" layoutY="270.0" prefHeight="25.0" prefWidth="171.0" promptText="Qty :" />
+            <Label layoutX="58.0" layoutY="61.0" text="Order Id - ">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="650.0" layoutY="62.0" text="Order Date - ">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="650.0" layoutY="127.0" text="Description -">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="651.0" layoutY="201.0" text="Unit Price -">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="649.0" layoutY="262.0" text="Qty On Hand -">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <JFXButton buttonType="RAISED" layoutX="603.0" layoutY="626.0" prefHeight="37.0" prefWidth="124.0" style="-fx-background-color: #F58840; -fx-background-radius: 10;" text="Add to cart" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.9892328398384924">
+                     <color>
+                        <Color red="0.13333334028720856" green="0.6431372761726379" blue="0.572549045085907" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
+         <font>
+            <Font name="System Bold" size="10.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>
