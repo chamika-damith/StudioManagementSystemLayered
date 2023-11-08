@@ -1,4 +1,4 @@
-package lk.ijse.controller;
+package lk.ijse.controller.Customer;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

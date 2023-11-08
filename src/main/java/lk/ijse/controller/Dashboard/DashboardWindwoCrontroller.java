@@ -1,4 +1,4 @@
-package lk.ijse.controller;
+package lk.ijse.controller.Dashboard;
 
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;

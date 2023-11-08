@@ -1,4 +1,4 @@
-package lk.ijse.controller;
+package lk.ijse.controller.Order;
 
 public class OrderFormController {
 }

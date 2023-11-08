@@ -1,4 +1,4 @@
-package lk.ijse.controller;
+package lk.ijse.controller.Employee;
 
 import com.jfoenix.controls.JFXComboBox;
 import javafx.collections.FXCollections;

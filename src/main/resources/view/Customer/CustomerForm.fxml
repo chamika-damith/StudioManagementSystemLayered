@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="CustomerRoot" prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.CustomerFormController">
+<AnchorPane fx:id="CustomerRoot" prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Customer.CustomerFormController">
    <children>
       <Pane layoutX="40.0" layoutY="56.0" prefHeight="120.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
          <children>
@@ -161,7 +161,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <Pane layoutX="574.0" layoutY="194.0" prefHeight="484.0" prefWidth="756.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
+      <Pane layoutX="563.0" layoutY="194.0" prefHeight="484.0" prefWidth="756.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
          <children>
             <Label layoutX="27.0" layoutY="12.0" opacity="0.9" text="View Customer" textFill="#22a390">
                <font>

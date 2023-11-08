@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.InventoryFormController">
+<AnchorPane prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Inventory.InventoryFormController">
    <children>
       <JFXButton buttonType="RAISED" layoutX="31.0" layoutY="13.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Inventory Details" textFill="WHITE">
          <cursor>
@@ -126,33 +126,33 @@
                   <Font name="System Bold" size="17.0" />
                </font>
             </Label>
-            <JFXTextField focusColor="#0040ff" layoutX="53.0" layoutY="62.0" prefHeight="25.0" prefWidth="399.0" promptText="Inventory Id *">
+            <JFXTextField fx:id="id" focusColor="#0040ff" layoutX="53.0" layoutY="62.0" prefHeight="25.0" prefWidth="399.0" promptText="Inventory Id *">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField focusColor="#0040ff" layoutX="53.0" layoutY="117.0" prefHeight="25.0" prefWidth="399.0" promptText="Name *">
+            <JFXTextField fx:id="name" focusColor="#0040ff" layoutX="53.0" layoutY="117.0" prefHeight="25.0" prefWidth="399.0" promptText="Name *">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField focusColor="#0040ff" layoutX="53.0" layoutY="174.0" prefHeight="25.0" prefWidth="399.0" promptText="Qty On Hand *">
+            <JFXTextField fx:id="qty" focusColor="#0040ff" layoutX="53.0" layoutY="174.0" prefHeight="25.0" prefWidth="399.0" promptText="Qty On Hand *">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField focusColor="#0040ff" layoutX="53.0" layoutY="232.0" prefHeight="25.0" prefWidth="399.0" promptText="Price *">
+            <JFXTextField fx:id="price" focusColor="#0040ff" layoutX="53.0" layoutY="232.0" prefHeight="25.0" prefWidth="399.0" promptText="Price *">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField focusColor="#0040ff" layoutX="53.0" layoutY="293.0" prefHeight="25.0" prefWidth="399.0" promptText="Description">
+            <JFXTextField fx:id="description" focusColor="#0040ff" layoutX="53.0" layoutY="293.0" prefHeight="25.0" prefWidth="399.0" promptText="Description">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
             <JFXComboBox fx:id="comboBox" layoutX="53.0" layoutY="360.0" prefHeight="25.0" prefWidth="110.0" promptText="Select Category" style="-fx-background-radius: 10;" />
-            <JFXButton layoutX="339.0" layoutY="418.0" prefHeight="25.0" prefWidth="96.0" text="Choose Image" textFill="#2600ff">
+            <JFXButton layoutX="339.0" layoutY="418.0" onAction="#btnImgSelect" prefHeight="25.0" prefWidth="96.0" text="Choose Image" textFill="#2600ff">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
@@ -160,7 +160,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <ImageView fitHeight="96.0" fitWidth="135.0" layoutX="320.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="img" fitHeight="96.0" fitWidth="135.0" layoutX="320.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
       <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="168.0" layoutY="647.0" prefHeight="37.0" prefWidth="91.0" style="-fx-background-color: #5D9C59; -fx-background-radius: 13;" text="Add" textFill="WHITE">

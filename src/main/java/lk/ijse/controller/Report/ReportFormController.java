@@ -1,4 +1,4 @@
-package lk.ijse.controller;
+package lk.ijse.controller.Report;
 
 public class ReportFormController {
 }
