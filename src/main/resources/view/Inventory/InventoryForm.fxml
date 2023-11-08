@@ -152,7 +152,7 @@
                </cursor>
             </JFXTextField>
             <JFXComboBox fx:id="comboBox" layoutX="53.0" layoutY="360.0" prefHeight="25.0" prefWidth="110.0" promptText="Select Category" style="-fx-background-radius: 10;" />
-            <JFXButton layoutX="339.0" layoutY="418.0" onAction="#btnImgSelect" prefHeight="25.0" prefWidth="96.0" text="Choose Image" textFill="#2600ff">
+            <JFXButton fx:id="imgSelectBtn" layoutX="339.0" layoutY="418.0" onAction="#btnImgSelect" prefHeight="25.0" prefWidth="96.0" text="Choose Image" textFill="#2600ff">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
