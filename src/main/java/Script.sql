@@ -25,8 +25,9 @@ CREATE TABLE IF NOT EXISTS Item(
     name VARCHAR(45)NOT NULL,
     price DOUBLE NOT NULL,
     img longblob,
-    category ENUM('Camera', 'Lens', 'Drones', 'Lighting','Accesories')
+    category VARCHAR(45)
 );
+
 
 CREATE TABLE IF NOT EXISTS order_detail(
     orderId INT NOT NULL,
