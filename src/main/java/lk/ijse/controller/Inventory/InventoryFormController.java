@@ -176,13 +176,20 @@ public class InventoryFormController {
                 getAllItem();
                 clearFeild();
                 generateNextOrderId();
-                Notifications.create()
-                        .graphic(new ImageView(new Image("/Icon/icons8-cancel-50.png")))
-                        .text("Add ")
-                        .title("Okay")
-                        .hideAfter(Duration.seconds(5))
-                        .position(Pos.TOP_RIGHT)
-                        .show();
+
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Item Saved Successfully");
+                    notifications.title("Successfully");
+                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 System.out.println("Item saved successfully");
             }else {
                 System.out.println("Item not saved successfully");
