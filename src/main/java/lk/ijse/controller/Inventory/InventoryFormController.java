@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -61,6 +62,8 @@ public class InventoryFormController {
 
     public Button createButton(){
         Button btn=new Button("Remove");
+        btn.getStyleClass().add("ActionBtn");
+        btn.setCursor(Cursor.cursor("Hand"));
         setRemoveBtnAction(btn);
         return btn;
     }

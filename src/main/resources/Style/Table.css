@@ -6,7 +6,7 @@
 }
 
 .table-view .column-header-background{
-    -fx-background-color: linear-gradient(to right, #425F57,#674188);
+    -fx-background-color: #013a63;
     -fx-background-radius: 15;
 }
 
@@ -26,13 +26,8 @@
     -fx-border-color: transparent;
 }
 
-.table-view .table-row-cell{
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-}
-
 .table-row-cell:selected {
-    -fx-background-color: #338dd0;
+    -fx-background-color: #aecdf6;
     -fx-background-insets: 0;
     -fx-background-radius: 1;
 }
@@ -43,7 +38,7 @@
 
 .table-view .scroll-bar:horizontal{
     -fx-opacity: 0;
-    -fx-background-color: transparent;
+    -fx-background-color: black;
     -fx-background-insets: 0;
     -fx-padding: 0
 }
@@ -75,13 +70,23 @@
     -fx-background-color: transparent;
 }
 
-.infoBtn{
-    -fx-background-color:  transparent;
+.ActionBtn{
+    -fx-background-color:  red;
     -fx-text-fill: white;
     -fx-background-radius: 10px;
     -fx-alignment: center;
 }
 
-.infoBtn:hover{
+.ActionBtn:hover{
     -fx-opacity: 80%;
+}
+
+.table-view .arrow{
+    -fx-arrows-visible: true;
+    -fx-mark-color:white;
+}
+
+.table-view .table-row-cell:selected *{
+    -fx-font-weight: bold;
+    -fx-text-fill:rgb(0,0,0);
 }
