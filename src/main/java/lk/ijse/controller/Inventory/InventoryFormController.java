@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import lk.ijse.dto.ItemDto;
@@ -50,7 +51,8 @@ public class InventoryFormController {
     public TableColumn colAction;
 
     private ItemModel model=new ItemModel();
-    private ObservableList<ItemTm> obList = FXCollections.observableArrayList();
+
+    private ObservableList<ItemTm> obList;
 
 
     public void initialize(){
@@ -61,18 +63,17 @@ public class InventoryFormController {
     }
 
     public Button createButton(){
-        Button btn=new Button("Remove");
+        Button btn=new Button("Delete");
         btn.getStyleClass().add("ActionBtn");
         btn.setCursor(Cursor.cursor("Hand"));
-        setRemoveBtnAction(btn);
+        setDeleteBtnAction(btn);
         return btn;
     }
 
     private void getAllItem() {
         var model=new ItemModel();
 
-
-        ObservableList<ItemTm> obList=FXCollections.observableArrayList();
+        obList=FXCollections.observableArrayList();
 
         try {
             List<ItemDto> allItems = model.getAllItems();
@@ -216,19 +217,34 @@ public class InventoryFormController {
 
     }
 
-    private void setRemoveBtnAction(Button btn) {
+    private void setDeleteBtnAction(Button btn) {
         btn.setOnAction((e) -> {
             ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
             ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove?", yes, no).showAndWait();
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to delete?", yes, no).showAndWait();
 
             if (type.orElse(no) == yes) {
                 int focusedIndex = tblItem.getSelectionModel().getSelectedIndex();
+                ItemTm selectedItem = (ItemTm) tblItem.getSelectionModel().getSelectedItem();
 
-                obList.remove(focusedIndex);
-                getAllItem();
+                if (selectedItem != null) {
+                    int itemId = selectedItem.getItemId();
+                    try {
+                        boolean b = model.deleteItem(itemId);
+                        if (b) {
+                            System.out.println("delete selected");
+                            obList.remove(focusedIndex);
+                            getAllItem();
+                            setValueLable();
+                        }
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
             }
         });
     }
+
+
 }

@@ -114,4 +114,13 @@ public class ItemModel {
         }
         return dto;
     }
+
+    public boolean deleteItem(int focusedIndex) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="DELETE FROM item WHERE itemId=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setInt(1, focusedIndex);
+        return pstm.executeUpdate() > 0;
+    }
 }
