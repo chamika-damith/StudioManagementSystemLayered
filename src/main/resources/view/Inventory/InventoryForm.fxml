@@ -247,15 +247,15 @@
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <TableView fx:id="tblEmployee" layoutX="14.0" layoutY="58.0" prefHeight="448.0" prefWidth="709.0" stylesheets="@../../Style/Table.css">
+            <TableView fx:id="tblItem" layoutX="14.0" layoutY="58.0" prefHeight="448.0" prefWidth="709.0">
                <columns>
-                  <TableColumn prefWidth="58.4000244140625" text="Id" />
-                  <TableColumn prefWidth="98.4000244140625" text="Name" />
-                  <TableColumn prefWidth="128.800048828125" text="Qty" />
-                  <TableColumn prefWidth="142.4000244140625" text="Price" />
-                  <TableColumn prefWidth="104.800048828125" text="Description" />
-                  <TableColumn prefWidth="104.7999267578125" text="Category" />
-                  <TableColumn prefWidth="63.0" text="Action" />
+                  <TableColumn fx:id="colId" prefWidth="58.4000244140625" text="Id" />
+                  <TableColumn fx:id="colName" prefWidth="98.4000244140625" text="Name" />
+                  <TableColumn fx:id="colQty" prefWidth="128.800048828125" text="Qty" />
+                  <TableColumn fx:id="colPrice" prefWidth="142.4000244140625" text="Price" />
+                  <TableColumn fx:id="colDescription" prefWidth="104.800048828125" text="Description" />
+                  <TableColumn fx:id="colCategory" prefWidth="104.7999267578125" text="Category" />
+                  <TableColumn fx:id="colAction" prefWidth="63.0" text="Action" />
                </columns>
             </TableView>
             <Pane layoutX="493.0" layoutY="12.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">

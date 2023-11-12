@@ -1,24 +1,20 @@
-package lk.ijse.dto;
+package lk.ijse.dto.tm;
 
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import lombok.*;
-
-import java.sql.Blob;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@Getter
 @Setter
+@Getter
+@ToString
 
-public class ItemDto {
-
+public class ItemTm {
     int itemId;
-    String description;
-    int qty;
     String name;
+    int qty;
     double price;
-    byte[] img;
+    String description;
     String category;
+    Button btn;
 }

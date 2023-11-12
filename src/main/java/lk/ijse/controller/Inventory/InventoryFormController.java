@@ -4,12 +4,16 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import lk.ijse.dto.ItemDto;
+import lk.ijse.dto.tm.ItemTm;
 import lk.ijse.model.ItemModel;
 
 import javax.swing.*;
@@ -19,6 +23,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class InventoryFormController {
 
@@ -34,13 +39,69 @@ public class InventoryFormController {
     public ImageView img;
     public JFXButton imgSelectBtn;
     public Label txtAllInventory;
+    public TableView tblItem;
+    public TableColumn colId;
+    public TableColumn colName;
+    public TableColumn colQty;
+    public TableColumn colPrice;
+    public TableColumn colDescription;
+    public TableColumn colCategory;
+    public TableColumn colAction;
 
     private ItemModel model=new ItemModel();
+    private ObservableList<ItemTm> obList = FXCollections.observableArrayList();
 
 
     public void initialize(){
         txtcomboBox.setItems(FXCollections.observableArrayList("CAMERA", "LENS", "DRONE", "LIGHTS", "ACCESORIES"));
         setValueLable();
+        getAllItem();
+        setCellValue();
+    }
+
+    public Button createButton(){
+        Button btn=new Button("Remove");
+        setRemoveBtnAction(btn);
+        return btn;
+    }
+
+    private void getAllItem() {
+        var model=new ItemModel();
+
+
+        ObservableList<ItemTm> obList=FXCollections.observableArrayList();
+
+        try {
+            List<ItemDto> allItems = model.getAllItems();
+
+            for (ItemDto dto : allItems){
+                Button button = createButton();
+                obList.add(new ItemTm(
+                        dto.getItemId(),
+                        dto.getName(),
+                        dto.getQty(),
+                        dto.getPrice(),
+                        dto.getDescription(),
+                        dto.getCategory(),
+                        button
+                ));
+
+            }
+            tblItem.setItems(obList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setCellValue() {
+        colId.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("Qty"));
+        colPrice.setCellValueFactory(new PropertyValueFactory<>("Price"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
+        colCategory.setCellValueFactory(new PropertyValueFactory<>("Category"));
+        colAction.setCellValueFactory(new PropertyValueFactory<>("btn"));
+
     }
 
 
@@ -91,6 +152,7 @@ public class InventoryFormController {
 
             if(b) {
                 setValueLable();
+                getAllItem();
                 System.out.println("Item saved successfully");
             }else {
                 System.out.println("Item not saved successfully");
@@ -115,6 +177,7 @@ public class InventoryFormController {
         try {
             boolean b = model.updateItem(itemDto);
             if (b) {
+                getAllItem();
                 System.out.println("Item updated successfully");
             }else {
                 System.out.println("Item not updated successfully");
@@ -148,5 +211,21 @@ public class InventoryFormController {
         }
 
 
+    }
+
+    private void setRemoveBtnAction(Button btn) {
+        btn.setOnAction((e) -> {
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+                int focusedIndex = tblItem.getSelectionModel().getSelectedIndex();
+
+                obList.remove(focusedIndex);
+                getAllItem();
+            }
+        });
     }
 }
