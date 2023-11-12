@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -13,10 +14,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.tm.ItemTm;
 import lk.ijse.model.ItemModel;
+import org.controlsfx.control.Notifications;
 
 import javax.swing.*;
 import javax.swing.plaf.PanelUI;
@@ -49,6 +53,7 @@ public class InventoryFormController {
     public TableColumn colDescription;
     public TableColumn colCategory;
     public TableColumn colAction;
+    public Label orderId;
 
     private ItemModel model=new ItemModel();
 
@@ -60,6 +65,16 @@ public class InventoryFormController {
         setValueLable();
         getAllItem();
         setCellValue();
+        generateNextOrderId();
+    }
+
+    private void generateNextOrderId() {
+        try {
+            int orderID = ItemModel.generateNextOrderId();
+            orderId.setText(String.valueOf("00"+orderID));
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     public Button createButton(){
@@ -138,6 +153,7 @@ public class InventoryFormController {
             }
     }
 
+
     public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException {
         int id = Integer.parseInt(txtid.getText());
         String name = txtname.getText();
@@ -148,6 +164,7 @@ public class InventoryFormController {
         Image imgId = img.getImage();
         byte[] blob = model.imagenToByte(imgId);
 
+
         ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
 
 
@@ -157,6 +174,15 @@ public class InventoryFormController {
             if(b) {
                 setValueLable();
                 getAllItem();
+                clearFeild();
+                generateNextOrderId();
+                Notifications.create()
+                        .graphic(new ImageView(new Image("/Icon/icons8-cancel-50.png")))
+                        .text("Add ")
+                        .title("Okay")
+                        .hideAfter(Duration.seconds(5))
+                        .position(Pos.TOP_RIGHT)
+                        .show();
                 System.out.println("Item saved successfully");
             }else {
                 System.out.println("Item not saved successfully");
@@ -182,6 +208,7 @@ public class InventoryFormController {
             boolean b = model.updateItem(itemDto);
             if (b) {
                 getAllItem();
+                clearFeild();
                 System.out.println("Item updated successfully");
             }else {
                 System.out.println("Item not updated successfully");
@@ -244,6 +271,16 @@ public class InventoryFormController {
                 }
             }
         });
+    }
+
+    public void clearFeild() {
+        txtid.clear();
+        txtname.clear();
+        txtqty.clear();
+        txtprice.clear();
+        txtdescription.clear();
+        img.setImage(null);
+        txtcomboBox.getSelectionModel().clearSelection();
     }
 
 

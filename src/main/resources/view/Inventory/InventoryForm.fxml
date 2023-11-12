@@ -161,6 +161,16 @@
                </cursor>
             </JFXButton>
             <ImageView fx:id="img" fitHeight="96.0" fitWidth="135.0" layoutX="320.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true" />
+            <Label layoutX="328.0" layoutY="14.0" opacity="0.9" text="Inventory ID : " textFill="#22a390">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="orderId" layoutX="443.0" layoutY="2.0" prefHeight="50.0" prefWidth="47.0">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="168.0" layoutY="647.0" onAction="#btnSaveOnAction" prefHeight="37.0" prefWidth="91.0" style="-fx-background-color: #5D9C59; -fx-background-radius: 13;" text="Add" textFill="WHITE">

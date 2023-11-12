@@ -16,6 +16,25 @@ import javax.imageio.ImageIO;
 public class ItemModel {
 
 
+    public static int generateNextOrderId() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT itemId FROM item ORDER BY itemId DESC LIMIT 1";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        ResultSet resultSet = pstm.executeQuery();
+        if(resultSet.next()) {
+            return splitOrderId(resultSet.getInt(1));
+        }
+        return splitOrderId(0);
+    }
+
+    private static int splitOrderId(int id) {
+        if (id ==0){
+            return 1;
+        }
+        return ++id;
+    }
 
     public boolean saveItem(ItemDto itemDto) throws SQLException {
 
