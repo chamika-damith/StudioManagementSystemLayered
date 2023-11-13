@@ -166,37 +166,52 @@ public class InventoryFormController {
         byte[] blob = model.imagenToByte(imgId);
 
 
-        ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
-
-
-        try {
-            boolean b = model.saveItem(itemDto);
-
-            if(b) {
-                setValueLable();
-                getAllItem();
-                clearFeild();
-                generateNextOrderId();
-
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Item Saved Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-                System.out.println("Item saved successfully");
-            }else {
-                System.out.println("Item not saved successfully");
+        if (model.isExists(id)){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Item is already added");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }else {
+            ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
+
+
+            try {
+                boolean b = model.saveItem(itemDto);
+
+                if(b) {
+                    setValueLable();
+                    getAllItem();
+                    clearFeild();
+                    generateNextOrderId();
+
+                    Image image=new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Item Saved Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                    System.out.println("Item saved successfully");
+                }else {
+                    System.out.println("Item not saved successfully");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -246,7 +261,6 @@ public class InventoryFormController {
         try {
             ItemDto itemDto = model.searchItems(id);
             if (itemDto != null) {
-                System.out.println("itemDto");
                 txtdescription.setText(itemDto.getDescription());
                 txtprice.setText(String.valueOf(itemDto.getPrice()));
                 txtqty.setText(String.valueOf(itemDto.getQty()));

@@ -154,27 +154,49 @@ public class CustomerFormController {
         String email = txtEmail.getText();
         String address = txtAddress.getText();
 
-        CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
-
         try {
-            boolean b = model.saveCustomer(dto);
-            if (b) {
-                setValueLable();
+            if (model.isExists(id)) {
                 clearField();
-                generateNextCusId();
-                getAllCustomer();
-                Image image=new Image("/Icon/iconsOk.png");
+                Image image=new Image("/Icon/icons8-cancel-50.png");
                 try {
                     Notifications notifications=Notifications.create();
                     notifications.graphic(new ImageView(image));
-                    notifications.text("Customer Saved Successfully");
-                    notifications.title("Successfully");
+                    notifications.text("Customer is already registered");
+                    notifications.title("Warning");
                     notifications.hideAfter(Duration.seconds(5));
                     notifications.position(Pos.TOP_RIGHT);
                     notifications.show();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+            }else {
+
+                CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
+
+                try {
+                    boolean b = model.saveCustomer(dto);
+                    if (b) {
+                        setValueLable();
+                        clearField();
+                        generateNextCusId();
+                        getAllCustomer();
+                        Image image=new Image("/Icon/iconsOk.png");
+                        try {
+                            Notifications notifications=Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Customer Saved Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

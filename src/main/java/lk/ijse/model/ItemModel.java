@@ -156,4 +156,17 @@ public class ItemModel {
         }
         return null;
     }
+
+    public boolean isExists(int id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="SELECT itemId FROM item WHERE itemId=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setInt(1,id);
+        ResultSet resultSet = pstm.executeQuery();
+        while (resultSet.next()) {
+            return true;
+        }
+        return false;
+    }
 }

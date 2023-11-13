@@ -126,4 +126,17 @@ public class CustomerModel {
         return null;
     }
 
+    public boolean isExists(int id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="SELECT cusId FROM customer WHERE cusId=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setInt(1,id);
+        ResultSet resultSet = pstm.executeQuery();
+        while (resultSet.next()) {
+            return true;
+        }
+        return false;
+    }
+
 }
