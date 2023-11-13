@@ -47,7 +47,7 @@ public class CustomerModel {
         return pstm.executeUpdate() > 0;
     }
 
-    public List<CustomerDto> getAllItems() throws SQLException {
+    public List<CustomerDto> getAllCustomer() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="SELECT * FROM customer";
         PreparedStatement pstm=connection.prepareStatement(sql);
@@ -102,6 +102,16 @@ public class CustomerModel {
         }
         return dto;
     }
+
+    public boolean deleteCustomer(int focusedIndex) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="DELETE FROM customer WHERE cusId=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setInt(1, focusedIndex);
+        return pstm.executeUpdate() > 0;
+    }
+
     public static String returnLbCuslValue() throws SQLException {
         String cusCount;
         Connection connection = DbConnection.getInstance().getConnection();
@@ -115,4 +125,5 @@ public class CustomerModel {
         }
         return null;
     }
+
 }
