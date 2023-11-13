@@ -34,7 +34,7 @@ public class LoginFormController {
             notifications.graphic(new ImageView(image));
             notifications.text("Login Successfully");
             notifications.title("Successfully");
-            notifications.hideAfter(Duration.seconds(5));
+            notifications.hideAfter(Duration.seconds(3));
             notifications.position(Pos.TOP_RIGHT);
             notifications.show();
         }catch (Exception e){
