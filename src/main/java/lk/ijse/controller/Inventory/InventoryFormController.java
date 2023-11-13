@@ -127,7 +127,7 @@ public class InventoryFormController {
     public void setValueLable(){
         try {
 
-            int count =0;
+            int count=0;
             List<ItemDto> allItems = model.getAllItems();
 
             for (ItemDto item : allItems){
@@ -140,6 +140,7 @@ public class InventoryFormController {
             throw new RuntimeException(e);
         }
     }
+
 
     public void btnImgSelect(ActionEvent actionEvent) {
             FileChooser chooser = new FileChooser();
@@ -177,13 +178,13 @@ public class InventoryFormController {
                 clearFeild();
                 generateNextOrderId();
 
-                Image image=new Image("/Icon/icons8-cancel-50.png");
+                Image image=new Image("/Icon/iconsOk.png");
                 try {
                     Notifications notifications=Notifications.create();
                     notifications.graphic(new ImageView(image));
                     notifications.text("Item Saved Successfully");
                     notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.hideAfter(Duration.seconds(5));
                     notifications.position(Pos.TOP_RIGHT);
                     notifications.show();
                 }catch (Exception e){
@@ -216,6 +217,20 @@ public class InventoryFormController {
             if (b) {
                 getAllItem();
                 clearFeild();
+
+                Image image=new Image("/Icon/iconsOk.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Item Update Successfully");
+                    notifications.title("Successfully");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 System.out.println("Item updated successfully");
             }else {
                 System.out.println("Item not updated successfully");
@@ -243,6 +258,34 @@ public class InventoryFormController {
                 Image image = new Image(byteArrayInputStream);
                 img.setImage(image);
 
+
+
+                Image image1=new Image("/Icon/iconsOk.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image1));
+                    notifications.text("Item Search Successfully");
+                    notifications.title("Successfully");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }else {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Customer id does not exist");
+                    notifications.title("Not Successfully");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -267,6 +310,16 @@ public class InventoryFormController {
                     try {
                         boolean b = model.deleteItem(itemId);
                         if (b) {
+
+                                Image image=new Image("/Icon/iconsDelete.png");
+                                Notifications notifications=Notifications.create();
+                                notifications.graphic(new ImageView(image));
+                                notifications.text("Item Delete Successfully");
+                                notifications.title("Successfully");
+                                notifications.hideAfter(Duration.seconds(5));
+                                notifications.position(Pos.TOP_RIGHT);
+                                notifications.show();
+
                             System.out.println("delete selected");
                             obList.remove(focusedIndex);
                             getAllItem();

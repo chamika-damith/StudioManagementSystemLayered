@@ -142,4 +142,18 @@ public class ItemModel {
         pstm.setInt(1, focusedIndex);
         return pstm.executeUpdate() > 0;
     }
+
+    public static String returnLbItemlValue() throws SQLException {
+        String ItemCount;
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "SELECT COUNT(itemId) FROM item";
+
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        ResultSet resultSet = pstm.executeQuery();
+        while (resultSet.next()){
+            ItemCount= String.valueOf(resultSet.getInt(1));
+            return ItemCount;
+        }
+        return null;
+    }
 }
