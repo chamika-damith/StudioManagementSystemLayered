@@ -39,6 +39,20 @@ public class OrderModel {
         return false;
     }
 
+    public static String returnLbOrderlValue() throws SQLException {
+        String orderCount;
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "SELECT COUNT(orderId) FROM orders";
+
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        ResultSet resultSet = pstm.executeQuery();
+        while (resultSet.next()){
+            orderCount= String.valueOf(resultSet.getInt(1));
+            return orderCount;
+        }
+        return null;
+    }
+
     public boolean saveOrder(int orderId, Date orderDate, Date returnDate, int userId, int cusId, double total) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="INSERT INTO orders(orderId, orderDate, returnDate, userId, cusId, price) VALUES(?, ?, ?, ?, ?,?)";

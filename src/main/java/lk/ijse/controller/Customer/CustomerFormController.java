@@ -3,6 +3,8 @@ package lk.ijse.controller.Customer;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -43,6 +45,7 @@ public class CustomerFormController {
     public TableColumn colEmail;
     public TableColumn colMobile;
     public TableColumn colAction;
+    public JFXTextField txtCostSearchTable;
     private CustomerModel model=new CustomerModel();
 
     private ObservableList<CustomerTm> obList;
@@ -54,6 +57,7 @@ public class CustomerFormController {
         generateNextCusId();
         setCellValue();
         getAllCustomer();
+        searchTable();
     }
 
     private void setCellValue() {
@@ -130,6 +134,7 @@ public class CustomerFormController {
                             obList.remove(focusedIndex);
                             getAllCustomer();
                             setValueLable();
+                            searchTable();
                         }
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
@@ -182,6 +187,7 @@ public class CustomerFormController {
                         clearField();
                         generateNextCusId();
                         getAllCustomer();
+                        searchTable();
                         Image image=new Image("/Icon/iconsOk.png");
                         try {
                             Notifications notifications=Notifications.create();
@@ -245,6 +251,7 @@ public class CustomerFormController {
             boolean b = model.updateCustomer(dto);
             if (b) {
                 getAllCustomer();
+                searchTable();
                 Image image=new Image("/Icon/iconsOk.png");
                 try {
                     Notifications notifications=Notifications.create();
@@ -305,7 +312,26 @@ public class CustomerFormController {
         }
     }
 
-    public static int returnCusId() {
-        return id;
+    public void searchTable() {
+        FilteredList<CustomerTm> filteredData = new FilteredList<>(obList, b -> true);
+
+        txtCostSearchTable.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(customerTm -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                String cusId = String.valueOf(customerTm.getCusId());
+                String name = customerTm.getName().toLowerCase();
+
+                return cusId.contains(lowerCaseFilter) || name.contains(lowerCaseFilter);
+            });
+        });
+
+        SortedList<CustomerTm> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tblCustomer.comparatorProperty());
+        tblCustomer.setItems(sortedData);
     }
+
 }

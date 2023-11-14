@@ -1,5 +1,6 @@
 package lk.ijse.controller.Dashboard;
 
+import com.mysql.cj.x.protobuf.MysqlxCrud;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
@@ -7,6 +8,7 @@ import lk.ijse.controller.Customer.CustomerFormController;
 import lk.ijse.controller.Inventory.InventoryFormController;
 import lk.ijse.model.CustomerModel;
 import lk.ijse.model.ItemModel;
+import lk.ijse.model.OrderModel;
 
 import java.sql.SQLException;
 
@@ -14,6 +16,7 @@ public class DashboardWindwoCrontroller {
     public LineChart<?,?> Linechart;
     public Label lblAllInventory;
     public Label lblAllCustomerd;
+    public Label lblOrders;
 
     public void initialize(){
         chart1();
@@ -24,6 +27,7 @@ public class DashboardWindwoCrontroller {
         try {
             lblAllCustomerd.setText(CustomerModel.returnLbCuslValue());
             lblAllInventory.setText(ItemModel.returnLbItemlValue());
+            lblOrders.setText(OrderModel.returnLbOrderlValue());
         } catch (SQLException e) {
             e.getMessage();
         }
