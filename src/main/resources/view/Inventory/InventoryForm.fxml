@@ -131,22 +131,22 @@
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField fx:id="txtname" focusColor="#0040ff" layoutX="53.0" layoutY="117.0" prefHeight="25.0" prefWidth="399.0" promptText="Name *">
+            <JFXTextField fx:id="txtname" focusColor="#0040ff" layoutX="53.0" layoutY="117.0" onAction="#txtNameOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Name *">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField fx:id="txtqty" focusColor="#0040ff" layoutX="53.0" layoutY="174.0" prefHeight="25.0" prefWidth="399.0" promptText="Qty On Hand *">
+            <JFXTextField fx:id="txtqty" focusColor="#0040ff" layoutX="53.0" layoutY="174.0" onAction="#txtQtyOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Qty On Hand *">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField fx:id="txtprice" focusColor="#0040ff" layoutX="53.0" layoutY="232.0" prefHeight="25.0" prefWidth="399.0" promptText="Price *">
+            <JFXTextField fx:id="txtprice" focusColor="#0040ff" layoutX="53.0" layoutY="232.0" onAction="#txtPriceOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Price *">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField fx:id="txtdescription" focusColor="#0040ff" layoutX="53.0" layoutY="293.0" prefHeight="25.0" prefWidth="399.0" promptText="Description">
+            <JFXTextField fx:id="txtdescription" focusColor="#0040ff" layoutX="53.0" layoutY="293.0" onAction="#txtDescriptionOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Description">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
@@ -270,7 +270,7 @@
             </TableView>
             <Pane layoutX="493.0" layoutY="12.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">
                <children>
-                  <JFXTextField focusColor="#0040ff" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Inventory Id">
+                  <JFXTextField fx:id="txtSearchTable" focusColor="#0040ff" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Inventory Id">
                      <font>
                         <Font size="10.0" />
                      </font>

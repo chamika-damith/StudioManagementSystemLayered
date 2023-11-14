@@ -97,9 +97,9 @@
                </font>
             </Label>
             <JFXTextField fx:id="txtId" focusColor="#0040ff" layoutX="58.0" layoutY="86.0" onAction="#txtSearchOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Customer Id *" />
-            <JFXTextField fx:id="txtName" focusColor="#0040ff" layoutX="58.0" layoutY="152.0" prefHeight="25.0" prefWidth="399.0" promptText="Name *" />
-            <JFXTextField fx:id="txtAddress" focusColor="#0040ff" layoutX="58.0" layoutY="216.0" prefHeight="25.0" prefWidth="399.0" promptText="Address *" />
-            <JFXTextField fx:id="txtEmail" focusColor="#0040ff" layoutX="58.0" layoutY="281.0" prefHeight="25.0" prefWidth="399.0" promptText="Email *" />
+            <JFXTextField fx:id="txtName" focusColor="#0040ff" layoutX="58.0" layoutY="152.0" onAction="#txtNameOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Name *" />
+            <JFXTextField fx:id="txtAddress" focusColor="#0040ff" layoutX="58.0" layoutY="216.0" onAction="#txtAddressOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Address *" />
+            <JFXTextField fx:id="txtEmail" focusColor="#0040ff" layoutX="58.0" layoutY="281.0" onAction="#txtEmailOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Email *" />
             <JFXTextField fx:id="txtMobile" focusColor="#0040ff" layoutX="58.0" layoutY="346.0" prefHeight="25.0" prefWidth="399.0" promptText="Mobile *" />
             <Label layoutX="323.0" layoutY="16.0" opacity="0.9" text="Inventory ID : " textFill="#22a390">
                <font>

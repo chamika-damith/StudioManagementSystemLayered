@@ -334,4 +334,15 @@ public class CustomerFormController {
         tblCustomer.setItems(sortedData);
     }
 
+    public void txtNameOnAction(ActionEvent actionEvent) {
+        txtAddress.requestFocus();
+    }
+
+    public void txtAddressOnAction(ActionEvent actionEvent) {
+        txtEmail.requestFocus();
+    }
+
+    public void txtEmailOnAction(ActionEvent actionEvent) {
+        txtMobile.requestFocus();
+    }
 }

@@ -5,6 +5,8 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -18,6 +20,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import lk.ijse.dto.ItemDto;
+import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.ItemTm;
 import lk.ijse.model.ItemModel;
 import org.controlsfx.control.Notifications;
@@ -53,7 +56,9 @@ public class InventoryFormController {
     public TableColumn colDescription;
     public TableColumn colCategory;
     public TableColumn colAction;
+
     public Label orderId;
+    public JFXTextField txtSearchTable;
 
     private ItemModel model=new ItemModel();
 
@@ -66,6 +71,7 @@ public class InventoryFormController {
         getAllItem();
         setCellValue();
         generateNextOrderId();
+        searchTable();
     }
 
     private void generateNextOrderId() {
@@ -191,6 +197,7 @@ public class InventoryFormController {
                     getAllItem();
                     clearFeild();
                     generateNextOrderId();
+                    searchTable();
 
                     Image image=new Image("/Icon/iconsOk.png");
                     try {
@@ -232,6 +239,7 @@ public class InventoryFormController {
             if (b) {
                 getAllItem();
                 clearFeild();
+                searchTable();
 
                 Image image=new Image("/Icon/iconsOk.png");
                 try {
@@ -324,7 +332,7 @@ public class InventoryFormController {
                     try {
                         boolean b = model.deleteItem(itemId);
                         if (b) {
-
+                                searchTable();
                                 Image image=new Image("/Icon/iconsDelete.png");
                                 Notifications notifications=Notifications.create();
                                 notifications.graphic(new ImageView(image));
@@ -357,5 +365,42 @@ public class InventoryFormController {
         txtcomboBox.getSelectionModel().clearSelection();
     }
 
+
+    public void txtNameOnAction(ActionEvent actionEvent) {
+        txtqty.requestFocus();
+    }
+
+    public void txtQtyOnAction(ActionEvent actionEvent) {
+        txtprice.requestFocus();
+    }
+
+    public void txtPriceOnAction(ActionEvent actionEvent) {
+        txtdescription.requestFocus();
+    }
+
+    public void txtDescriptionOnAction(ActionEvent actionEvent) {
+        txtcomboBox.requestFocus();
+    }
+
+    public void searchTable(){
+        FilteredList<ItemTm> filteredData = new FilteredList<>(obList, b -> true);
+
+        txtSearchTable.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(itemTm -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                String itemId = String.valueOf(itemTm.getItemId());
+
+                return itemId.contains(lowerCaseFilter);
+            });
+        });
+
+        SortedList<ItemTm> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tblItem.comparatorProperty());
+        tblItem.setItems(sortedData);
+    }
 
 }

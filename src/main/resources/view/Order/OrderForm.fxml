@@ -16,9 +16,9 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Order.OrderFormController">
+<AnchorPane fx:id="OrderCartRoot" prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Order.OrderFormController">
    <children>
-      <JFXButton buttonType="RAISED" layoutX="25.0" layoutY="7.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Order Details" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="25.0" layoutY="7.0" onAction="#btnorderFormOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Order Details" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -42,7 +42,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="179.0" layoutY="7.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="View Table view" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="179.0" layoutY="7.0" onAction="#btnOrderTableOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="View Orders Table" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

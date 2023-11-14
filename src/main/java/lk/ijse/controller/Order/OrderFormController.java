@@ -7,12 +7,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.controller.Customer.CustomerFormController;
 import lk.ijse.controller.DashboardFormController;
@@ -27,6 +32,8 @@ import lk.ijse.dto.tm.ItemTm;
 import lk.ijse.model.*;
 import org.controlsfx.control.Notifications;
 
+import javax.naming.ldap.PagedResultsControl;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -53,6 +60,8 @@ public class OrderFormController {
     public TableColumn Action;
     public JFXTextField txtQty;
     public Label lblTotal;
+    public AnchorPane OrderCartRoot;
+
 
     private int saveQty;
     private int lblQty;
@@ -300,6 +309,7 @@ public class OrderFormController {
             var orderDto=new OrderDto(orderId,date,returnDate,userId,customerId,total,saveQty,textItemId,qty);
             boolean b = placeOrderModel.placeOrder(orderDto);
             if (b){
+                tblCart.getItems().clear();
                 Image image=new Image("/Icon/iconsOk.png");
                 try {
                     Notifications notifications=Notifications.create();
@@ -329,5 +339,17 @@ public class OrderFormController {
             }
 
         }
+    }
+
+    public void btnOrderTableOnAction(ActionEvent actionEvent) throws IOException {
+        Parent parent= FXMLLoader.load(getClass().getResource("/view/Order/ViewTableForm.fxml"));
+        OrderCartRoot.getChildren().clear();
+        OrderCartRoot.getChildren().add(parent);
+    }
+
+    public void btnorderFormOnAction(ActionEvent actionEvent) throws IOException {
+        Parent parent= FXMLLoader.load(getClass().getResource("/view/Order/OrderForm.fxml"));
+        OrderCartRoot.getChildren().clear();
+        OrderCartRoot.getChildren().add(parent);
     }
 }
