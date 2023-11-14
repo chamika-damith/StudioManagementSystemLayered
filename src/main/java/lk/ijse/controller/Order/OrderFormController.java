@@ -17,19 +17,21 @@ import javafx.util.Duration;
 import lk.ijse.controller.Customer.CustomerFormController;
 import lk.ijse.controller.DashboardFormController;
 import lk.ijse.controller.LoginFormController;
+import lk.ijse.db.DbConnection;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.ItemDto;
+import lk.ijse.dto.OrderDetailsDto;
 import lk.ijse.dto.OrderDto;
 import lk.ijse.dto.tm.CartTm;
 import lk.ijse.dto.tm.ItemTm;
-import lk.ijse.model.CustomerModel;
-import lk.ijse.model.ItemModel;
-import lk.ijse.model.OrderModel;
+import lk.ijse.model.*;
 import org.controlsfx.control.Notifications;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,16 +53,20 @@ public class OrderFormController {
     public TableColumn Action;
     public JFXTextField txtQty;
     public Label lblTotal;
+
+    private int saveQty;
+    private int lblQty;
+    private int textQty;
+    private int qty;
+    private int textItemId;
     private CustomerModel customerModel = new CustomerModel();
 
     private ItemModel itemModel=new ItemModel();
 
     private ObservableList<CartTm> obList=FXCollections.observableArrayList();
 
-    private DashboardFormController dashboardFormController;
-    private CustomerFormController customerFormController;
-
     private OrderModel orderModel=new OrderModel();
+    private PlaceOrderModel placeOrderModel=new PlaceOrderModel();
 
     public void initialize(){
         loadCustomerIds();
@@ -111,6 +117,7 @@ public class OrderFormController {
                 lblItemDesc.setText(dto.getDescription());
                 lblItemPrice.setText(String.valueOf(dto.getPrice()));
                 lblItemQty.setText(String.valueOf(dto.getQty()));
+                textItemId=dto.getItemId();
                 txtQty.requestFocus();
             }else {
                 System.out.println("dto is null");
@@ -166,9 +173,26 @@ public class OrderFormController {
             String desc = lblItemDesc.getText();
             Date date = Date.valueOf(lblDate.getText());
             double price = Double.parseDouble(lblItemPrice.getText());
-            int qty = Integer.parseInt(txtQty.getText());
+            qty = Integer.parseInt(txtQty.getText());
             double totPrice = price*qty;
             Button btn = createButton();
+
+
+            lblQty= Integer.parseInt(lblItemQty.getText());
+            textQty= Integer.parseInt(txtQty.getText());
+
+            saveQty=lblQty-textQty;
+            lblItemQty.setText(String.valueOf(saveQty));
+
+            if (!obList.isEmpty()) {
+                for (int i = 0; i < tblCart.getItems().size(); i++) {
+                    if (colItemId.getCellData(i).equals(itemId)) {
+                        int col_qty = (int) colQty.getCellData(i);
+                        qty += col_qty;
+                        return;
+                    }
+                }
+            }
 
             if (qty > 0) {
 
@@ -195,7 +219,6 @@ public class OrderFormController {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                clearField();
 
             } else {
                 new Alert(Alert.AlertType.WARNING, "Empty Quantity").show();
@@ -238,6 +261,11 @@ public class OrderFormController {
         cmbItemId.getSelectionModel().clearSelection();
         cmbCustomerId.getSelectionModel().clearSelection();
         txtQty.clear();
+        lblDate.setText("");
+        lblItemDesc.setText("");
+        lblItemQty.setText("");
+        lblItemPrice.setText("");
+        lblCusName.setText("");
     }
 
     public void txtQtyOnAction(ActionEvent actionEvent) {
@@ -246,10 +274,10 @@ public class OrderFormController {
 
     public void btnPlaceOrderOnAction(ActionEvent actionEvent) throws SQLException {
         int orderId = Integer.parseInt(lblOrderId.getText());
-        String desc = lblItemDesc.getText();
         Date date = Date.valueOf(lblDate.getText());
-        int userId = Integer.parseInt(dashboardFormController.lblUserId.getText());
-        int cusId = Integer.parseInt(customerFormController.txtId.getText());
+        int userId = 001;
+        String cusId = (String) cmbCustomerId.getValue();
+        int customerId = Integer.parseInt(cusId);
         double total = Double.parseDouble(lblTotal.getText());
         Date returnDate = null;
 
@@ -267,8 +295,39 @@ public class OrderFormController {
                 e.printStackTrace();
             }
         }else{
-            var dto=new OrderDto(orderId,desc,date,returnDate,userId,cusId,total);
-            orderModel.saveOrder(dto);
+
+
+            var orderDto=new OrderDto(orderId,date,returnDate,userId,customerId,total,saveQty,textItemId,qty);
+            boolean b = placeOrderModel.placeOrder(orderDto);
+            if (b){
+                Image image=new Image("/Icon/iconsOk.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Order Place Successfully");
+                    notifications.title("Successfully");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else {
+                System.out.println("order is not placed");
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Order Place Unsuccessfully");
+                    notifications.title("Unsuccessfully");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 }

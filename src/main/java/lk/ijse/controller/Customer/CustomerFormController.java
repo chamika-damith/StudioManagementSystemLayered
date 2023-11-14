@@ -304,4 +304,8 @@ public class CustomerFormController {
             throw new RuntimeException(e);
         }
     }
+
+    public static int returnCusId() {
+        return id;
+    }
 }

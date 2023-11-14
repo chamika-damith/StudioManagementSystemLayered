@@ -86,6 +86,15 @@ public class ItemModel {
 
     }
 
+    public boolean updateQty(int id,int saveQty) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="UPDATE item SET qty =? WHERE itemId=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        pstm.setInt(1, saveQty);
+        pstm.setInt(2, id);
+        return pstm.executeUpdate() > 0;
+    }
+
     public ItemDto searchItems(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="select * from item where itemId=?";

@@ -3,10 +3,7 @@ package lk.ijse.model;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.OrderDto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class OrderModel {
     public static int generateNextOrderId() throws SQLException {
@@ -42,17 +39,16 @@ public class OrderModel {
         return false;
     }
 
-    public boolean saveOrder(OrderDto dto) throws SQLException {
+    public boolean saveOrder(int orderId, Date orderDate, Date returnDate, int userId, int cusId, double total) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
-        String sql="INSERT INTO orders (orderId,description,orderDate,returnDate,userId,cusId,price) VALUES(?,?,?,?,?,?,?)";
+        String sql="INSERT INTO orders(orderId, orderDate, returnDate, userId, cusId, price) VALUES(?, ?, ?, ?, ?,?)";
         PreparedStatement pstm=connection.prepareStatement(sql);
-        pstm.setInt(1,dto.getOrderId());
-        pstm.setString(2,dto.getDescription());
-        pstm.setDate(3,dto.getOrderDate());
-        pstm.setDate(4,dto.getReturnDate());
-        pstm.setInt(5,dto.getUserId());
-        pstm.setInt(6,dto.getCusId());
-        pstm.setDouble(7,dto.getTotal());
+        pstm.setInt(1, orderId);
+        pstm.setDate(2, orderDate);
+        pstm.setDate(3, returnDate);
+        pstm.setInt(4, userId);
+        pstm.setInt(5, cusId);
+        pstm.setDouble(6, total);
 
         return pstm.executeUpdate() > 0;
     }

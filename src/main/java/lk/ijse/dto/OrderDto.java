@@ -12,10 +12,13 @@ import java.sql.Date;
 
 public class OrderDto {
     int orderId;
-    String description;
     Date orderDate;
     Date returnDate;
     int userId;
     int cusId;
     double total;
+    int qty;
+    int itemId;
+    int buyItemQty;
+
 }
