@@ -1,11 +1,13 @@
 package lk.ijse.controller;
 
+import com.mysql.cj.log.Log;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -15,9 +17,13 @@ import java.io.IOException;
 public class DashboardFormController {
     public AnchorPane DashboardRoot;
     public AnchorPane ChildRoot;
-
+    @FXML
+    public Label lblUserId;
+    @FXML
+    private Label lblUserName;
 
     public void initialize(){
+        lblUserId.setText("001");
         try {
             SetUi("/view/Dashboard/DashboardWindow.fxml");
         } catch (IOException e) {

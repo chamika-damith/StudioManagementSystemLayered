@@ -80,7 +80,7 @@
             </Label>
             <JFXComboBox fx:id="cmbCustomerId" layoutX="64.0" layoutY="50.0" onAction="#cmbCustomerOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Customer Id *" />
             <JFXComboBox fx:id="cmbItemId" layoutX="527.0" layoutY="50.0" onAction="#cmbItemOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Item Id *" />
-            <JFXTextField fx:id="txtQty" layoutX="991.0" layoutY="50.0" prefHeight="25.0" prefWidth="171.0" promptText="Qty :" />
+            <JFXTextField fx:id="txtQty" layoutX="991.0" layoutY="50.0" onAction="#txtQtyOnAction" prefHeight="25.0" prefWidth="171.0" promptText="Qty :" />
             <Label layoutX="1141.0" layoutY="14.0" text="Order Id - " textFill="#22a390">
                <font>
                   <Font name="System Bold" size="16.0" />
@@ -189,7 +189,7 @@
                   <TableColumn fx:id="colItemId" prefWidth="112.79998397827148" text="Item Id" />
                   <TableColumn fx:id="colDescription" prefWidth="426.40003967285156" text="Description" />
                   <TableColumn fx:id="colDate" prefWidth="276.00006103515625" text="Order Date" />
-                  <TableColumn fx:id="colPrice" minWidth="0.0" prefWidth="183.99993896484375" text="Price" />
+                  <TableColumn fx:id="colPrice" minWidth="0.0" prefWidth="183.99993896484375" text="Total Price" />
                   <TableColumn fx:id="colQty" prefWidth="160.0" text="Qty" />
                   <TableColumn fx:id="Action" prefWidth="112.7999267578125" text="Action" />
                </columns>
@@ -210,7 +210,7 @@
             </Pane>
          </children>
       </Pane>
-      <JFXButton buttonType="RAISED" layoutX="593.0" layoutY="661.0" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: Green; -fx-background-radius: 10;" text="Place Order" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="593.0" layoutY="661.0" onAction="#btnPlaceOrderOnAction" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: Green; -fx-background-radius: 10;" text="Place Order" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -242,6 +242,11 @@
       <Label layoutX="44.0" layoutY="661.0" opacity="0.9" text="Total = " textFill="#22a390">
          <font>
             <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTotal" layoutX="114.0" layoutY="661.0" prefHeight="28.0" prefWidth="74.0" textFill="RED">
+         <font>
+            <Font name="System Bold" size="16.0" />
          </font>
       </Label>
    </children>

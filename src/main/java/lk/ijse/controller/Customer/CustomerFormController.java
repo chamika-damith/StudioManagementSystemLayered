@@ -47,6 +47,8 @@ public class CustomerFormController {
 
     private ObservableList<CustomerTm> obList;
 
+    public static int id;
+
     public void initialize(){
         setValueLable();
         generateNextCusId();
@@ -148,7 +150,7 @@ public class CustomerFormController {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
-        int id = Integer.parseInt(txtId.getText());
+        id = Integer.parseInt(txtId.getText());
         String name = txtName.getText();
         String mobile = txtMobile.getText();
         String email = txtEmail.getText();

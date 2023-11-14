@@ -18,12 +18,12 @@
 
 <AnchorPane fx:id="LoginRoot" onMouseExited="#rootOnMouseExited" onMouseMoved="#rootOnMouseMove" prefHeight="450.0" prefWidth="750.0" style="-fx-background-radius: 10; -fx-border-radius: 20; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #FFFfff;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
    <children>
-      <MFXTextField layoutX="408.0" layoutY="139.0" prefHeight="29.0" prefWidth="300.0" promptText="Enter username" style="-fx-background-color: #f2eff1;" stylesheets="@../Style/textFields.css">
+      <MFXTextField fx:id="txtUserName" layoutX="408.0" layoutY="139.0" prefHeight="29.0" prefWidth="300.0" promptText="Enter username" style="-fx-background-color: #f2eff1;" stylesheets="@../Style/textFields.css">
          <styleClass>
             <String fx:value="customField" />
             <String fx:value="mfx-text-field" />
          </styleClass></MFXTextField>
-      <MFXPasswordField layoutX="408.0" layoutY="225.0" prefHeight="29.0" prefWidth="300.0" promptText="Enter password" style="-fx-background-color: #f2eff1;" stylesheets="@../Style/textFields.css">
+      <MFXPasswordField fx:id="txtPassword" layoutX="408.0" layoutY="225.0" prefHeight="29.0" prefWidth="300.0" promptText="Enter password" style="-fx-background-color: #f2eff1;" stylesheets="@../Style/textFields.css">
          <styleClass>
             <String fx:value="customPassword" />
             <String fx:value="mfx-text-field" />

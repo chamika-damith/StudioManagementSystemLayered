@@ -2,6 +2,7 @@ package lk.ijse.controller.Order;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +14,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import lk.ijse.controller.Customer.CustomerFormController;
+import lk.ijse.controller.DashboardFormController;
+import lk.ijse.controller.LoginFormController;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.OrderDto;
@@ -46,11 +50,17 @@ public class OrderFormController {
     public TableColumn colQty;
     public TableColumn Action;
     public JFXTextField txtQty;
+    public Label lblTotal;
     private CustomerModel customerModel = new CustomerModel();
 
     private ItemModel itemModel=new ItemModel();
 
     private ObservableList<CartTm> obList=FXCollections.observableArrayList();
+
+    private DashboardFormController dashboardFormController;
+    private CustomerFormController customerFormController;
+
+    private OrderModel orderModel=new OrderModel();
 
     public void initialize(){
         loadCustomerIds();
@@ -76,13 +86,18 @@ public class OrderFormController {
     @FXML
     void cmbCustomerOnAction(ActionEvent event) {
         String id = (String) cmbCustomerId.getValue();
-        try {
-            CustomerDto customerDto = customerModel.searchCustomer(Integer.parseInt(id));
-            lblCusName.setText(customerDto.getName());
-            cmbItemId.requestFocus();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (id != null && !id.isEmpty()) {
+            try {
+                CustomerDto customerDto = customerModel.searchCustomer(Integer.parseInt(id));
+                lblCusName.setText(customerDto.getName());
+                cmbItemId.requestFocus();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }else {
+            System.out.println("Customer ID is null or empty.");
         }
     }
 
@@ -92,10 +107,14 @@ public class OrderFormController {
 
         try {
             ItemDto dto = itemModel.searchItems(code);
-            lblItemDesc.setText(dto.getDescription());
-            lblItemPrice.setText(String.valueOf(dto.getPrice()));
-            lblItemQty.setText(String.valueOf(dto.getQty()));
-            txtQty.requestFocus();
+            if (dto != null) {
+                lblItemDesc.setText(dto.getDescription());
+                lblItemPrice.setText(String.valueOf(dto.getPrice()));
+                lblItemQty.setText(String.valueOf(dto.getQty()));
+                txtQty.requestFocus();
+            }else {
+                System.out.println("dto is null");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -143,10 +162,12 @@ public class OrderFormController {
     public void btnAddToCart(ActionEvent actionEvent) {
 
             String itemId = (String) cmbItemId.getValue();
+            int orderId = Integer.parseInt(lblOrderId.getText());
             String desc = lblItemDesc.getText();
             Date date = Date.valueOf(lblDate.getText());
             double price = Double.parseDouble(lblItemPrice.getText());
             int qty = Integer.parseInt(txtQty.getText());
+            double totPrice = price*qty;
             Button btn = createButton();
 
             if (qty > 0) {
@@ -154,11 +175,12 @@ public class OrderFormController {
                 setRemoveBtnAction(btn);
                 btn.setCursor(Cursor.HAND);
 
-                var cartTm = new CartTm(itemId, desc, date, price, qty, btn);
+                var cartTm = new CartTm(itemId, desc, date, totPrice, qty, btn);
 
                 obList.add(cartTm);
 
                 tblCart.setItems(obList);
+                calculateTotal();
                 tblCart.refresh();
 
                 Image image=new Image("/Icon/iconsOk.png");
@@ -180,6 +202,14 @@ public class OrderFormController {
             }
     }
 
+    private void calculateTotal() {
+        double total = 0;
+        for (int i = 0; i < tblCart.getItems().size(); i++) {
+            total += (double) colPrice.getCellData(i);
+        }
+        lblTotal.setText(String.valueOf(total));
+    }
+
     public Button createButton(){
         Button btn=new Button("Remove");
         btn.getStyleClass().add("ActionBtn");
@@ -198,6 +228,7 @@ public class OrderFormController {
                 int focusedIndex = tblCart.getSelectionModel().getSelectedIndex();
 
                 obList.remove(focusedIndex);
+                calculateTotal();
                 tblCart.refresh();
             }
         });
@@ -207,5 +238,37 @@ public class OrderFormController {
         cmbItemId.getSelectionModel().clearSelection();
         cmbCustomerId.getSelectionModel().clearSelection();
         txtQty.clear();
+    }
+
+    public void txtQtyOnAction(ActionEvent actionEvent) {
+        btnAddToCart(actionEvent);
+    }
+
+    public void btnPlaceOrderOnAction(ActionEvent actionEvent) throws SQLException {
+        int orderId = Integer.parseInt(lblOrderId.getText());
+        String desc = lblItemDesc.getText();
+        Date date = Date.valueOf(lblDate.getText());
+        int userId = Integer.parseInt(dashboardFormController.lblUserId.getText());
+        int cusId = Integer.parseInt(customerFormController.txtId.getText());
+        double total = Double.parseDouble(lblTotal.getText());
+        Date returnDate = null;
+
+        if (orderModel.isExists(orderId)){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Orders is already added");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            var dto=new OrderDto(orderId,desc,date,returnDate,userId,cusId,total);
+            orderModel.saveOrder(dto);
+        }
     }
 }

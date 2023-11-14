@@ -181,20 +181,21 @@
                   <Image url="@../Icon/profile.png" />
                </image>
             </ImageView>
-            <Label layoutX="60.0" layoutY="7.0" text="Chamika">
+            <Label layoutX="56.0" layoutY="7.0" text="Chamika">
                <font>
                   <Font name="Arial Rounded MT Bold" size="15.0" />
                </font>
             </Label>
-            <Label layoutX="62.0" layoutY="25.0" opacity="0.78" text="Admin" />
-            <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="140.0" layoutY="15.0" opacity="0.38" pickOnBounds="true" preserveRatio="true">
+            <Label layoutX="58.0" layoutY="25.0" opacity="0.78" prefHeight="18.0" prefWidth="49.0" text="User Id - " />
+            <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="140.0" layoutY="12.0" opacity="0.38" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Icon/arrow.png" />
                </image>
             </ImageView>
+            <Label fx:id="lblUserId" layoutX="108.0" layoutY="24.0" opacity="0.78" prefHeight="18.0" prefWidth="38.0" />
          </children>
       </AnchorPane>
-      <Label layoutX="235.0" layoutY="74.0" text="Hi, Chamika" textFill="#1d1f24">
+      <Label layoutX="235.0" layoutY="74.0" text="Hi," textFill="#1d1f24">
          <font>
             <Font name="Arial Rounded MT Bold" size="22.0" />
          </font>
@@ -202,6 +203,11 @@
       <Label contentDisplay="CENTER" graphicTextGap="5.0" layoutX="235.0" layoutY="105.0" opacity="0.67" text="Take a look for your overview">
          <font>
             <Font name="Arial Rounded MT Bold" size="10.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblUserName" layoutX="268.0" layoutY="74.0" prefHeight="27.0" prefWidth="112.0" textFill="#1d1f24">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="22.0" />
          </font>
       </Label>
    </children>

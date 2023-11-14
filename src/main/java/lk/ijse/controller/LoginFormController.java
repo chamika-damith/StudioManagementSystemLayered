@@ -1,5 +1,7 @@
 package lk.ijse.controller;
 
+import io.github.palexdev.materialfx.controls.MFXPasswordField;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -19,6 +21,8 @@ import java.io.IOException;
 public class LoginFormController {
     public AnchorPane LoginRoot;
     public CubicCurve curve;
+    public MFXTextField txtUserName;
+    public MFXPasswordField txtPassword;
 
     public void btnLoginOnAction(ActionEvent actionEvent) throws IOException {
         Parent parent= FXMLLoader.load(this.getClass().getResource("/view/DashboardForm.fxml"));
@@ -27,6 +31,7 @@ public class LoginFormController {
         stage.setScene(scene);
         stage.setTitle("Dashboard");
         stage.centerOnScreen();
+
 
         Image image=new Image("/Icon/iconsOk.png");
         try {
