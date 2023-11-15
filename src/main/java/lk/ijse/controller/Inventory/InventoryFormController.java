@@ -393,8 +393,9 @@ public class InventoryFormController {
 
                 String lowerCaseFilter = newValue.toLowerCase();
                 String itemId = String.valueOf(itemTm.getItemId());
+                String category=itemTm.getCategory().toLowerCase();
 
-                return itemId.contains(lowerCaseFilter);
+                return itemId.contains(lowerCaseFilter)||(category.contains(lowerCaseFilter));
             });
         });
 

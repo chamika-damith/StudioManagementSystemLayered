@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,7 +16,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Dashboard.DashboardWindwoCrontroller">
    <children>
-      <Pane layoutX="54.0" layoutY="21.0" prefHeight="135.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
+      <Pane layoutX="54.0" layoutY="21.0" prefHeight="125.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
          <children>
             <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="29.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -32,7 +35,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="371.0" layoutY="21.0" prefHeight="135.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
+      <Pane layoutX="371.0" layoutY="15.0" prefHeight="126.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
          <children>
             <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="37.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -51,7 +54,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="688.0" layoutY="21.0" prefHeight="135.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
+      <Pane layoutX="688.0" layoutY="15.0" prefHeight="126.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
          <children>
             <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="36.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -70,7 +73,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="1006.0" layoutY="21.0" prefHeight="135.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
+      <Pane layoutX="1006.0" layoutY="15.0" prefHeight="126.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
          <children>
             <ImageView fitHeight="37.0" fitWidth="43.0" layoutX="35.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -89,14 +92,14 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="54.0" layoutY="191.0" prefHeight="258.0" prefWidth="574.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
+      <Pane layoutX="54.0" layoutY="157.0" prefHeight="238.0" prefWidth="574.0" style="-fx-background-radius: 15; -fx-background-color: FFFFFF;">
          <children>
-            <Label layoutX="26.0" layoutY="12.0" opacity="0.87" text="Total sales">
+            <Label layoutX="26.0" layoutY="7.0" opacity="0.87" text="Total sales">
                <font>
                   <Font name="Arial Rounded MT Bold" size="18.0" />
                </font>
             </Label>
-            <LineChart fx:id="Linechart" layoutY="90.0" prefHeight="168.0" prefWidth="574.0">
+            <LineChart fx:id="Linechart" layoutY="82.0" prefHeight="156.0" prefWidth="574.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -104,22 +107,55 @@
                 <NumberAxis prefHeight="312.0" prefWidth="28.0" side="LEFT" />
               </yAxis>
             </LineChart>
-            <Circle fill="DODGERBLUE" layoutX="30.0" layoutY="57.0" opacity="0.9" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-            <Label layoutX="38.0" layoutY="41.0" opacity="0.89" prefHeight="30.0" prefWidth="19.0" text="Rs.">
+            <Circle fill="DODGERBLUE" layoutX="31.0" layoutY="52.0" opacity="0.9" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
+            <Label layoutX="38.0" layoutY="36.0" opacity="0.89" prefHeight="30.0" prefWidth="19.0" text="Rs.">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="58.0" layoutY="35.0" text="00">
+            <Label layoutX="57.0" layoutY="30.0" text="00">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <Label layoutX="37.0" layoutY="66.0" opacity="0.91" text="Revenue">
+            <Label layoutX="41.0" layoutY="61.0" opacity="0.91" text="Revenue">
                <font>
                   <Font size="10.0" />
                </font>
             </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="54.0" layoutY="407.0" prefHeight="278.0" prefWidth="1245.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
+         <children>
+            <Label layoutX="27.0" layoutY="12.0" opacity="0.9" text="View Employee Attendance" textFill="#22a390">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblCustomer" layoutX="14.0" layoutY="50.0" prefHeight="200.0" prefWidth="1217.0" stylesheets="@../../Style/Table.css">
+               <columns>
+                  <TableColumn fx:id="colId" prefWidth="74.39998626708984" text="Id" />
+                  <TableColumn fx:id="colName" prefWidth="186.39999389648438" text="Name" />
+                  <TableColumn fx:id="colAddress" prefWidth="222.40005493164062" text="Address" />
+                  <TableColumn fx:id="colEmail" prefWidth="258.39996337890625" text="Email" />
+                  <TableColumn fx:id="colMobile" prefWidth="296.79998779296875" text="Mobile" />
+                  <TableColumn fx:id="colAction" prefWidth="172.79998779296875" text="Action" />
+               </columns>
+            </TableView>
+            <Pane layoutX="993.0" layoutY="7.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">
+               <children>
+                  <JFXTextField fx:id="txtCostSearchTable" focusColor="#0040ff" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Employee Id or Name">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </JFXTextField>
+                  <ImageView fitHeight="18.0" fitWidth="20.0" layoutX="9.0" layoutY="11.0" opacity="0.85" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Icon/search.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
          </children>
       </Pane>
    </children>
