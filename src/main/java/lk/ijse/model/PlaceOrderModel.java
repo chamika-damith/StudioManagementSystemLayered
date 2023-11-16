@@ -2,6 +2,7 @@ package lk.ijse.model;
 
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.OrderDto;
+import lk.ijse.dto.tm.CartTm;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -21,8 +22,6 @@ public class PlaceOrderModel {
         int userId = orderDto.getUserId();
         int cusId = orderDto.getCusId();
         double total = orderDto.getTotal();
-        int qty = orderDto.getQty();
-        int itemId = orderDto.getItemId();
         int buyItemQty = orderDto.getBuyItemQty();
 
         Connection connection=null;
@@ -34,10 +33,10 @@ public class PlaceOrderModel {
             boolean isOrderSave = orderModel.saveOrder(orderId, orderDate, returnDate, userId, cusId, total);
             if (isOrderSave) {
                 System.out.println("order saved");
-                boolean isItemSave = itemModel.updateQty(itemId, qty);
+                boolean isItemSave = itemModel.updateItem(orderDto.getCartTmList());
                 System.out.println("item saved");
                 if (isItemSave) {
-                    boolean isOrderDetailSave = orderDetailsModel.saveOrderDetails(orderId, itemId, buyItemQty);
+                    boolean isOrderDetailSave = orderDetailsModel.saveOrderDetails(orderId, orderDto.getCartTmList());
                     if (isOrderDetailSave){
                         System.out.println("Order details saved");
                         connection.commit();

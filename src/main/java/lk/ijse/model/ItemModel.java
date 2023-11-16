@@ -4,6 +4,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.ItemDto;
+import lk.ijse.dto.tm.CartTm;
 
 import java.io.IOException;
 import java.sql.*;
@@ -86,13 +87,22 @@ public class ItemModel {
 
     }
 
-    public boolean updateQty(int id,int saveQty) throws SQLException {
+    public boolean updateQty(int itemID,int qty) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="UPDATE item SET qty =? WHERE itemId=?";
         PreparedStatement pstm=connection.prepareStatement(sql);
-        pstm.setInt(1, saveQty);
-        pstm.setInt(2, id);
+        pstm.setInt(1, qty);
+        pstm.setInt(2, itemID);
         return pstm.executeUpdate() > 0;
+    }
+
+    public boolean updateItem(List<CartTm> cartTmList) throws SQLException {
+        for(CartTm tm : cartTmList) {
+            if(!updateQty(Integer.parseInt(tm.getItemId()), tm.getQty())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public ItemDto searchItems(String id) throws SQLException {
@@ -178,4 +188,5 @@ public class ItemModel {
         }
         return false;
     }
+
 }

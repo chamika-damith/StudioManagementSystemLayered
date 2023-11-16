@@ -10,16 +10,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.dto.OrderViewDto;
+import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.ItemTm;
 import lk.ijse.dto.tm.ViewOrderTm;
 import lk.ijse.model.OrderDetailViewModel;
+import lk.ijse.model.OrderItemDetailFormModel;
 import lk.ijse.model.OrderModel;
 import org.controlsfx.control.Notifications;
 
@@ -40,6 +46,7 @@ public class ViewTableFormController {
     public TableColumn colRemove;
     public JFXTextField txtSearchOrder;
     private ObservableList<ViewOrderTm> obList;
+    private OrderItemDetailFormController OIDController=new OrderItemDetailFormController();
 
     public void initialize(){
         setCellValues();
@@ -77,6 +84,7 @@ public class ViewTableFormController {
         Button btn=new Button("more");
         btn.getStyleClass().add("moreBtn");
         btn.setCursor(Cursor.cursor("Hand"));
+        setMoreBtnAction(btn);
         return btn;
     }
 
@@ -121,5 +129,35 @@ public class ViewTableFormController {
         Parent parent= FXMLLoader.load(getClass().getResource("/view/Order/ViewTableForm.fxml"));
         viewOrderTableRoot.getChildren().clear();
         viewOrderTableRoot.getChildren().add(parent);
+    }
+
+    private void setMoreBtnAction(Button btn) {
+
+        btn.setOnAction((e) -> {
+
+                int focusedIndex = tblOrder.getSelectionModel().getSelectedIndex();
+                ViewOrderTm viewOrderTm= (ViewOrderTm) tblOrder.getSelectionModel().getSelectedItem();
+                int selectId=viewOrderTm.getOrderId();
+                OIDController.getIndex(selectId);
+
+            try {
+                Parent parent=FXMLLoader.load(getClass().getResource("/view/Order/OrderItemDetailForm.fxml"));
+                Stage stage = new Stage();
+                Scene scene = new Scene(parent);
+                stage.setTitle("Order Item Detail");
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.show();
+                viewOrderTableRoot.setEffect(new GaussianBlur());
+
+                stage.setOnCloseRequest(event -> {
+                    viewOrderTableRoot.setEffect(null);
+                });
+
+
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 }

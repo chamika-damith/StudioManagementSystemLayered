@@ -12,9 +12,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
@@ -45,6 +47,7 @@ public class InventoryFormController {
 
     public Image image;
     public FileInputStream fileInputStream;
+
     public ImageView img;
     public JFXButton imgSelectBtn;
     public Label txtAllInventory;
@@ -59,6 +62,7 @@ public class InventoryFormController {
 
     public Label orderId;
     public JFXTextField txtSearchTable;
+    public AnchorPane InventoryRoot;
 
     private ItemModel model=new ItemModel();
 
@@ -318,12 +322,18 @@ public class InventoryFormController {
 
     private void setDeleteBtnAction(Button btn) {
         btn.setOnAction((e) -> {
+
+            InventoryRoot.setEffect(new GaussianBlur());
+
             ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
             ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
+
             Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to delete?", yes, no).showAndWait();
 
+
             if (type.orElse(no) == yes) {
+                InventoryRoot.setEffect(null);
                 int focusedIndex = tblItem.getSelectionModel().getSelectedIndex();
                 ItemTm selectedItem = (ItemTm) tblItem.getSelectionModel().getSelectedItem();
 
@@ -351,6 +361,8 @@ public class InventoryFormController {
                         throw new RuntimeException(ex);
                     }
                 }
+            }else {
+                InventoryRoot.setEffect(null);
             }
         });
     }

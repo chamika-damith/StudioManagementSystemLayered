@@ -305,8 +305,13 @@ public class OrderFormController {
             }
         }else{
 
+            List<CartTm> cartTmList = new ArrayList<>();
+            for (int i = 0; i < tblCart.getItems().size(); i++) {
+                CartTm cartTm = obList.get(i);
+                cartTmList.add(cartTm);
+            }
 
-            var orderDto=new OrderDto(orderId,date,returnDate,userId,customerId,total,saveQty,textItemId,qty);
+            var orderDto=new OrderDto(orderId,date,returnDate,userId,customerId,total,saveQty,qty,cartTmList);
             boolean b = placeOrderModel.placeOrder(orderDto);
             if (b){
                 tblCart.getItems().clear();

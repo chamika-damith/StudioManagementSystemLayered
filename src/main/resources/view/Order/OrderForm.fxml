@@ -210,7 +210,7 @@
             </Pane>
          </children>
       </Pane>
-      <JFXButton buttonType="RAISED" layoutX="593.0" layoutY="661.0" onAction="#btnPlaceOrderOnAction" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: Green; -fx-background-radius: 10;" text="Place Order" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="1181.0" layoutY="661.0" onAction="#btnPlaceOrderOnAction" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: Green; -fx-background-radius: 10;" text="Place Order" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -249,5 +249,34 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
+      <JFXButton buttonType="RAISED" layoutX="1045.0" layoutY="661.0" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: D83F31; -fx-background-radius: 10;" text="Make Payment" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.9892328398384924">
+                     <color>
+                        <Color red="0.13333334028720856" green="0.6431372761726379" blue="0.572549045085907" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
+         <font>
+            <Font name="System Bold" size="10.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

@@ -1,8 +1,11 @@
 package lk.ijse.dto;
 
+import lk.ijse.dto.tm.CartTm;
 import lombok.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +21,7 @@ public class OrderDto {
     int cusId;
     double total;
     int qty;
-    int itemId;
     int buyItemQty;
+    List<CartTm> cartTmList=new ArrayList<>();
 
 }

@@ -12,6 +12,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -106,10 +107,13 @@ public class CustomerFormController {
 
     private void setDeleteBtnAction(Button btn) {
         btn.setOnAction((e) -> {
+            CustomerRoot.setEffect(new GaussianBlur());
             ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
             ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
             Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to delete?", yes, no).showAndWait();
+
+            CustomerRoot.setEffect(null);
 
             if (type.orElse(no) == yes) {
                 int focusedIndex = tblCustomer.getSelectionModel().getSelectedIndex();
