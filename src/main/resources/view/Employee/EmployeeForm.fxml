@@ -78,15 +78,15 @@
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <JFXTextField focusColor="#0040ff" layoutX="58.0" layoutY="86.0" prefHeight="25.0" prefWidth="399.0" promptText="Employee Id *" />
-            <JFXTextField focusColor="#0040ff" layoutX="58.0" layoutY="152.0" prefHeight="25.0" prefWidth="399.0" promptText="Name *" />
-            <JFXTextField focusColor="#0040ff" layoutX="58.0" layoutY="216.0" prefHeight="25.0" prefWidth="399.0" promptText="Address *" />
-            <JFXTextField focusColor="#0040ff" layoutX="58.0" layoutY="281.0" prefHeight="25.0" prefWidth="399.0" promptText="Email *" />
-            <JFXTextField focusColor="#0040ff" layoutX="58.0" layoutY="346.0" prefHeight="25.0" prefWidth="399.0" promptText="Salary *" />
+            <JFXTextField fx:id="txtEmpId" focusColor="#0040ff" layoutX="58.0" layoutY="86.0" prefHeight="25.0" prefWidth="399.0" promptText="Employee Id *" />
+            <JFXTextField fx:id="txtName" focusColor="#0040ff" layoutX="58.0" layoutY="152.0" prefHeight="25.0" prefWidth="399.0" promptText="Name *" />
+            <JFXTextField fx:id="txtAddress" focusColor="#0040ff" layoutX="58.0" layoutY="216.0" prefHeight="25.0" prefWidth="399.0" promptText="Address *" />
+            <JFXTextField fx:id="txtEmail" focusColor="#0040ff" layoutX="58.0" layoutY="281.0" prefHeight="25.0" prefWidth="399.0" promptText="Email *" />
+            <JFXTextField fx:id="txtSalary" focusColor="#0040ff" layoutX="58.0" layoutY="346.0" prefHeight="25.0" prefWidth="399.0" promptText="Salary *" />
             <JFXComboBox fx:id="comboBox" layoutX="375.0" layoutY="14.0" prefHeight="25.0" prefWidth="110.0" promptText="Type" style="-fx-background-radius: 10;" />
          </children>
       </Pane>
-      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="135.0" layoutY="648.0" prefHeight="40.0" prefWidth="91.0" style="-fx-background-color: #5D9C59; -fx-background-radius: 13;" text="Add" textFill="WHITE">
+      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="135.0" layoutY="648.0" onAction="#btnSaveOnAction" prefHeight="40.0" prefWidth="91.0" style="-fx-background-color: #5D9C59; -fx-background-radius: 13;" text="Add" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

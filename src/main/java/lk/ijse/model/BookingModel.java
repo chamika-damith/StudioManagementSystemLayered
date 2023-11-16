@@ -1,10 +1,7 @@
 package lk.ijse.model;
 
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.BookingDto;
-import lk.ijse.dto.CustomerDto;
-import lk.ijse.dto.ItemDto;
-import lk.ijse.dto.PackageDto;
+import lk.ijse.dto.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,28 +28,6 @@ public class BookingModel {
         return ++id;
     }
 
-    public PackageDto searchPackage(String id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql="select * from packages where packageId=?";
-        PreparedStatement pstm=connection.prepareStatement(sql);
-
-        pstm.setString(1, id);
-        ResultSet resultSet = pstm.executeQuery();
-
-        PackageDto dto=null;
-        if (resultSet.next()){
-            int packageId = resultSet.getInt("packageId");
-            String name = resultSet.getString("name");
-            double price = resultSet.getDouble("price");
-            String type = resultSet.getString("type");
-
-            dto=new PackageDto(packageId,name,price,type);
-
-        }
-
-        return dto;
-
-    }
 
     public boolean saveBookingDto(BookingDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
@@ -83,6 +58,27 @@ public class BookingModel {
                     resultSet.getString(2),
                     resultSet.getDouble(3),
                     resultSet.getString(4)
+            ));
+        }
+        return dtoList;
+
+    }
+
+    public List<EmployeeDto> getAllEmployee() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="SELECT * FROM employee";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        ResultSet resultSet = pstm.executeQuery();
+        ArrayList<EmployeeDto> dtoList=new ArrayList<>();
+
+        while (resultSet.next()){
+            dtoList.add(new EmployeeDto(
+                    resultSet.getInt("empId"),
+                    resultSet.getString("name"),
+                    resultSet.getDouble("salary"),
+                    resultSet.getString("email"),
+                    resultSet.getString("type")
             ));
         }
         return dtoList;

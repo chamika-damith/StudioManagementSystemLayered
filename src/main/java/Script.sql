@@ -86,12 +86,11 @@ CREATE TABLE IF NOT EXISTS Packages (
 CREATE TABLE IF NOT EXISTS Employee(
     empId INT PRIMARY KEY,
     name VARCHAR(45) NOT NULL,
-    mobile VARCHAR(45) NOT NULL,
     salary DOUBLE NOT NULL,
     email VARCHAR(45) NOT NULL,
-    type VARCHAR(45) NOT NULL,
-    position ENUM('Admin','Cashier','Manager','Worker')
+    type VARCHAR(45) NOT NULL
 );
+
 
 CREATE TABLE IF NOT EXISTS Attendance(
     attId INT PRIMARY KEY,

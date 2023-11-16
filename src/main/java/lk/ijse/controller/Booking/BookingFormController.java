@@ -18,10 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import lk.ijse.dto.BookingDto;
-import lk.ijse.dto.CustomerDto;
-import lk.ijse.dto.ItemDto;
-import lk.ijse.dto.PackageDto;
+import lk.ijse.dto.*;
 import lk.ijse.model.BookingModel;
 import lk.ijse.model.CustomerModel;
 import org.controlsfx.control.Notifications;
@@ -48,10 +45,10 @@ public class BookingFormController {
 
     public void initialize(){
         cmbEventType.setItems(FXCollections.observableArrayList(EventType.PHOTOGRAPHY,EventType.VIDEOGRAPHY,EventType.AUDIO_PRODUCTION,EventType.TV_SHOWS));
-        cmbEmpId.setItems(FXCollections.observableArrayList(1,2,3));
         generateNextBookId();
         loadCustomerIds();
         loadPackageIds();
+        loadEmpIds();
     }
 
     private void loadCustomerIds() {
@@ -141,4 +138,21 @@ public class BookingFormController {
             throw new RuntimeException(e);
         }
     }
+
+    private void loadEmpIds() {
+        ObservableList<String> obList = FXCollections.observableArrayList();
+
+        try {
+            List<EmployeeDto> idList = bookingModel.getAllEmployee();
+
+            for (EmployeeDto dto : idList) {
+                obList.add(String.valueOf(dto.getEmpId()));
+            }
+
+            cmbEmpId.setItems(obList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
