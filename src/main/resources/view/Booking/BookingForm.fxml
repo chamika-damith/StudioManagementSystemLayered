@@ -17,7 +17,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Booking.BookingFormController">
+<AnchorPane fx:id="BookinRoot" prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Booking.BookingFormController">
    <children>
       <JFXButton buttonType="RAISED" layoutX="28.0" layoutY="20.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="New Appointment" textFill="WHITE">
          <cursor>
@@ -117,17 +117,17 @@
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <JFXComboBox layoutX="46.0" layoutY="87.0" prefHeight="25.0" prefWidth="190.0" promptText="Customer Id" />
-            <Label layoutX="382.0" layoutY="86.0" text="Customer Name">
+            <JFXComboBox fx:id="cmbCustomerID" layoutX="70.0" layoutY="89.0" prefHeight="25.0" prefWidth="404.0" promptText="Customer Id" />
+            <Label layoutX="282.0" layoutY="17.0" text="Customer Name - ">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <MFXDatePicker layoutX="46.0" layoutY="163.0" prefHeight="38.0" prefWidth="190.0" promptText="Appoinment Date" />
-            <JFXComboBox layoutX="46.0" layoutY="242.0" prefHeight="25.0" prefWidth="190.0" promptText="Event Type" />
-            <JFXTextField layoutX="46.0" layoutY="387.0" prefHeight="25.0" prefWidth="190.0" promptText="Address" />
-            <JFXComboBox layoutX="46.0" layoutY="314.0" prefHeight="25.0" prefWidth="190.0" promptText="Package" />
-            <JFXTextField layoutX="46.0" layoutY="455.0" prefHeight="25.0" prefWidth="190.0" promptText="Employee Count" />
+            <MFXDatePicker fx:id="appDate" layoutX="70.0" layoutY="164.0" prefHeight="38.0" prefWidth="404.0" promptText="Appoinment Date" />
+            <JFXComboBox fx:id="cmbEventType" layoutX="70.0" layoutY="240.0" prefHeight="25.0" prefWidth="404.0" promptText="Event Type" />
+            <JFXTextField fx:id="txtAddress" layoutX="70.0" layoutY="390.0" prefHeight="25.0" prefWidth="404.0" promptText="Address" />
+            <JFXComboBox fx:id="cmbPackage" layoutX="70.0" layoutY="314.0" prefHeight="25.0" prefWidth="404.0" promptText="Package" />
+            <JFXComboBox fx:id="cmbEmpId" layoutX="70.0" layoutY="458.0" prefHeight="25.0" prefWidth="404.0" promptText="Employee Id" />
          </children>
       </Pane>
       <Label layoutX="1203.0" layoutY="6.0" opacity="0.9" text="Appoinment" textFill="#22a390" underline="true">
@@ -142,7 +142,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label layoutX="164.0" layoutY="6.0" prefHeight="25.0" prefWidth="77.0" text=" ">
+            <Label fx:id="bookId" layoutX="144.0" layoutY="6.0" prefHeight="25.0" prefWidth="98.0" textFill="#2600ff">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -178,7 +178,7 @@
             <Font name="System Bold" size="10.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="155.0" layoutY="630.0" prefHeight="40.0" prefWidth="91.0" style="-fx-background-color: #5D9C59; -fx-background-radius: 13;" text="Add" textFill="WHITE">
+      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="155.0" layoutY="630.0" onAction="#btnSaveOnAction" prefHeight="40.0" prefWidth="91.0" style="-fx-background-color: #5D9C59; -fx-background-radius: 13;" text="Add" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -297,6 +297,35 @@
          </ripplerFill>
          <font>
             <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="513.0" layoutY="20.0" onAction="#btnPackageOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #884A39; -fx-background-radius: 13;" text="Package" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.9892328398384924">
+                     <color>
+                        <Color red="0.13333334028720856" green="0.6431372761726379" blue="0.572549045085907" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
+         <font>
+            <Font name="System Bold" size="10.0" />
          </font>
       </JFXButton>
    </children>
