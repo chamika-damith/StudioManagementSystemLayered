@@ -78,7 +78,8 @@ public class BookingModel {
                     resultSet.getString("name"),
                     resultSet.getDouble("salary"),
                     resultSet.getString("email"),
-                    resultSet.getString("type")
+                    resultSet.getString("type"),
+                    resultSet.getString("address")
             ));
         }
         return dtoList;

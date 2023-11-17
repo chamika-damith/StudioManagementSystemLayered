@@ -64,9 +64,9 @@ public class CustomerFormController {
     private void setCellValue() {
         colId.setCellValueFactory(new PropertyValueFactory<>("cusId"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colAddress.setCellValueFactory(new PropertyValueFactory<>("mobile"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colMobile.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colMobile.setCellValueFactory(new PropertyValueFactory<>("mobile"));
         colAction.setCellValueFactory(new PropertyValueFactory<>("btn"));
 
     }

@@ -126,7 +126,7 @@
             <MFXDatePicker fx:id="appDate" layoutX="70.0" layoutY="164.0" prefHeight="38.0" prefWidth="404.0" promptText="Appoinment Date" />
             <JFXComboBox fx:id="cmbEventType" layoutX="70.0" layoutY="240.0" prefHeight="25.0" prefWidth="404.0" promptText="Event Type" />
             <JFXTextField fx:id="txtAddress" layoutX="70.0" layoutY="390.0" prefHeight="25.0" prefWidth="404.0" promptText="Address" />
-            <JFXComboBox fx:id="cmbPackage" layoutX="70.0" layoutY="314.0" prefHeight="25.0" prefWidth="404.0" promptText="Package" />
+            <JFXComboBox fx:id="cmbPackage" layoutX="70.0" layoutY="314.0" onAction="#cmbPackageOnAction" prefHeight="25.0" prefWidth="404.0" promptText="Package" />
             <JFXComboBox fx:id="cmbEmpId" layoutX="70.0" layoutY="458.0" prefHeight="25.0" prefWidth="404.0" promptText="Employee Id" />
          </children>
       </Pane>

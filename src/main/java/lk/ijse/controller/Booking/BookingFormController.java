@@ -155,4 +155,6 @@ public class BookingFormController {
         }
     }
 
+    public void cmbPackageOnAction(ActionEvent actionEvent) {
+    }
 }

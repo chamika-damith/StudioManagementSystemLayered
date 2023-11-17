@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-border-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Employee.EmployeeFormController">
+<AnchorPane fx:id="EmployeeRoot" prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-border-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Employee.EmployeeFormController">
    <children>
       <JFXButton buttonType="RAISED" layoutX="18.0" layoutY="14.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Employee Details" textFill="WHITE">
          <cursor>
@@ -78,7 +78,7 @@
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="txtEmpId" focusColor="#0040ff" layoutX="58.0" layoutY="86.0" prefHeight="25.0" prefWidth="399.0" promptText="Employee Id *" />
+            <JFXTextField fx:id="txtEmpId" focusColor="#0040ff" layoutX="58.0" layoutY="86.0" onAction="#lblSearchOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Employee Id *" />
             <JFXTextField fx:id="txtName" focusColor="#0040ff" layoutX="58.0" layoutY="152.0" prefHeight="25.0" prefWidth="399.0" promptText="Name *" />
             <JFXTextField fx:id="txtAddress" focusColor="#0040ff" layoutX="58.0" layoutY="216.0" prefHeight="25.0" prefWidth="399.0" promptText="Address *" />
             <JFXTextField fx:id="txtEmail" focusColor="#0040ff" layoutX="58.0" layoutY="281.0" prefHeight="25.0" prefWidth="399.0" promptText="Email *" />
@@ -115,7 +115,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="308.0" layoutY="648.0" prefHeight="40.0" prefWidth="91.0" style="-fx-background-color: #E7B10A; -fx-background-radius: 13;" text="Update" textFill="WHITE">
+      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="308.0" layoutY="648.0" onAction="#btnEmpUpadateOnAction" prefHeight="40.0" prefWidth="91.0" style="-fx-background-color: #E7B10A; -fx-background-radius: 13;" text="Update" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -153,13 +153,13 @@
             </Label>
             <TableView fx:id="tblEmployee" layoutX="14.0" layoutY="58.0" prefHeight="418.0" prefWidth="707.0" stylesheets="@../../Style/Table.css">
               <columns>
-                <TableColumn prefWidth="58.4000244140625" text="Id" />
-                <TableColumn prefWidth="98.4000244140625" text="Name" />
-                  <TableColumn prefWidth="128.800048828125" text="Address" />
-                  <TableColumn prefWidth="142.4000244140625" text="Email" />
-                  <TableColumn prefWidth="104.800048828125" text="Salary" />
-                  <TableColumn prefWidth="104.7999267578125" text="Position" />
-                  <TableColumn prefWidth="63.0" text="Action" />
+                <TableColumn fx:id="colId" prefWidth="58.4000244140625" text="Id" />
+                <TableColumn fx:id="colName" prefWidth="98.4000244140625" text="Name" />
+                  <TableColumn fx:id="colAddress" prefWidth="128.800048828125" text="Address" />
+                  <TableColumn fx:id="colEmail" prefWidth="142.4000244140625" text="Email" />
+                  <TableColumn fx:id="colSalary" prefWidth="104.800048828125" text="Salary" />
+                  <TableColumn fx:id="colType" prefWidth="104.7999267578125" text="Position" />
+                  <TableColumn fx:id="Action" prefWidth="63.0" text="Action" />
               </columns>
             </TableView>
             <Pane layoutX="493.0" layoutY="12.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">

@@ -88,9 +88,9 @@ CREATE TABLE IF NOT EXISTS Employee(
     name VARCHAR(45) NOT NULL,
     salary DOUBLE NOT NULL,
     email VARCHAR(45) NOT NULL,
-    type VARCHAR(45) NOT NULL
+    type VARCHAR(45) NOT NULL,
+    address VARCHAR(45)
 );
-
 
 CREATE TABLE IF NOT EXISTS Attendance(
     attId INT PRIMARY KEY,

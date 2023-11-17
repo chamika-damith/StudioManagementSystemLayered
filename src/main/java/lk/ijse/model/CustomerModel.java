@@ -65,7 +65,6 @@ public class CustomerModel {
             ));
         }
         return dtoList;
-
     }
 
     public boolean updateCustomer(CustomerDto dto) throws SQLException {

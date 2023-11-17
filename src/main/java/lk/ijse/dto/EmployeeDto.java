@@ -14,4 +14,5 @@ public class EmployeeDto {
     double salary;
     String email;
     String type;
+    String address;
 }
