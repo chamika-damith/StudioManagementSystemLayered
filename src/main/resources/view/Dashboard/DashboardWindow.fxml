@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -158,5 +159,13 @@
             </Pane>
          </children>
       </Pane>
+      <BarChart fx:id="barChart" categoryGap="2.0" layoutX="655.0" layoutY="142.0" legendSide="LEFT" prefHeight="266.0" prefWidth="644.0" title="Sales Chart" titleSide="BOTTOM">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" upperBound="50.0" />
+        </yAxis>
+      </BarChart>
    </children>
 </AnchorPane>

@@ -66,4 +66,17 @@ public class OrderModel {
 
         return pstm.executeUpdate() > 0;
     }
+
+    public int getAllOrderCount(Date date) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String categoryQuery = "SELECT COUNT(orderId) FROM orders WHERE orderDate=?";
+        PreparedStatement pstm=connection.prepareStatement(categoryQuery);
+        pstm.setDate(1, date);
+        int count=0;
+        ResultSet resultSet = pstm.executeQuery();
+        while (resultSet.next()) {
+            count+=1;
+        }
+        return count;
+    }
 }
