@@ -96,9 +96,9 @@ public class ItemModel {
         return pstm.executeUpdate() > 0;
     }
 
-    public boolean updateItem(List<CartTm> cartTmList) throws SQLException {
+    public boolean updateItems(List<CartTm> cartTmList,int qty) throws SQLException {
         for(CartTm tm : cartTmList) {
-            if(!updateQty(Integer.parseInt(tm.getItemId()), tm.getQty())) {
+            if(!updateQty(Integer.parseInt(tm.getItemId()), qty)) {
                 return false;
             }
         }

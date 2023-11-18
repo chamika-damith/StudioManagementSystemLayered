@@ -85,7 +85,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="163.0" layoutY="27.0" prefHeight="45.0" prefWidth="60.0" text="00">
+            <Label fx:id="lblEmpId" layoutX="163.0" layoutY="27.0" prefHeight="45.0" prefWidth="60.0">
                <font>
                   <Font name="System Bold" size="45.0" />
                </font>
@@ -99,7 +99,7 @@
                   <Font name="Arial Rounded MT Bold" size="18.0" />
                </font>
             </Label>
-            <LineChart fx:id="Linechart" layoutY="82.0" prefHeight="156.0" prefWidth="574.0">
+            <LineChart fx:id="Linechart" layoutY="73.0" prefHeight="165.0" prefWidth="574.0" stylesheets="@../../Style/chart.css">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>

@@ -49,6 +49,9 @@ CREATE TABLE IF NOT EXISTS Supplier(
     address VARCHAR(45) NOT NULL
 );
 
+ALTER TABLE supplier ADD category varchar(45);
+
+
 CREATE TABLE IF NOT EXISTS Supplier_order(
     supOrderId INT PRIMARY KEY,
     description VARCHAR(100) NOT NULL,

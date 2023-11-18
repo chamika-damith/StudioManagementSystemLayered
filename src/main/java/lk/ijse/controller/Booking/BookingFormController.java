@@ -127,9 +127,9 @@ public class BookingFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<PackageDto> idList = bookingModel.getAllPackage();
+            List<ServiceDto> idList = bookingModel.getAllPackage();
 
-            for (PackageDto dto : idList) {
+            for (ServiceDto dto : idList) {
                 obList.add(String.valueOf(dto.getPkgId()));
             }
 

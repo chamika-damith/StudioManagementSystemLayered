@@ -44,16 +44,16 @@ public class BookingModel {
         return pstm.executeUpdate() > 0;
     }
 
-    public List<PackageDto> getAllPackage() throws SQLException {
+    public List<ServiceDto> getAllPackage() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="SELECT * FROM packages";
         PreparedStatement pstm=connection.prepareStatement(sql);
 
         ResultSet resultSet = pstm.executeQuery();
-        ArrayList<PackageDto> dtoList=new ArrayList<>();
+        ArrayList<ServiceDto> dtoList=new ArrayList<>();
 
         while (resultSet.next()){
-            dtoList.add(new PackageDto(
+            dtoList.add(new ServiceDto(
                     resultSet.getInt(1),
                     resultSet.getString(2),
                     resultSet.getDouble(3),

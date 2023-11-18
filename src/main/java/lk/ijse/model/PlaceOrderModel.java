@@ -23,6 +23,7 @@ public class PlaceOrderModel {
         int cusId = orderDto.getCusId();
         double total = orderDto.getTotal();
         int buyItemQty = orderDto.getBuyItemQty();
+        int qty = orderDto.getQty();
 
         Connection connection=null;
 
@@ -33,7 +34,7 @@ public class PlaceOrderModel {
             boolean isOrderSave = orderModel.saveOrder(orderId, orderDate, returnDate, userId, cusId, total);
             if (isOrderSave) {
                 System.out.println("order saved");
-                boolean isItemSave = itemModel.updateItem(orderDto.getCartTmList());
+                boolean isItemSave = itemModel.updateItems(orderDto.getCartTmList(),qty);
                 System.out.println("item saved");
                 if (isItemSave) {
                     boolean isOrderDetailSave = orderDetailsModel.saveOrderDetails(orderId, orderDto.getCartTmList());

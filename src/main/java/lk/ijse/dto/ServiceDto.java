@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 
-public class PackageDto {
+public class ServiceDto {
     int pkgId;
     String name;
     double price;

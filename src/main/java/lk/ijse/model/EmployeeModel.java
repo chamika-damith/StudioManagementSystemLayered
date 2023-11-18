@@ -126,4 +126,18 @@ public class EmployeeModel {
         }
         return false;
     }
+
+    public static String returnLbEmployeeValue() throws SQLException {
+        String empCount;
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "SELECT COUNT(empId) FROM employee";
+
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        ResultSet resultSet = pstm.executeQuery();
+        while (resultSet.next()){
+            empCount= String.valueOf(resultSet.getInt(1));
+            return empCount;
+        }
+        return null;
+    }
 }
