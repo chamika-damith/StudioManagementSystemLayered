@@ -6,8 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
@@ -25,6 +27,7 @@ import lk.ijse.model.SupplierModel;
 import lk.ijse.model.SupplierOrderModel;
 import org.controlsfx.control.Notifications;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -270,9 +273,19 @@ public class InventoryOrderDetailFormController {
         return btn;
     }
 
-    public void btnOrderTableOnAction(ActionEvent actionEvent) {
+
+    public void btnInventoryDetails(ActionEvent actionEvent) throws IOException {
+        Parent parent= FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryForm.fxml"));
+        InventoryRoot.getChildren().clear();
+        InventoryRoot.getChildren().add(parent);
     }
 
-    public void btnorderFormOnAction(ActionEvent actionEvent) {
+    public void btnInventoryOrder(ActionEvent actionEvent) throws IOException {
+        Parent parent=FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryOrderDetail.fxml"));
+        InventoryRoot.getChildren().clear();
+        InventoryRoot.getChildren().add(parent);
+    }
+
+    public void btnViewOrderDetail(ActionEvent actionEvent) {
     }
 }

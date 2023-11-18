@@ -427,4 +427,10 @@ public class InventoryFormController {
 
     public void btnViewOrderDetail(ActionEvent actionEvent) {
     }
+
+    public void btnInventoryDetails(ActionEvent actionEvent) throws IOException {
+        Parent parent=FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryForm.fxml"));
+        InventoryRoot.getChildren().clear();
+        InventoryRoot.getChildren().addAll(parent);
+    }
 }
