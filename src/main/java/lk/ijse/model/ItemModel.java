@@ -189,4 +189,30 @@ public class ItemModel {
         return false;
     }
 
+    public ItemDto searchItemName(String id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="select * from item where name=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setString(1, id);
+        ResultSet resultSet = pstm.executeQuery();
+
+        ItemDto dto=null;
+        if (resultSet.next()){
+            int text=resultSet.getInt("itemId");
+            String description = resultSet.getString("description");
+            int qty = resultSet.getInt("qty");
+            String name = resultSet.getString("name");
+            double price = resultSet.getDouble("price");
+            byte[] img = resultSet.getBytes("img");
+            String category = resultSet.getString("category");
+
+            dto=new ItemDto(text,description,qty,name,price,img,category);
+
+        }
+
+        return dto;
+
+    }
+
 }

@@ -8,8 +8,11 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
@@ -416,4 +419,12 @@ public class InventoryFormController {
         tblItem.setItems(sortedData);
     }
 
+    public void btnInventoryOrder(ActionEvent actionEvent) throws IOException {
+        Parent parent= FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryOrderDetail.fxml"));
+        InventoryRoot.getChildren().clear();
+        InventoryRoot.getChildren().add(parent);
+    }
+
+    public void btnViewOrderDetail(ActionEvent actionEvent) {
+    }
 }

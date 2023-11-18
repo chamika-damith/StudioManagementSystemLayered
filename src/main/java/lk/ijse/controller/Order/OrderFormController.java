@@ -266,16 +266,6 @@ public class OrderFormController {
         });
     }
 
-    public void clearField(){
-        cmbItemId.getSelectionModel().clearSelection();
-        cmbCustomerId.getSelectionModel().clearSelection();
-        txtQty.clear();
-        lblDate.setText("");
-        lblItemDesc.setText("");
-        lblItemQty.setText("");
-        lblItemPrice.setText("");
-        lblCusName.setText("");
-    }
 
     public void txtQtyOnAction(ActionEvent actionEvent) {
         btnAddToCart(actionEvent);

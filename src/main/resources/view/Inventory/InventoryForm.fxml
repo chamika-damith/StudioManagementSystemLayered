@@ -42,7 +42,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="190.0" layoutY="13.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="Place Order" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="190.0" layoutY="13.0" onAction="#btnInventoryOrder" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="Inventory Order" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -71,7 +71,7 @@
             <Font name="System Bold" size="10.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="345.0" layoutY="13.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: CE5A67; -fx-background-radius: 13;" text="View Order Details" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="345.0" layoutY="13.0" onAction="#btnViewOrderDetail" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: CE5A67; -fx-background-radius: 13;" text="View Order Details" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
