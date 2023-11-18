@@ -215,4 +215,27 @@ public class ItemModel {
 
     }
 
+    public List<ItemDto> getCategoryName(String category) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="SELECT * FROM item WHERE category =? ";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        pstm.setString(1, category);
+        ResultSet resultSet = pstm.executeQuery();
+
+        ArrayList<ItemDto> dto=new ArrayList<>();
+
+        while (resultSet.next()) {
+            dto.add(new ItemDto(
+                    resultSet.getInt("itemId"),
+                    resultSet.getString("description"),
+                    resultSet.getInt("qty"),
+                    resultSet.getString("name"),
+                    resultSet.getDouble("price"),
+                    resultSet.getBytes("img"),
+                    resultSet.getString("category")
+            ));
+        }
+        return dto;
+    }
+
 }

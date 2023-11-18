@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -186,12 +187,8 @@ public class OrderFormController {
             double totPrice = price*qty;
             Button btn = createButton();
 
-
             lblQty= Integer.parseInt(lblItemQty.getText());
             textQty= Integer.parseInt(txtQty.getText());
-
-            saveQty=lblQty-textQty;
-            lblItemQty.setText(String.valueOf(saveQty));
 
             if (!obList.isEmpty()) {
                 for (int i = 0; i < tblCart.getItems().size(); i++) {
@@ -203,7 +200,10 @@ public class OrderFormController {
                 }
             }
 
-            if (qty > 0) {
+            if (lblQty > 0) {
+
+                saveQty=lblQty-textQty;
+                lblItemQty.setText(String.valueOf(saveQty));
 
                 setRemoveBtnAction(btn);
                 btn.setCursor(Cursor.HAND);
@@ -229,8 +229,22 @@ public class OrderFormController {
                     e.printStackTrace();
                 }
 
-            } else {
-                new Alert(Alert.AlertType.WARNING, "Empty Quantity").show();
+            }else {
+                OrderCartRoot.setEffect(new GaussianBlur());
+                Optional<ButtonType> buttonType = new Alert(Alert.AlertType.WARNING, "Item is empty..Do you want to order this item ?", ButtonType.OK, ButtonType.NO).showAndWait();
+                if (buttonType.orElse(ButtonType.NO)==ButtonType.OK){
+                    OrderCartRoot.setEffect(null);
+                    Parent parent= null;
+                    try {
+                        parent = FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryOrderDetail.fxml"));
+                        OrderCartRoot.getChildren().clear();
+                        OrderCartRoot.getChildren().add(parent);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                OrderCartRoot.setEffect(null);
             }
     }
 
@@ -251,6 +265,7 @@ public class OrderFormController {
 
     private void setRemoveBtnAction(Button btn) {
         btn.setOnAction((e) -> {
+            OrderCartRoot.setEffect(new GaussianBlur());
             ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
             ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
 
@@ -258,11 +273,12 @@ public class OrderFormController {
 
             if (type.orElse(no) == yes) {
                 int focusedIndex = tblCart.getSelectionModel().getSelectedIndex();
-
+                OrderCartRoot.setEffect(null);
                 obList.remove(focusedIndex);
                 calculateTotal();
                 tblCart.refresh();
             }
+            OrderCartRoot.setEffect(null);
         });
     }
 

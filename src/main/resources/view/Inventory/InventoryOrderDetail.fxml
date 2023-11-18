@@ -16,10 +16,9 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="InventoryRoot" prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Inventory.InventoryOrderDetailFormController">
    <children>
-      <JFXButton buttonType="RAISED" layoutX="25.0" layoutY="10.0" onAction="#btnorderFormOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Order Details" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="25.0" layoutY="10.0" onAction="#btnorderFormOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Stock Order Details" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -43,7 +42,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="184.0" layoutY="10.0" onAction="#btnOrderTableOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="View Orders Table" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="184.0" layoutY="10.0" onAction="#btnOrderTableOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="Stock Orders Table" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -118,8 +117,8 @@
                   <Font name="System Bold" size="30.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="cmbCategoey" focusColor="#2c58dc" layoutX="71.0" layoutY="49.0" prefHeight="25.0" prefWidth="270.0" promptText="Item Category" />
-            <JFXComboBox fx:id="cmbSupplierId" focusColor="#2c58dc" layoutX="765.0" layoutY="49.0" prefHeight="25.0" prefWidth="270.0" promptText="Select Supplier" />
+            <JFXComboBox fx:id="cmbCategoey" focusColor="#2c58dc" layoutX="71.0" layoutY="49.0" onAction="#CmbCategoryOnAction" prefHeight="25.0" prefWidth="270.0" promptText="Item Category" />
+            <JFXComboBox fx:id="cmbSupplierId" focusColor="#2c58dc" layoutX="765.0" layoutY="49.0" onAction="#cmbSuplierOnAction" prefHeight="25.0" prefWidth="270.0" promptText="Select Supplier" />
             <JFXTextField fx:id="txtQty" layoutX="1114.0" layoutY="49.0" onAction="#txtQtyOnAction" prefHeight="25.0" prefWidth="124.0" promptText="Qty :" />
             <JFXComboBox fx:id="cmbItem" focusColor="#2c58dc" layoutX="413.0" layoutY="49.0" onAction="#cmbItemOnAction" prefHeight="25.0" prefWidth="270.0" promptText="Item" />
             <Label layoutX="1026.0" layoutY="102.0" opacity="0.92" text="Supplier Name" textFill="#3876bf" underline="true">

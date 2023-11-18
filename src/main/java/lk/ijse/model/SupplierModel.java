@@ -123,4 +123,25 @@ public class SupplierModel {
         }
         return ++id;
     }
+
+    public List<SupplierDto> getItemSupplier(String code) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="SELECT * FROM supplier WHERE category=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        pstm.setString(1, code);
+
+        ResultSet resultSet = pstm.executeQuery();
+        ArrayList<SupplierDto> dtoList=new ArrayList<>();
+
+        while (resultSet.next()){
+            dtoList.add(new SupplierDto(
+                    resultSet.getInt(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5)
+            ));
+        }
+        return dtoList;
+    }
 }
