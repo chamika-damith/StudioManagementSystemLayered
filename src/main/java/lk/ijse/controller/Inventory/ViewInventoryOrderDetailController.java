@@ -29,6 +29,7 @@ import java.util.List;
 
 
 public class ViewInventoryOrderDetailController {
+
     public TableView tblOrder;
     public TableColumn colOrderId;
     public TableColumn colName;
@@ -40,6 +41,8 @@ public class ViewInventoryOrderDetailController {
     public AnchorPane viewInventoryRoot;
 
     private ObservableList<ViewInventoryOrderTm> obList;
+
+    private InventoryOrderItemDetailsController controller=new InventoryOrderItemDetailsController();
 
     public void initialize(){
         setCellValues();
@@ -90,6 +93,7 @@ public class ViewInventoryOrderDetailController {
         return btn;
     }
 
+
     private void setMoreBtnAction(Button btn) {
 
         btn.setOnAction((e) -> {
@@ -97,13 +101,13 @@ public class ViewInventoryOrderDetailController {
             int focusedIndex = tblOrder.getSelectionModel().getSelectedIndex();
             ViewInventoryOrderTm viewOrderTm= (ViewInventoryOrderTm) tblOrder.getSelectionModel().getSelectedItem();
             int selectId=viewOrderTm.getId();
-            //OIDController.getIndex(selectId);
+            controller.getIndex(selectId);
 
             try {
-                Parent parent=FXMLLoader.load(getClass().getResource("/view/Order/OrderItemDetailForm.fxml"));
+                Parent parent=FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryOrderItemDetails.fxml"));
                 Stage stage = new Stage();
                 Scene scene = new Scene(parent);
-                stage.setTitle("Order Item Detail");
+                stage.setTitle("Item Order Detail");
                 stage.setScene(scene);
                 stage.centerOnScreen();
                 stage.show();
