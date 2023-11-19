@@ -23,9 +23,11 @@ import lk.ijse.model.BookingModel;
 import lk.ijse.model.CustomerModel;
 import org.controlsfx.control.Notifications;
 
+import java.awt.print.Book;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class BookingFormController {
@@ -37,6 +39,7 @@ public class BookingFormController {
     public Label bookId;
     public JFXComboBox cmbEmpId;
     public AnchorPane BookinRoot;
+    public JFXTextField txtAppid;
 
     private BookingModel bookingModel=new BookingModel();
 
@@ -74,23 +77,44 @@ public class BookingFormController {
         String address = txtAddress.getText();
         int pkg = Integer.parseInt(String.valueOf(cmbPackage.getValue()));
         int empId= Integer.parseInt(String.valueOf(cmbEmpId.getValue()));
-        int bId= Integer.parseInt(bookId.getText());
+        int bId= Integer.parseInt(txtAppid.getText());
 
-        var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
         try {
-            boolean b = bookingModel.saveBookingDto(dto);
-            if (b){
-                Image image=new Image("/Icon/iconsOk.png");
+
+            if (bookingModel.isExists(bId)) {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
                 try {
                     Notifications notifications=Notifications.create();
                     notifications.graphic(new ImageView(image));
-                    notifications.text("Booking Add Successfully");
-                    notifications.title("Successfully");
+                    notifications.text("Booking is already registered");
+                    notifications.title("Warning");
                     notifications.hideAfter(Duration.seconds(5));
                     notifications.position(Pos.TOP_RIGHT);
                     notifications.show();
                 }catch (Exception e){
                     e.printStackTrace();
+                }
+            }else {
+                var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
+
+                try {
+                    boolean b = bookingModel.saveBookingDto(dto);
+                    if (b){
+                        Image image=new Image("/Icon/iconsOk.png");
+                        try {
+                            Notifications notifications=Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Booking Add Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
             }
         } catch (SQLException e) {
@@ -103,24 +127,16 @@ public class BookingFormController {
         try {
             int bookingId = bookingModel.generateNextBookId();
             bookId.setText(String.valueOf("00"+bookingId));
+            txtAppid.setText("00"+bookingId);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
     public void btnPackageOnAction(ActionEvent actionEvent) throws IOException {
-        BookinRoot.setEffect(new GaussianBlur());
-        Parent parent= FXMLLoader.load(getClass().getResource("/view/Booking/Package.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(parent);
-        stage.setScene(scene);
-        stage.centerOnScreen();
-        stage.setTitle("Package Form");
-
-        stage.setOnHidden(event -> {
-            BookinRoot.setEffect(null);
-        });
-        stage.show();
+        Parent parent= FXMLLoader.load(getClass().getResource("/view/Service/ServiceForm.fxml"));
+        BookinRoot.getChildren().clear();
+        BookinRoot.getChildren().add(parent);
     }
 
     private void loadPackageIds() {
@@ -156,5 +172,56 @@ public class BookingFormController {
     }
 
     public void cmbPackageOnAction(ActionEvent actionEvent) {
+    }
+
+    public void txtSearchOnAction(ActionEvent actionEvent) {
+        int id = Integer.parseInt(txtAppid.getText());
+
+        try {
+            BookingDto dto = bookingModel.searchBooking(id);
+            if (dto != null){
+                txtAddress.setText(dto.getLocation());
+                cmbEmpId.setValue(String.valueOf(dto.getEmpId()));
+                cmbPackage.setValue(String.valueOf(dto.getPackageId()));
+                cmbEventType.setValue(String.valueOf(dto.getEventType()));
+                cmbCustomerID.setValue(String.valueOf(dto.getCusId()));
+                Date bookDate= (Date) dto.getDate();
+                appDate.setValue(bookDate.toLocalDate());
+
+                Image image=new Image("/Icon/iconsOk.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Booking Search Successfully");
+                    notifications.title("Successfully");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Booking id does not exist");
+                    notifications.title("Not Successfully");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void btnCustomerOnAction(ActionEvent actionEvent) throws IOException {
+        Parent parent=FXMLLoader.load(getClass().getResource("/view/Customer/CustomerForm.fxml"));
+        BookinRoot.getChildren().clear();
+        BookinRoot.getChildren().add(parent);
     }
 }

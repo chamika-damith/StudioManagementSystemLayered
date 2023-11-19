@@ -96,7 +96,7 @@
             <Image url="@../Icon/supplier.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="537.0" onAction="#btnServiceOnAction" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Services">
+      <JFXButton buttonType="RAISED" layoutX="-29.0" layoutY="537.0" onAction="#btnServiceOnAction" prefHeight="50.0" prefWidth="230.0" ripplerFill="#22a390" style="-fx-background-radius: 22;" text="Package">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

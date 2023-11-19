@@ -18,7 +18,7 @@
 
 <AnchorPane fx:id="ServiceRoot" prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Service.ServiceFormController">
    <children>
-      <JFXButton buttonType="RAISED" layoutX="29.0" layoutY="21.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Services" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="29.0" layoutY="21.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Package" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -44,16 +44,16 @@
       </JFXButton>
       <Pane layoutX="24.0" layoutY="209.0" prefHeight="389.0" prefWidth="507.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
          <children>
-            <Label layoutX="27.0" layoutY="12.0" opacity="0.9" text="Service Details" textFill="#22a390">
+            <Label layoutX="27.0" layoutY="12.0" opacity="0.9" text="Package Details" textFill="#22a390">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="txtId" focusColor="#0040ff" layoutX="58.0" layoutY="86.0" onAction="#txtSearchOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Service Id *" />
+            <JFXTextField fx:id="txtId" focusColor="#0040ff" layoutX="58.0" layoutY="86.0" onAction="#txtSearchOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Package Id *" />
             <JFXTextField fx:id="txtName" focusColor="#0040ff" layoutX="58.0" layoutY="152.0" prefHeight="25.0" prefWidth="399.0" promptText="Name *" />
             <JFXTextField fx:id="txtPrice" focusColor="#0040ff" layoutX="58.0" layoutY="216.0" prefHeight="25.0" prefWidth="399.0" promptText="Price *" />
-            <JFXComboBox fx:id="cmbType" layoutX="58.0" layoutY="285.0" prefHeight="25.0" prefWidth="399.0" promptText="Service Type" />
-            <Label layoutX="330.0" layoutY="17.0" text="Service Id : " textFill="#22a390">
+            <JFXComboBox fx:id="cmbType" layoutX="58.0" layoutY="285.0" prefHeight="25.0" prefWidth="399.0" promptText="Package Type" />
+            <Label layoutX="330.0" layoutY="17.0" text="Package Id : " textFill="#22a390">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -130,7 +130,7 @@
                   <Image url="@../../Icon/male.png" />
                </image>
             </ImageView>
-            <Label layoutX="26.0" layoutY="66.0" opacity="0.7" text="Total Services">
+            <Label layoutX="26.0" layoutY="66.0" opacity="0.7" text="Total Package">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -144,7 +144,7 @@
       </Pane>
       <Pane layoutX="551.0" layoutY="206.0" prefHeight="482.0" prefWidth="756.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
          <children>
-            <Label layoutX="27.0" layoutY="12.0" opacity="0.9" text="View Services" textFill="#22a390">
+            <Label layoutX="27.0" layoutY="12.0" opacity="0.9" text="View Package" textFill="#22a390">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
@@ -160,7 +160,7 @@
             </TableView>
             <Pane layoutX="493.0" layoutY="12.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">
                <children>
-                  <JFXTextField fx:id="txtCostSearchTable" focusColor="#0040ff" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Service Id or Name">
+                  <JFXTextField fx:id="txtCostSearchTable" focusColor="#0040ff" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Package Id or Name">
                      <font>
                         <Font size="10.0" />
                      </font>
@@ -174,7 +174,7 @@
             </Pane>
          </children>
       </Pane>
-      <Label layoutX="1252.0" layoutY="7.0" opacity="0.9" text="Service" textFill="#22a390" underline="true">
+      <Label layoutX="1252.0" layoutY="7.0" opacity="0.9" text="Package" textFill="#22a390" underline="true">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>

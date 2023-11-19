@@ -3,6 +3,7 @@ package lk.ijse.model;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 
+import java.awt.print.Book;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,5 +85,41 @@ public class BookingModel {
         }
         return dtoList;
 
+    }
+
+    public BookingDto searchBooking(int id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="select * from booking where bookingId = ?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        pstm.setInt(1, id);
+
+        ResultSet resultSet = pstm.executeQuery();
+
+        BookingDto dto =null;
+        while (resultSet.next()) {
+            int bookingId = resultSet.getInt(1);
+            String eventType = resultSet.getString(2);
+            Date date = resultSet.getDate(3);
+            String location = resultSet.getString(4);
+            int empId=resultSet.getInt(5);
+            int cusId=resultSet.getInt(6);
+            int pkgId=resultSet.getInt(7);
+
+            dto = new BookingDto(bookingId,eventType,date,location,empId,cusId,pkgId);
+        }
+        return dto;
+    }
+
+    public boolean isExists(int id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="SELECT bookingId FROM booking WHERE bookingId=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setInt(1,id);
+        ResultSet resultSet = pstm.executeQuery();
+        while (resultSet.next()) {
+            return true;
+        }
+        return false;
     }
 }
