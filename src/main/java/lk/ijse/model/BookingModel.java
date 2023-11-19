@@ -122,4 +122,20 @@ public class BookingModel {
         }
         return false;
     }
+
+    public boolean updateCustomer(BookingDto dto) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="UPDATE booking SET eventType = ? , date = ? , location=? , empId=?, packageId=? , custId=? WHERE bookingId=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setString(1,dto.getEventType());
+        pstm.setDate(2, (Date) dto.getDate());
+        pstm.setString(3,dto.getLocation());
+        pstm.setInt(4,dto.getEmpId());
+        pstm.setInt(5,dto.getPackageId());
+        pstm.setInt(6,dto.getCusId());
+        pstm.setInt(7,dto.getBookingId());
+
+        return pstm.executeUpdate() > 0;
+    }
 }
