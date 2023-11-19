@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS Supplier_order(
     description VARCHAR(100) NOT NULL,
     orderDate DATE,
     returnDate DATE,
-    category ENUM('Camera', 'Lens', 'Drones', 'Lighting','Accesories'),
+    category VARCHAR(45),
     supId INT NOT NULL,
     CONSTRAINT FOREIGN KEY(supId) REFERENCES supplier(supId) ON UPDATE CASCADE ON DELETE CASCADE
 );

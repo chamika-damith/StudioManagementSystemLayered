@@ -17,20 +17,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import lk.ijse.dto.InventoryOrderDto;
 import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.SupplierDto;
-import lk.ijse.dto.SupplierOrderDto;
-import lk.ijse.dto.tm.CartTm;
 import lk.ijse.dto.tm.InventoryOrderTm;
-import lk.ijse.model.ItemModel;
-import lk.ijse.model.SupplierModel;
-import lk.ijse.model.SupplierOrderModel;
+import lk.ijse.model.*;
 import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,11 +56,13 @@ public class InventoryOrderDetailFormController {
 
     private int qty;
 
-    private SupplierOrderModel SupOrdermodel=new SupplierOrderModel();
+    private InventoryOrderModel SupOrdermodel=new InventoryOrderModel();
 
     private ItemModel itemModel=new ItemModel();
 
     private SupplierModel supplierModel=new SupplierModel();
+
+    private PlaceInventoryOrderModel placeOrder=new PlaceInventoryOrderModel();
 
     private ObservableList<InventoryOrderTm> obList=FXCollections.observableArrayList();
 
@@ -70,6 +70,7 @@ public class InventoryOrderDetailFormController {
         loadCategory();
         setDate();
         setCellValueFactory();
+        generateNextOrderId();
     }
 
     private void setCellValueFactory() {
@@ -174,7 +175,69 @@ public class InventoryOrderDetailFormController {
     public void txtQtyOnAction(ActionEvent actionEvent) {
     }
 
-    public void btnPlaceOrderOnAction(ActionEvent actionEvent) {
+    public void btnPlaceOrderOnAction(ActionEvent actionEvent) throws SQLException {
+        int id = Integer.parseInt(lblOrderId.getText());
+        String description = lblDescription.getText();
+        Date orderDate = Date.valueOf(lblOrderDate.getText());
+        Date returnDate=null;
+        String category = String.valueOf(cmbCategoey.getValue());
+        String supplierId= String.valueOf(cmbSupplierId.getValue());
+        int supId = Integer.parseInt(supplierId);
+        int txtqty = Integer.parseInt(txtQty.getText());
+
+        if (SupOrdermodel.isExists(id)){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Orders is already added");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
+            List<InventoryOrderTm> cartTmList = new ArrayList<>();
+            for (int i = 0; i < tblCart.getItems().size(); i++) {
+                InventoryOrderTm cartTm = obList.get(i);
+                cartTmList.add(cartTm);
+            }
+
+            var dto=new InventoryOrderDto(id,description,orderDate, null,category,supId,cartTmList,txtqty,qty);
+            boolean isPlaceOrder = placeOrder.placeOrder(dto);
+            if (isPlaceOrder){
+                tblCart.getItems().clear();
+                generateNextOrderId();
+                Image image=new Image("/Icon/iconsOk.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Inventory Order Successfully");
+                    notifications.title("Successfully");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else {
+                System.out.println("Inventory order is not placed");
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Order Place Unsuccessfully");
+                    notifications.title("Unsuccessfully");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public void btnAddToCart(ActionEvent actionEvent) throws SQLException {
@@ -287,5 +350,14 @@ public class InventoryOrderDetailFormController {
     }
 
     public void btnViewOrderDetail(ActionEvent actionEvent) {
+    }
+
+    private void generateNextOrderId() {
+        try {
+            int orderID = InventoryOrderModel.generateNextOrderId();
+            lblOrderId.setText(String.valueOf("00"+orderID));
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 }

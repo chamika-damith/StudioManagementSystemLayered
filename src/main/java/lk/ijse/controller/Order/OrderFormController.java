@@ -321,6 +321,7 @@ public class OrderFormController {
             boolean b = placeOrderModel.placeOrder(orderDto);
             if (b){
                 tblCart.getItems().clear();
+                generateNextOrderId();
                 Image image=new Image("/Icon/iconsOk.png");
                 try {
                     Notifications notifications=Notifications.create();

@@ -19,7 +19,7 @@ public class OrderDetailsModel {
         pstm.setInt(1,orderId);
         pstm.setInt(2, Integer.parseInt(tm.getItemId()));
         pstm.setInt(3, tm.getQty());
-        System.out.println("order details updated");
+        System.out.println("order details saved");
 
         return pstm.executeUpdate() > 0;
 

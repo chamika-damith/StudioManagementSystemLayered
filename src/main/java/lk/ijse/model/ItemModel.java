@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.tm.CartTm;
+import lk.ijse.dto.tm.InventoryOrderTm;
 
 import java.io.IOException;
 import java.sql.*;
@@ -99,6 +100,15 @@ public class ItemModel {
     public boolean updateItems(List<CartTm> cartTmList,int qty) throws SQLException {
         for(CartTm tm : cartTmList) {
             if(!updateQty(Integer.parseInt(tm.getItemId()), qty)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean updateInventoryOrderItem(List<InventoryOrderTm> cartTmList, int qty) throws SQLException {
+        for(InventoryOrderTm tm : cartTmList) {
+            if(!updateQty(Integer.parseInt(String.valueOf(tm.getId())), qty)) {
                 return false;
             }
         }
