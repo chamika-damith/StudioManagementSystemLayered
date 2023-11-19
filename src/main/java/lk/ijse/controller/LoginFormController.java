@@ -15,6 +15,7 @@ import javafx.scene.shape.CubicCurve;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.io.IOException;
 
@@ -56,4 +57,5 @@ public class LoginFormController {
     public void rootOnMouseMove(MouseEvent mouseEvent) {
         curve.setControlX2(mouseEvent.getX());
     }
+
 }

@@ -135,7 +135,7 @@
             <Image url="@../Icon/report.png" />
          </image>
       </ImageView>
-      <TextField layoutX="260.0" layoutY="17.0" prefHeight="38.0" prefWidth="302.0" promptText="Search..." style="-fx-background-color: #D3D5DA; -fx-border-color: #1d1f24; -fx-border-radius: 10; -fx-background-radius: 10;">
+      <TextField fx:id="txtSearchBar" layoutX="260.0" layoutY="17.0" onAction="#txtSearchBarOnAction" prefHeight="38.0" prefWidth="302.0" promptText="Search..." style="-fx-background-color: #D3D5DA; -fx-border-color: #1d1f24; -fx-border-radius: 10; -fx-background-radius: 10;">
          <cursor>
             <Cursor fx:constant="TEXT" />
          </cursor></TextField>
@@ -144,7 +144,7 @@
             <Image url="@../Icon/search.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="535.0" layoutY="23.0" ripplerFill="#22a492" text=" ">
+      <JFXButton buttonType="RAISED" layoutX="535.0" layoutY="23.0" onAction="#searchOnAction" ripplerFill="#22a492" text=" ">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

@@ -22,12 +22,18 @@
          <styleClass>
             <String fx:value="customField" />
             <String fx:value="mfx-text-field" />
-         </styleClass></MFXTextField>
+         </styleClass>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></MFXTextField>
       <MFXPasswordField fx:id="txtPassword" layoutX="408.0" layoutY="225.0" prefHeight="29.0" prefWidth="300.0" promptText="Enter password" style="-fx-background-color: #f2eff1;" stylesheets="@../Style/textFields.css">
          <styleClass>
             <String fx:value="customPassword" />
             <String fx:value="mfx-text-field" />
-         </styleClass></MFXPasswordField>
+         </styleClass>
+         <cursor>
+            <Cursor fx:constant="TEXT" />
+         </cursor></MFXPasswordField>
       <MFXButton layoutX="408.0" layoutY="322.0" onAction="#btnLoginOnAction" prefHeight="39.0" prefWidth="300.0" stylesheets="@../Style/Button.css" text="Login">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
