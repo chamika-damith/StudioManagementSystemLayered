@@ -56,6 +56,8 @@ public class InventoryOrderDetailFormController {
 
     private int qty;
 
+    private int allQty;
+
     private InventoryOrderModel SupOrdermodel=new InventoryOrderModel();
 
     private ItemModel itemModel=new ItemModel();
@@ -133,6 +135,7 @@ public class InventoryOrderDetailFormController {
                     lblDescription.setText(dto.getDescription());
                     lblUnitPrice.setText(String.valueOf(dto.getPrice()));
                     itemID=dto.getItemId();
+                    allQty=dto.getQty();
                     cmbSupplierId.requestFocus();
                 }else {
                     System.out.println("dto is null");
@@ -183,7 +186,7 @@ public class InventoryOrderDetailFormController {
         String category = String.valueOf(cmbCategoey.getValue());
         String supplierId= String.valueOf(cmbSupplierId.getValue());
         int supId = Integer.parseInt(supplierId);
-        int txtqty = Integer.parseInt(txtQty.getText());
+        int txtqty = qty+allQty;
 
         if (SupOrdermodel.isExists(id)){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -349,7 +352,10 @@ public class InventoryOrderDetailFormController {
         InventoryRoot.getChildren().add(parent);
     }
 
-    public void btnViewOrderDetail(ActionEvent actionEvent) {
+    public void btnViewOrderDetail(ActionEvent actionEvent) throws IOException {
+        Parent parent=FXMLLoader.load(getClass().getResource("/view/Inventory/ViewInventoryOrder.fxml"));
+        InventoryRoot.getChildren().clear();
+        InventoryRoot.getChildren().add(parent);
     }
 
     private void generateNextOrderId() {

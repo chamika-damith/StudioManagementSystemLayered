@@ -1,0 +1,140 @@
+package lk.ijse.controller.Inventory;
+
+import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import lk.ijse.dto.InventoryOrderViewDto;
+import lk.ijse.dto.OrderViewDto;
+import lk.ijse.dto.tm.ViewInventoryOrderTm;
+import lk.ijse.dto.tm.ViewOrderTm;
+import lk.ijse.model.InventoryOrderViewModel;
+import lk.ijse.model.OrderDetailViewModel;
+
+import javax.naming.ldap.PagedResultsControl;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
+
+public class ViewInventoryOrderDetailController {
+    public TableView tblOrder;
+    public TableColumn colOrderId;
+    public TableColumn colName;
+    public TableColumn colAddress;
+    public TableColumn colCategory;
+    public TableColumn colMobile;
+    public TableColumn colMore;
+    public JFXTextField txtSearchOrder;
+    public AnchorPane viewInventoryRoot;
+
+    private ObservableList<ViewInventoryOrderTm> obList;
+
+    public void initialize(){
+        setCellValues();
+        getAllOrders();
+    }
+
+
+    private void setCellValues() {
+        colOrderId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("supName"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
+        colMobile.setCellValueFactory(new PropertyValueFactory<>("mobile"));
+        colMore.setCellValueFactory(new PropertyValueFactory<>("btn"));
+    }
+
+    private void getAllOrders() {
+        var model=new InventoryOrderViewModel();
+
+        obList= FXCollections.observableArrayList();
+
+        try {
+            List<InventoryOrderViewDto> allItems = model.getAllItemsOrder();
+
+            for (InventoryOrderViewDto dto : allItems){
+                Button button = createButton();
+                obList.add(new ViewInventoryOrderTm(
+                        dto.getId(),
+                        dto.getSupName(),
+                        dto.getAddress(),
+                        dto.getCategory(),
+                        dto.getMobile(),
+                        button
+                ));
+
+            }
+            tblOrder.setItems(obList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Button createButton(){
+        Button btn=new Button("more");
+        btn.getStyleClass().add("moreBtn");
+        btn.setCursor(Cursor.cursor("Hand"));
+        setMoreBtnAction(btn);
+        return btn;
+    }
+
+    private void setMoreBtnAction(Button btn) {
+
+        btn.setOnAction((e) -> {
+
+            int focusedIndex = tblOrder.getSelectionModel().getSelectedIndex();
+            ViewInventoryOrderTm viewOrderTm= (ViewInventoryOrderTm) tblOrder.getSelectionModel().getSelectedItem();
+            int selectId=viewOrderTm.getId();
+            //OIDController.getIndex(selectId);
+
+            try {
+                Parent parent=FXMLLoader.load(getClass().getResource("/view/Order/OrderItemDetailForm.fxml"));
+                Stage stage = new Stage();
+                Scene scene = new Scene(parent);
+                stage.setTitle("Order Item Detail");
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.show();
+                viewInventoryRoot.setEffect(new GaussianBlur());
+
+                stage.setOnCloseRequest(event -> {
+                    viewInventoryRoot.setEffect(null);
+                });
+
+
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+    }
+
+    public void btnInventoryDetails(ActionEvent actionEvent) throws IOException {
+        Parent parent= FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryForm.fxml"));
+        viewInventoryRoot.getChildren().clear();
+        viewInventoryRoot.getChildren().add(parent);
+    }
+
+    public void btnInventoryOrder(ActionEvent actionEvent) throws IOException {
+        Parent parent= FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryOrderDetail.fxml"));
+        viewInventoryRoot.getChildren().clear();
+        viewInventoryRoot.getChildren().add(parent);
+    }
+
+    public void btnViewOrderDetail(ActionEvent actionEvent) throws IOException {
+        Parent parent= FXMLLoader.load(getClass().getResource("/view/Inventory/ViewInventoryOrder.fxml"));
+        viewInventoryRoot.getChildren().clear();
+        viewInventoryRoot.getChildren().add(parent);
+    }
+}
