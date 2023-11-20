@@ -30,7 +30,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" layoutX="574.0" layoutY="186.0" onAction="#btnAddToCart" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: #F58840; -fx-background-radius: 10;" text="Add to cart" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="574.0" layoutY="186.0" onAction="#btnAddToCart" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: #F58840; -fx-background-radius: 10;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Add to cart" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -64,10 +64,10 @@
                   <Font name="System Bold" size="30.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="cmbCategoey" focusColor="#2c58dc" layoutX="71.0" layoutY="49.0" onAction="#CmbCategoryOnAction" prefHeight="25.0" prefWidth="270.0" promptText="Item Category" />
-            <JFXComboBox fx:id="cmbSupplierId" focusColor="#2c58dc" layoutX="765.0" layoutY="49.0" onAction="#cmbSuplierOnAction" prefHeight="25.0" prefWidth="270.0" promptText="Select Supplier" />
-            <JFXTextField fx:id="txtQty" layoutX="1114.0" layoutY="49.0" onAction="#txtQtyOnAction" prefHeight="25.0" prefWidth="124.0" promptText="Qty :" />
-            <JFXComboBox fx:id="cmbItem" focusColor="#2c58dc" layoutX="413.0" layoutY="49.0" onAction="#cmbItemOnAction" prefHeight="25.0" prefWidth="270.0" promptText="Item" />
+            <JFXComboBox fx:id="cmbCategoey" focusColor="#2c58dc" labelFloat="true" layoutX="71.0" layoutY="49.0" onAction="#CmbCategoryOnAction" prefHeight="25.0" prefWidth="270.0" promptText="Item Category" />
+            <JFXComboBox fx:id="cmbSupplierId" focusColor="#2c58dc" labelFloat="true" layoutX="765.0" layoutY="49.0" onAction="#cmbSuplierOnAction" prefHeight="25.0" prefWidth="270.0" promptText="Select Supplier" />
+            <JFXTextField fx:id="txtQty" labelFloat="true" layoutX="1114.0" layoutY="49.0" onAction="#txtQtyOnAction" prefHeight="25.0" prefWidth="124.0" promptText="Qty :" />
+            <JFXComboBox fx:id="cmbItem" focusColor="#2c58dc" labelFloat="true" layoutX="413.0" layoutY="49.0" onAction="#cmbItemOnAction" prefHeight="25.0" prefWidth="270.0" promptText="Item" />
             <Label layoutX="1026.0" layoutY="102.0" opacity="0.92" text="Supplier Name" textFill="#3876bf" underline="true">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -88,7 +88,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="lblDescription" layoutX="426.0" layoutY="131.0" prefHeight="28.0" prefWidth="214.0">
+            <Label fx:id="lblDescription" layoutX="376.0" layoutY="125.0" prefHeight="40.0" prefWidth="278.0">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -124,7 +124,7 @@
             </TableView>
             <Pane layoutX="1040.0" layoutY="12.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">
                <children>
-                  <JFXTextField focusColor="#0040ff" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Item Id">
+                  <JFXTextField focusColor="#0040ff" labelFloat="true" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Item Id">
                      <font>
                         <Font size="10.0" />
                      </font>
@@ -138,7 +138,7 @@
             </Pane>
          </children>
       </Pane>
-      <JFXButton buttonType="RAISED" layoutX="1191.0" layoutY="662.0" onAction="#btnPlaceOrderOnAction" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: Green; -fx-background-radius: 10;" text="Place Order" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="1191.0" layoutY="662.0" onAction="#btnPlaceOrderOnAction" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: Green; -fx-background-radius: 10;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Place Order" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -167,7 +167,7 @@
             <Font name="System Bold" size="10.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="1055.0" layoutY="662.0" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: D83F31; -fx-background-radius: 10;" text="Make Payment" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="1055.0" layoutY="662.0" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: D83F31; -fx-background-radius: 10;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Make Payment" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -211,7 +211,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="27.0" layoutY="9.0" onAction="#btnInventoryDetails" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Inventory Details" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="27.0" layoutY="9.0" onAction="#btnInventoryDetails" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Inventory Details" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -235,7 +235,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="186.0" layoutY="9.0" onAction="#btnInventoryOrder" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="Inventory Order" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="186.0" layoutY="9.0" onAction="#btnInventoryOrder" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Inventory Order" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -264,7 +264,7 @@
             <Font name="System Bold" size="10.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="342.0" layoutY="9.0" onAction="#btnViewOrderDetail" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: CE5A67; -fx-background-radius: 13;" text="View Order Details" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="342.0" layoutY="9.0" onAction="#btnViewOrderDetail" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: CE5A67; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="View Order Details" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

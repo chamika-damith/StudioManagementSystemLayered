@@ -17,7 +17,7 @@
 
 <AnchorPane fx:id="viewAppointmentRoot" prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Booking.ViewBookingController">
    <children>
-      <JFXButton buttonType="RAISED" layoutX="30.0" layoutY="15.0" onAction="#btnNewAppoinment" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="New Appointment" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="30.0" layoutY="15.0" onAction="#btnNewAppoinment" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="New Appointment" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -41,7 +41,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="193.0" layoutY="15.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="Appontment Details" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="193.0" layoutY="15.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Appontment Details" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

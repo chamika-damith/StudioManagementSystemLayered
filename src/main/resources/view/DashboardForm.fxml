@@ -153,7 +153,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="71.0" layoutY="786.0" onAction="#btnLogoutOnAction" prefHeight="30.0" prefWidth="68.0" ripplerFill="BLACK" style="-fx-border-color: #1d1f24; -fx-border-radius: 6;" styleClass="outlineLogOut-button" stylesheets="@../Style/Button.css" text="Logout">
+      <JFXButton buttonType="RAISED" layoutX="71.0" layoutY="779.0" onAction="#btnLogoutOnAction" prefHeight="30.0" prefWidth="68.0" ripplerFill="BLACK" style="-fx-border-color: #1d1f24; -fx-border-radius: 6;" styleClass="outlineLogOut-button" stylesheets="@../Style/Button.css" text="Logout">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

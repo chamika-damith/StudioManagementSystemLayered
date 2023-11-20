@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="inventoryOrderDetailViewRoot" prefHeight="472.0" prefWidth="1013.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 5;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Inventory.InventoryOrderItemDetailsController">
    <children>
       <Pane layoutX="15.0" layoutY="67.0" prefHeight="398.0" prefWidth="982.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
@@ -32,7 +31,7 @@
             </TableView>
             <Pane layoutX="737.0" layoutY="4.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">
                <children>
-                  <JFXTextField focusColor="#0040ff" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Item Id">
+                  <JFXTextField focusColor="#0040ff" labelFloat="true" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Item Id">
                      <font>
                         <Font size="10.0" />
                      </font>
@@ -51,17 +50,17 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="108.0" layoutY="19.0" prefHeight="28.0" prefWidth="50.0" text="Label">
+      <Label fx:id="lblOrderId" layoutX="108.0" layoutY="19.0" prefHeight="28.0" prefWidth="62.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="406.0" layoutY="20.0" opacity="0.9" text="Total = " textFill="#22a390">
+      <Label layoutX="476.0" layoutY="20.0" opacity="0.9" text="Total = " textFill="#22a390">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="469.0" layoutY="19.0" prefHeight="28.0" prefWidth="92.0" text="Label">
+      <Label fx:id="lblTotal" layoutX="540.0" layoutY="19.0" prefHeight="28.0" prefWidth="92.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -69,6 +68,11 @@
       <Label layoutX="210.0" layoutY="21.0" text="Order Date - " textFill="#22a390">
          <font>
             <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblOrderDate" layoutX="309.0" layoutY="19.0" prefHeight="28.0" prefWidth="126.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
    </children>

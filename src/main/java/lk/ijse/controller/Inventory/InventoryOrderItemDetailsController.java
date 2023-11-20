@@ -2,6 +2,7 @@ package lk.ijse.controller.Inventory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -27,6 +28,10 @@ public class InventoryOrderItemDetailsController {
     public TableColumn colQty;
 
     private static int focusedIndex;
+    public Label lblOrderId;
+    public Label lblOrderDate;
+    public Label lblTotal;
+    private int total;
 
     ObservableList<InventoryOrderItemTm> obList;
 
@@ -46,6 +51,10 @@ public class InventoryOrderItemDetailsController {
             List<InventoryOrderItemDto> dto=model.getAllValues(focusedIndex);
 
             for (InventoryOrderItemDto oDto : dto) {
+                lblOrderId.setText(String.valueOf(oDto.getSupOrderId()));
+                lblOrderDate.setText(String.valueOf(oDto.getOrderDate()));
+                total= (int) ((oDto.getQty())*(oDto.getPrice()));
+                lblTotal.setText(String.valueOf(total));
                 obList.add(new InventoryOrderItemTm(
                         oDto.getItemId(),
                         oDto.getDescription(),

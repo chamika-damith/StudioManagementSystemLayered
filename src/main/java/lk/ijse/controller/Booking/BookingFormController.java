@@ -103,54 +103,70 @@ public class BookingFormController {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
-        int cusId = Integer.parseInt(String.valueOf(cmbCustomerID.getValue()));
-        Date date= Date.valueOf(appDate.getValue());
-        String evenType = String.valueOf(cmbEventType.getValue());
-        String address = txtAddress.getText();
-        int pkg = Integer.parseInt(String.valueOf(cmbPackage.getValue()));
-        int empId= Integer.parseInt(String.valueOf(cmbEmpId.getValue()));
-        int bId= Integer.parseInt(txtAppid.getText());
 
-        try {
-
-            if (bookingModel.isExists(bId)) {
-                Image image=new Image("/Icon/icons8-cancel-50.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Booking is already registered");
-                    notifications.title("Warning");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else {
-                var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
-
-                try {
-                    boolean b = bookingModel.saveBookingDto(dto);
-                    if (b){
-                        Image image=new Image("/Icon/iconsOk.png");
-                        try {
-                            Notifications notifications=Notifications.create();
-                            notifications.graphic(new ImageView(image));
-                            notifications.text("Booking Add Successfully");
-                            notifications.title("Successfully");
-                            notifications.hideAfter(Duration.seconds(5));
-                            notifications.position(Pos.TOP_RIGHT);
-                            notifications.show();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+        if(isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }else {
+            int cusId = Integer.parseInt(String.valueOf(cmbCustomerID.getValue()));
+            Date date= Date.valueOf(appDate.getValue());
+            String evenType = String.valueOf(cmbEventType.getValue());
+            String address = txtAddress.getText();
+            int pkg = Integer.parseInt(String.valueOf(cmbPackage.getValue()));
+            int empId= Integer.parseInt(String.valueOf(cmbEmpId.getValue()));
+            int bId= Integer.parseInt(txtAppid.getText());
+
+            try {
+
+                if (bookingModel.isExists(bId)) {
+                    Image image=new Image("/Icon/icons8-cancel-50.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Booking is already registered");
+                        notifications.title("Warning");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }else {
+                    var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
+
+                    try {
+                        boolean b = bookingModel.saveBookingDto(dto);
+                        if (b){
+                            Image image=new Image("/Icon/iconsOk.png");
+                            try {
+                                Notifications notifications=Notifications.create();
+                                notifications.graphic(new ImageView(image));
+                                notifications.text("Booking Add Successfully");
+                                notifications.title("Successfully");
+                                notifications.hideAfter(Duration.seconds(5));
+                                notifications.position(Pos.TOP_RIGHT);
+                                notifications.show();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -282,34 +298,50 @@ public class BookingFormController {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-        int cusId = Integer.parseInt(String.valueOf(cmbCustomerID.getValue()));
-        Date date= Date.valueOf(appDate.getValue());
-        String evenType = String.valueOf(cmbEventType.getValue());
-        String address = txtAddress.getText();
-        int pkg = Integer.parseInt(String.valueOf(cmbPackage.getValue()));
-        int empId= Integer.parseInt(String.valueOf(cmbEmpId.getValue()));
-        int bId= Integer.parseInt(txtAppid.getText());
 
-        var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
-
-        try {
-            boolean b = bookingModel.updateCustomer(dto);
-            if (b) {
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Booking Update Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+        if(isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }else {
+            int cusId = Integer.parseInt(String.valueOf(cmbCustomerID.getValue()));
+            Date date= Date.valueOf(appDate.getValue());
+            String evenType = String.valueOf(cmbEventType.getValue());
+            String address = txtAddress.getText();
+            int pkg = Integer.parseInt(String.valueOf(cmbPackage.getValue()));
+            int empId= Integer.parseInt(String.valueOf(cmbEmpId.getValue()));
+            int bId= Integer.parseInt(txtAppid.getText());
+
+            var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
+
+            try {
+                boolean b = bookingModel.updateCustomer(dto);
+                if (b) {
+                    Image image=new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Booking Update Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -332,25 +364,13 @@ public class BookingFormController {
     }
 
     public void btnAddToCart(ActionEvent actionEvent) throws SQLException {
-        int id = Integer.parseInt(txtAppid.getText());
-        String eventName = String.valueOf(cmbEventType.getValue());
-        String address = txtAddress.getText();
-        String pkg = String.valueOf(cmbPackage.getValue());
-        int pkgid= Integer.parseInt(pkg);
-        String empid= String.valueOf(cmbEmpId.getValue());
-        int employeeId= Integer.parseInt(empid);
-        Date date = Date.valueOf(appDate.getValue());
-        Button btn = createButton();
 
-        setRemoveBtnAction(btn);
-        btn.setCursor(Cursor.HAND);
-
-        if (bookingModel.isExists(id)){
+        if(isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
             try {
                 Notifications notifications=Notifications.create();
                 notifications.graphic(new ImageView(image));
-                notifications.text("Booking is already registered");
+                notifications.text("Value is empty! Please enter all values");
                 notifications.title("Warning");
                 notifications.hideAfter(Duration.seconds(5));
                 notifications.position(Pos.TOP_RIGHT);
@@ -359,25 +379,55 @@ public class BookingFormController {
                 e.printStackTrace();
             }
         }else {
-            var cartTm=new BookingCartTm(id,eventName,address,employeeId,pkgid,date,btn);
 
-            obList.add(cartTm);
-            tblBookingCart.setItems(obList);
+            int id = Integer.parseInt(txtAppid.getText());
+            String eventName = String.valueOf(cmbEventType.getValue());
+            String address = txtAddress.getText();
+            String pkg = String.valueOf(cmbPackage.getValue());
+            int pkgid= Integer.parseInt(pkg);
+            String empid= String.valueOf(cmbEmpId.getValue());
+            int employeeId= Integer.parseInt(empid);
+            Date date = Date.valueOf(appDate.getValue());
+            Button btn = createButton();
 
-            Image image=new Image("/Icon/iconsOk.png");
-            try {
-                Notifications notifications=Notifications.create();
-                notifications.graphic(new ImageView(image));
-                notifications.text("Booking Added to Cart");
-                notifications.title("Successfully Added");
-                notifications.hideAfter(Duration.seconds(4));
-                notifications.position(Pos.TOP_RIGHT);
-                notifications.show();
-            }catch (Exception e){
-                e.printStackTrace();
+            setRemoveBtnAction(btn);
+            btn.setCursor(Cursor.HAND);
+
+            if (bookingModel.isExists(id)){
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Booking is already registered");
+                    notifications.title("Warning");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else {
+                var cartTm=new BookingCartTm(id,eventName,address,employeeId,pkgid,date,btn);
+
+                obList.add(cartTm);
+                tblBookingCart.setItems(obList);
+
+                Image image=new Image("/Icon/iconsOk.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Booking Added to Cart");
+                    notifications.title("Successfully Added");
+                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }
+
 
     private void setRemoveBtnAction(Button btn) {
         btn.setOnAction((e) -> {
@@ -430,5 +480,16 @@ public class BookingFormController {
 
     public void cmbEmpIdOnAction(ActionEvent actionEvent) throws SQLException {
         getEmpName();
+    }
+
+    private boolean isEmptyCheck(){
+        if (txtAppid.getText().isEmpty() || (cmbCustomerID.getValue() == null) || (appDate.getValue()== null)
+        || (cmbEventType.getValue() == null) || (cmbPackage.getValue() == null) || (txtAddress.getText().isEmpty())
+        || (cmbEmpId.getValue() == null)){
+            System.out.println("booking form field empty");
+            return true;
+        }else {
+            return false;
+        }
     }
 }

@@ -36,7 +36,7 @@
             </TableView>
             <Pane layoutX="1040.0" layoutY="12.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">
                <children>
-                  <JFXTextField fx:id="txtSearchOrder" focusColor="#0040ff" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Order Id or Customer Name">
+                  <JFXTextField fx:id="txtSearchOrder" focusColor="#0040ff" labelFloat="true" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Order Id or Customer Name">
                      <font>
                         <Font size="10.0" />
                      </font>
@@ -50,7 +50,7 @@
             </Pane>
          </children>
       </Pane>
-      <JFXButton buttonType="RAISED" layoutX="31.0" layoutY="15.0" onAction="#btnorderFormOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Order Details" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="31.0" layoutY="15.0" onAction="#btnorderFormOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Order Details" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -74,7 +74,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="185.0" layoutY="15.0" onAction="#btnOrderTableOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="View Orders Table" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="185.0" layoutY="15.0" onAction="#btnOrderTableOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="View Orders Table" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

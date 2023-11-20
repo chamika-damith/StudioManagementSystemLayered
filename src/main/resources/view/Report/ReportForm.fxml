@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Report.ReportFormController">
    <children>
-      <JFXButton buttonType="RAISED" layoutX="29.0" layoutY="19.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Report" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="29.0" layoutY="19.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Report" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

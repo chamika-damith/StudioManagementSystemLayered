@@ -54,7 +54,6 @@ public class CustomerFormController {
     public static int id;
 
     public void initialize(){
-        setValueLable();
         generateNextCusId();
         setCellValue();
         getAllCustomer();
@@ -137,7 +136,6 @@ public class CustomerFormController {
                             System.out.println("delete selected");
                             obList.remove(focusedIndex);
                             getAllCustomer();
-                            setValueLable();
                             searchTable();
                         }
                     } catch (SQLException ex) {
@@ -159,79 +157,79 @@ public class CustomerFormController {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
-        id = Integer.parseInt(txtId.getText());
-        String name = txtName.getText();
-        String mobile = txtMobile.getText();
-        String email = txtEmail.getText();
-        String address = txtAddress.getText();
 
-        try {
-            if (model.isExists(id)) {
-                clearField();
-                Image image=new Image("/Icon/icons8-cancel-50.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Customer is already registered");
-                    notifications.title("Warning");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else {
 
-                CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
+        if (isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
+            id = Integer.parseInt(txtId.getText());
+            String name = txtName.getText();
+            String mobile = txtMobile.getText();
+            String email = txtEmail.getText();
+            String address = txtAddress.getText();
 
-                try {
-                    boolean b = model.saveCustomer(dto);
-                    if (b) {
-                        setValueLable();
-                        clearField();
-                        generateNextCusId();
-                        getAllCustomer();
-                        searchTable();
-                        Image image=new Image("/Icon/iconsOk.png");
-                        try {
-                            Notifications notifications=Notifications.create();
-                            notifications.graphic(new ImageView(image));
-                            notifications.text("Customer Saved Successfully");
-                            notifications.title("Successfully");
-                            notifications.hideAfter(Duration.seconds(5));
-                            notifications.position(Pos.TOP_RIGHT);
-                            notifications.show();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
+            try {
+                if (model.isExists(id)) {
+                    clearField();
+                    Image image=new Image("/Icon/icons8-cancel-50.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Customer is already registered");
+                        notifications.title("Warning");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                }else {
+
+                    CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
+
+                    try {
+                        boolean b = model.saveCustomer(dto);
+                        if (b) {
+                            clearField();
+                            generateNextCusId();
+                            getAllCustomer();
+                            searchTable();
+                            Image image=new Image("/Icon/iconsOk.png");
+                            try {
+                                Notifications notifications=Notifications.create();
+                                notifications.graphic(new ImageView(image));
+                                notifications.text("Customer Saved Successfully");
+                                notifications.title("Successfully");
+                                notifications.hideAfter(Duration.seconds(5));
+                                notifications.position(Pos.TOP_RIGHT);
+                                notifications.show();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+
                 }
-
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
 
     }
 
-    public void setValueLable(){
-        try {
-
-            int count =0;
-            List<CustomerDto> allItems = model.getAllCustomer();
-
-            for (CustomerDto dto : allItems){
-                count+=1;
-            }
-
-            lblCus.setText(String.valueOf(count));
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
     public void clearField(){
@@ -243,34 +241,50 @@ public class CustomerFormController {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-        int id = Integer.parseInt(txtId.getText());
-        String name = txtName.getText();
-        String mobile = txtMobile.getText();
-        String email = txtEmail.getText();
-        String address = txtAddress.getText();
 
-        CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
-
-        try {
-            boolean b = model.updateCustomer(dto);
-            if (b) {
-                getAllCustomer();
-                searchTable();
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Customer Update Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+        if (isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }else {
+            int id = Integer.parseInt(txtId.getText());
+            String name = txtName.getText();
+            String mobile = txtMobile.getText();
+            String email = txtEmail.getText();
+            String address = txtAddress.getText();
+
+            CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
+
+            try {
+                boolean b = model.updateCustomer(dto);
+                if (b) {
+                    getAllCustomer();
+                    searchTable();
+                    Image image=new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Customer Update Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -348,5 +362,15 @@ public class CustomerFormController {
 
     public void txtEmailOnAction(ActionEvent actionEvent) {
         txtMobile.requestFocus();
+    }
+
+    public boolean isEmptyCheck() {
+        if (txtId.getText().isEmpty() || txtName.getText().isEmpty() || txtAddress.getText().isEmpty() || txtEmail.getText().isEmpty()
+        || txtMobile.getText().isEmpty()) {
+            System.out.println("Customer field is empty");
+            return true;
+        }else {
+            return false;
+        }
     }
 }

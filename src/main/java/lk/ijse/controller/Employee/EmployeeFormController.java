@@ -141,51 +141,67 @@ public class EmployeeFormController {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
-        String type = comboBox.getValue();
-        int empId = Integer.parseInt(txtEmpId.getText());
-        String name = txtName.getText();
-        double salary = Double.parseDouble(txtSalary.getText());
-        String email = txtEmail.getText();
-        String address = txtAddress.getText();
 
-        var dto=new EmployeeDto(empId,name,salary,email,type,address);
+        if (isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
+            String type = comboBox.getValue();
+            int empId = Integer.parseInt(txtEmpId.getText());
+            String name = txtName.getText();
+            double salary = Double.parseDouble(txtSalary.getText());
+            String email = txtEmail.getText();
+            String address = txtAddress.getText();
 
-        try {
-            if (model.isExists(empId)) {
-                txtEmpId.requestFocus();
-                Image image=new Image("/Icon/icons8-cancel-50.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Employee is already registered");
-                    notifications.title("Warning");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-                return;
-            }else {
-                boolean b = model.saveEmployee(dto);
-                if (b) {
-                    getAllEmployee();
-                    Image image = new Image("/Icon/iconsOk.png");
+            var dto=new EmployeeDto(empId,name,salary,email,type,address);
+
+            try {
+                if (model.isExists(empId)) {
+                    txtEmpId.requestFocus();
+                    Image image=new Image("/Icon/icons8-cancel-50.png");
                     try {
-                        Notifications notifications = Notifications.create();
+                        Notifications notifications=Notifications.create();
                         notifications.graphic(new ImageView(image));
-                        notifications.text("Employee Saved Successfully");
-                        notifications.title("Successfully");
+                        notifications.text("Employee is already registered");
+                        notifications.title("Warning");
                         notifications.hideAfter(Duration.seconds(5));
                         notifications.position(Pos.TOP_RIGHT);
                         notifications.show();
-                    } catch (Exception e) {
+                    }catch (Exception e){
                         e.printStackTrace();
                     }
+                    return;
+                }else {
+                    boolean b = model.saveEmployee(dto);
+                    if (b) {
+                        getAllEmployee();
+                        Image image = new Image("/Icon/iconsOk.png");
+                        try {
+                            Notifications notifications = Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Employee Saved Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -199,35 +215,51 @@ public class EmployeeFormController {
     }
 
     public void btnEmpUpadateOnAction(ActionEvent actionEvent) {
-        String type = comboBox.getValue();
-        int empId = Integer.parseInt(txtEmpId.getText());
-        String name = txtName.getText();
-        double salary = Double.parseDouble(txtSalary.getText());
-        String email = txtEmail.getText();
-        String address = txtAddress.getText();
 
-        var dto=new EmployeeDto(empId,name,salary,email,type,address);
-
-        try {
-            boolean b = model.updateEmployee(dto);
-            if (b) {
-                getAllEmployee();
-
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Employee Update Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+        if (isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }else {
+            String type = comboBox.getValue();
+            int empId = Integer.parseInt(txtEmpId.getText());
+            String name = txtName.getText();
+            double salary = Double.parseDouble(txtSalary.getText());
+            String email = txtEmail.getText();
+            String address = txtAddress.getText();
+
+            var dto=new EmployeeDto(empId,name,salary,email,type,address);
+
+            try {
+                boolean b = model.updateEmployee(dto);
+                if (b) {
+                    getAllEmployee();
+
+                    Image image=new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Employee Update Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -272,6 +304,16 @@ public class EmployeeFormController {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private boolean isEmptyCheck(){
+        if (txtEmpId.getText().isEmpty() || comboBox.getValue() == null || txtAddress.getText().isEmpty() || txtEmail.getText().isEmpty()
+        || txtSalary.getText().isEmpty()) {
+            System.out.println("employee is empty");
+            return true;
+        }else {
+            return false;
         }
     }
 }

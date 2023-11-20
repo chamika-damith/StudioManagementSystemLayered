@@ -18,7 +18,7 @@
 
 <AnchorPane fx:id="InventoryRoot" prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Inventory.InventoryFormController">
    <children>
-      <JFXButton buttonType="RAISED" layoutX="31.0" layoutY="13.0" onAction="#btnInventoryDetails" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="Inventory Details" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="31.0" layoutY="13.0" onAction="#btnInventoryDetails" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Inventory Details" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -42,7 +42,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="190.0" layoutY="13.0" onAction="#btnInventoryOrder" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="Inventory Order" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="190.0" layoutY="13.0" onAction="#btnInventoryOrder" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Inventory Order" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -71,7 +71,7 @@
             <Font name="System Bold" size="10.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="345.0" layoutY="13.0" onAction="#btnViewOrderDetail" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: CE5A67; -fx-background-radius: 13;" text="View Order Details" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="345.0" layoutY="13.0" onAction="#btnViewOrderDetail" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: CE5A67; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="View Order Details" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -126,33 +126,33 @@
                   <Font name="System Bold" size="17.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="txtid" focusColor="#0040ff" layoutX="53.0" layoutY="62.0" onAction="#txtSearchOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Inventory Id *">
+            <JFXTextField fx:id="txtid" focusColor="#0040ff" labelFloat="true" layoutX="53.0" layoutY="62.0" onAction="#txtSearchOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Inventory Id *">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField fx:id="txtname" focusColor="#0040ff" layoutX="53.0" layoutY="117.0" onAction="#txtNameOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Name *">
+            <JFXTextField fx:id="txtname" focusColor="#0040ff" labelFloat="true" layoutX="53.0" layoutY="117.0" onAction="#txtNameOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Name *">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField fx:id="txtqty" focusColor="#0040ff" layoutX="53.0" layoutY="174.0" onAction="#txtQtyOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Qty On Hand *">
+            <JFXTextField fx:id="txtqty" focusColor="#0040ff" labelFloat="true" layoutX="53.0" layoutY="174.0" onAction="#txtQtyOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Qty On Hand *">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField fx:id="txtprice" focusColor="#0040ff" layoutX="53.0" layoutY="232.0" onAction="#txtPriceOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Price *">
+            <JFXTextField fx:id="txtprice" focusColor="#0040ff" labelFloat="true" layoutX="53.0" layoutY="232.0" onAction="#txtPriceOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Price *">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXTextField fx:id="txtdescription" focusColor="#0040ff" layoutX="53.0" layoutY="293.0" onAction="#txtDescriptionOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Description">
+            <JFXTextField fx:id="txtdescription" focusColor="#0040ff" labelFloat="true" layoutX="53.0" layoutY="293.0" onAction="#txtDescriptionOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Description">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </JFXTextField>
-            <JFXComboBox fx:id="txtcomboBox" layoutX="53.0" layoutY="360.0" prefHeight="25.0" prefWidth="110.0" promptText="Select Category" style="-fx-background-radius: 10;" />
-            <JFXButton fx:id="imgSelectBtn" layoutX="339.0" layoutY="418.0" onAction="#btnImgSelect" prefHeight="25.0" prefWidth="96.0" text="Choose Image" textFill="#2600ff">
+            <JFXComboBox fx:id="txtcomboBox" labelFloat="true" layoutX="53.0" layoutY="360.0" prefHeight="25.0" prefWidth="110.0" promptText="Select Category" style="-fx-background-radius: 10;" />
+            <JFXButton fx:id="imgSelectBtn" layoutX="339.0" layoutY="418.0" onAction="#btnImgSelect" prefHeight="25.0" prefWidth="96.0" styleClass="link-button" stylesheets="@../../Style/Button.css" text="Choose Image" textFill="#2600ff">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>
@@ -173,7 +173,7 @@
             </Label>
          </children>
       </Pane>
-      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="168.0" layoutY="647.0" onAction="#btnSaveOnAction" prefHeight="37.0" prefWidth="91.0" style="-fx-background-color: #5D9C59; -fx-background-radius: 13;" text="Add" textFill="WHITE">
+      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="168.0" layoutY="647.0" onAction="#btnSaveOnAction" prefHeight="37.0" prefWidth="91.0" style="-fx-background-color: #5D9C59; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Add" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -202,7 +202,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="331.0" layoutY="647.0" onAction="#btnUpdateOnAction" prefHeight="37.0" prefWidth="91.0" style="-fx-background-color: #E7B10A; -fx-background-radius: 13;" text="Update" textFill="WHITE">
+      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="331.0" layoutY="647.0" onAction="#btnUpdateOnAction" prefHeight="37.0" prefWidth="91.0" style="-fx-background-color: #E7B10A; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Update" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -270,7 +270,7 @@
             </TableView>
             <Pane layoutX="493.0" layoutY="12.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">
                <children>
-                  <JFXTextField fx:id="txtSearchTable" focusColor="#0040ff" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Inventory Id or Category">
+                  <JFXTextField fx:id="txtSearchTable" focusColor="#0040ff" labelFloat="true" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Inventory Id or Category">
                      <font>
                         <Font size="10.0" />
                      </font>
