@@ -185,17 +185,31 @@ public class OrderFormController {
 
     public void btnAddToCart(ActionEvent actionEvent) {
 
+        if (isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
             String itemId = (String) cmbItemId.getValue();
             int orderId = Integer.parseInt(lblOrderId.getText());
             String desc = lblItemDesc.getText();
             Date date = Date.valueOf(lblDate.getText());
             double price = Double.parseDouble(lblItemPrice.getText());
             qty = Integer.parseInt(txtQty.getText());
-            double totPrice = price*qty;
+            double totPrice = price * qty;
             Button btn = createButton();
 
-            lblQty= Integer.parseInt(lblItemQty.getText());
-            textQty= Integer.parseInt(txtQty.getText());
+            lblQty = Integer.parseInt(lblItemQty.getText());
+            textQty = Integer.parseInt(txtQty.getText());
 
             if (!obList.isEmpty()) {
                 for (int i = 0; i < tblCart.getItems().size(); i++) {
@@ -209,7 +223,7 @@ public class OrderFormController {
 
             if (lblQty > 0) {
 
-                saveQty=lblQty-textQty;
+                saveQty = lblQty - textQty;
                 lblItemQty.setText(String.valueOf(saveQty));
 
                 setRemoveBtnAction(btn);
@@ -223,25 +237,25 @@ public class OrderFormController {
                 calculateTotal();
                 tblCart.refresh();
 
-                Image image=new Image("/Icon/iconsOk.png");
+                Image image = new Image("/Icon/iconsOk.png");
                 try {
-                    Notifications notifications=Notifications.create();
+                    Notifications notifications = Notifications.create();
                     notifications.graphic(new ImageView(image));
                     notifications.text("Order Added to Cart");
                     notifications.title("Successfully Added");
                     notifications.hideAfter(Duration.seconds(4));
                     notifications.position(Pos.TOP_RIGHT);
                     notifications.show();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-            }else {
+            } else {
                 OrderCartRoot.setEffect(new GaussianBlur());
                 Optional<ButtonType> buttonType = new Alert(Alert.AlertType.WARNING, "Item is empty..Do you want to order this item ?", ButtonType.OK, ButtonType.NO).showAndWait();
-                if (buttonType.orElse(ButtonType.NO)==ButtonType.OK){
+                if (buttonType.orElse(ButtonType.NO) == ButtonType.OK) {
                     OrderCartRoot.setEffect(null);
-                    Parent parent= null;
+                    Parent parent = null;
                     try {
                         parent = FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryOrderDetail.fxml"));
                         OrderCartRoot.getChildren().clear();
@@ -253,6 +267,7 @@ public class OrderFormController {
                 }
                 OrderCartRoot.setEffect(null);
             }
+        }
     }
 
     private void calculateTotal() {
@@ -295,100 +310,116 @@ public class OrderFormController {
     }
 
     public void btnPlaceOrderOnAction(ActionEvent actionEvent) throws SQLException {
-        int orderId = Integer.parseInt(lblOrderId.getText());
-        Date date = Date.valueOf(lblDate.getText());
-        int userId = 001;
-        String cusId = (String) cmbCustomerId.getValue();
-        int customerId = Integer.parseInt(cusId);
-        double total = Double.parseDouble(lblTotal.getText());
-        Date returnDate = null;
 
-        if (orderModel.isExists(orderId)){
-            Image image=new Image("/Icon/icons8-cancel-50.png");
-            try {
-                Notifications notifications=Notifications.create();
-                notifications.graphic(new ImageView(image));
-                notifications.text("Orders is already added");
-                notifications.title("Warning");
-                notifications.hideAfter(Duration.seconds(5));
-                notifications.position(Pos.TOP_RIGHT);
-                notifications.show();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }else{
+        if (tblCart.getItems().isEmpty()) {
 
-            List<CartTm> cartTmList = new ArrayList<>();
-            for (int i = 0; i < tblCart.getItems().size(); i++) {
-                CartTm cartTm = obList.get(i);
-                cartTmList.add(cartTm);
-            }
-
-
-
-
-            var orderDto=new OrderDto(orderId,date,returnDate,userId,customerId,total,saveQty,qty,cartTmList);
-            boolean b = placeOrderModel.placeOrder(orderDto);
-            if (b){
-                tblCart.getItems().clear();
-
-                List<OrderItemDetailFormDto> allValues = orderItemDetailFormModel.getAllValues(orderId);
-
-
-                String subject = "Your Purchase Order Confirmation - Order #00["+orderId+"]";
-
-                String text="Dear "+cusName+",\n" +
-                        "\n" +
-                        "Thank you for choosing FOCUS Photography Studio! We are delighted to confirm your recent purchase. Here are the details of your order:\n\n" +
-                        "Order Number:  00"+orderId+"\n" +
-                        "Date of Purchase:  "+date+"\n\n";
-
-
-                for (OrderItemDetailFormDto product : allValues) {
-                    text += "\nProduct: " + product.getName() +
-                            "\n   - Quantity: " + product.getQty() +
-                            "\n   - Description: " + product.getDescription() +
-                            "\n   - Total: " + product.getPrice() + "\n";
-
-                }
-
-
-                text += "\nIf you have any questions or concerns regarding your order, please feel free to contact our customer support team at Chamikadamith9@gmail.com or 0785765111.\n\n" +
-                        "\nThank you for choosing FOCUS Photography Studio! We appreciate your business.\n\n" +
-                        "\nBest regards,\nFOCUS Photography Studio Team";
-
-
-                MailSend.sendOrderConformMail(emailAddress,subject,text);
-
-                generateNextOrderId();
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Order Place Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else {
-                System.out.println("order is not placed");
                 Image image=new Image("/Icon/icons8-cancel-50.png");
                 try {
                     Notifications notifications=Notifications.create();
                     notifications.graphic(new ImageView(image));
-                    notifications.text("Order Place Unsuccessfully");
-                    notifications.title("Unsuccessfully");
+                    notifications.text("Value is empty! Please enter all values");
+                    notifications.title("Warning");
                     notifications.hideAfter(Duration.seconds(5));
                     notifications.position(Pos.TOP_RIGHT);
                     notifications.show();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-            }
+        }    else {
 
+            int orderId = Integer.parseInt(lblOrderId.getText());
+            Date date = Date.valueOf(lblDate.getText());
+            int userId = 001;
+            String cusId = (String) cmbCustomerId.getValue();
+            int customerId = Integer.parseInt(cusId);
+            double total = Double.parseDouble(lblTotal.getText());
+            Date returnDate = null;
+
+            if (orderModel.isExists(orderId)) {
+                Image image = new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications = Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Orders is already added");
+                    notifications.title("Warning");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+
+                List<CartTm> cartTmList = new ArrayList<>();
+                for (int i = 0; i < tblCart.getItems().size(); i++) {
+                    CartTm cartTm = obList.get(i);
+                    cartTmList.add(cartTm);
+                }
+
+
+                var orderDto = new OrderDto(orderId, date, returnDate, userId, customerId, total, saveQty, qty, cartTmList);
+                boolean b = placeOrderModel.placeOrder(orderDto);
+                if (b) {
+                    tblCart.getItems().clear();
+
+                    List<OrderItemDetailFormDto> allValues = orderItemDetailFormModel.getAllValues(orderId);
+
+
+                    String subject = "Your Purchase Order Confirmation - Order #00[" + orderId + "]";
+
+                    String text = "Dear " + cusName + ",\n" +
+                            "\n" +
+                            "Thank you for choosing FOCUS Photography Studio! We are delighted to confirm your recent purchase. Here are the details of your order:\n\n" +
+                            "Order Number:  00" + orderId + "\n" +
+                            "Date of Purchase:  " + date + "\n\n";
+
+
+                    for (OrderItemDetailFormDto product : allValues) {
+                        text += "\nProduct: " + product.getName() +
+                                "\n   - Quantity: " + product.getQty() +
+                                "\n   - Description: " + product.getDescription() +
+                                "\n   - Total: " + product.getPrice() + "\n";
+
+                    }
+
+
+                    text += "\nIf you have any questions or concerns regarding your order, please feel free to contact our customer support team at Chamikadamith9@gmail.com or 0785765111.\n\n" +
+                            "\nThank you for choosing FOCUS Photography Studio! We appreciate your business.\n\n" +
+                            "\nBest regards,\nFOCUS Photography Studio Team";
+
+
+                    MailSend.sendOrderConformMail(emailAddress, subject, text);
+
+                    generateNextOrderId();
+                    Image image = new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications = Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Order Place Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("order is not placed");
+                    Image image = new Image("/Icon/icons8-cancel-50.png");
+                    try {
+                        Notifications notifications = Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Order Place Unsuccessfully");
+                        notifications.title("Unsuccessfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
         }
     }
 
@@ -402,5 +433,13 @@ public class OrderFormController {
         Parent parent= FXMLLoader.load(getClass().getResource("/view/Order/OrderForm.fxml"));
         OrderCartRoot.getChildren().clear();
         OrderCartRoot.getChildren().add(parent);
+    }
+
+    private boolean isEmptyCheck(){
+        if (cmbCustomerId.getValue() == null || cmbItemId.getValue() == null || txtQty.getText().isEmpty()){
+            System.out.println("order value is null or empty");
+            return true;
+        }
+        return false;
     }
 }
