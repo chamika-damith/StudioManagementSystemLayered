@@ -24,13 +24,12 @@ import lk.ijse.controller.Customer.CustomerFormController;
 import lk.ijse.controller.DashboardFormController;
 import lk.ijse.controller.LoginFormController;
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.CustomerDto;
-import lk.ijse.dto.ItemDto;
-import lk.ijse.dto.OrderDetailsDto;
-import lk.ijse.dto.OrderDto;
+import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
 import lk.ijse.dto.tm.ItemTm;
+import lk.ijse.dto.tm.OrderItemTm;
 import lk.ijse.model.*;
+import lk.ijse.smtp.MailSend;
 import org.controlsfx.control.Notifications;
 
 import javax.naming.ldap.PagedResultsControl;
@@ -63,12 +62,15 @@ public class OrderFormController {
     public Label lblTotal;
     public AnchorPane OrderCartRoot;
 
-
+    private String cusName;
     private int saveQty;
+
     private int lblQty;
     private int textQty;
     private int qty;
     private int textItemId;
+
+    private String emailAddress;
     private CustomerModel customerModel = new CustomerModel();
 
     private ItemModel itemModel=new ItemModel();
@@ -77,6 +79,9 @@ public class OrderFormController {
 
     private OrderModel orderModel=new OrderModel();
     private PlaceOrderModel placeOrderModel=new PlaceOrderModel();
+
+    private OrderItemDetailFormModel orderItemDetailFormModel=new OrderItemDetailFormModel();
+
 
     public void initialize(){
         loadCustomerIds();
@@ -107,6 +112,8 @@ public class OrderFormController {
             try {
                 CustomerDto customerDto = customerModel.searchCustomer(Integer.parseInt(id));
                 lblCusName.setText(customerDto.getName());
+                cusName=customerDto.getName();
+                emailAddress=customerDto.getEmail();
                 cmbItemId.requestFocus();
 
             } catch (SQLException e) {
@@ -317,10 +324,42 @@ public class OrderFormController {
                 cartTmList.add(cartTm);
             }
 
+
+
+
             var orderDto=new OrderDto(orderId,date,returnDate,userId,customerId,total,saveQty,qty,cartTmList);
             boolean b = placeOrderModel.placeOrder(orderDto);
             if (b){
                 tblCart.getItems().clear();
+
+                List<OrderItemDetailFormDto> allValues = orderItemDetailFormModel.getAllValues(orderId);
+
+
+                String subject = "Your Purchase Order Confirmation - Order #00["+orderId+"]";
+
+                String text="Dear "+cusName+",\n" +
+                        "\n" +
+                        "Thank you for choosing FOCUS Photography Studio! We are delighted to confirm your recent purchase. Here are the details of your order:\n\n" +
+                        "Order Number:  00"+orderId+"\n" +
+                        "Date of Purchase:  "+date+"\n\n";
+
+
+                for (OrderItemDetailFormDto product : allValues) {
+                    text += "\nProduct: " + product.getName() +
+                            "\n   - Quantity: " + product.getQty() +
+                            "\n   - Description: " + product.getDescription() +
+                            "\n   - Total: " + product.getPrice() + "\n";
+
+                }
+
+
+                text += "\nIf you have any questions or concerns regarding your order, please feel free to contact our customer support team at Chamikadamith9@gmail.com or 0785765111.\n\n" +
+                        "\nThank you for choosing FOCUS Photography Studio! We appreciate your business.\n\n" +
+                        "\nBest regards,\nFOCUS Photography Studio Team";
+
+
+                MailSend.sendOrderConformMail(emailAddress,subject,text);
+
                 generateNextOrderId();
                 Image image=new Image("/Icon/iconsOk.png");
                 try {
