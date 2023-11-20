@@ -418,4 +418,10 @@ public class BookingFormController {
             //pkgName=serviceDto.getName();
         }
     }
+
+    public void btnViewAppointment(ActionEvent actionEvent) throws IOException {
+        Parent parent=FXMLLoader.load(getClass().getResource("/view/Booking/ViewIBooking.fxml"));
+        BookinRoot.getChildren().clear();
+        BookinRoot.getChildren().add(parent);
+    }
 }
