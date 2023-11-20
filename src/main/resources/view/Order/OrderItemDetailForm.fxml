@@ -19,7 +19,7 @@
                   <Font name="System Bold" size="17.0" />
                </font>
             </Label>
-            <TableView fx:id="tblOrderItems" layoutX="12.0" layoutY="45.0" prefHeight="349.0" prefWidth="962.0" stylesheets="@../../Style/Table.css">
+            <TableView fx:id="tblOrderItems" layoutX="14.0" layoutY="44.0" prefHeight="349.0" prefWidth="962.0" stylesheets="@../../Style/Table.css">
                <columns>
                   <TableColumn fx:id="colItemId" prefWidth="74.39999008178711" text="Item Id" />
                   <TableColumn fx:id="colDescription" prefWidth="281.6000213623047" text="Description" />
@@ -51,17 +51,17 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="105.0" layoutY="11.0" prefHeight="28.0" prefWidth="50.0" text="Label">
+      <Label fx:id="lblOrderId" layoutX="105.0" layoutY="11.0" prefHeight="28.0" prefWidth="70.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="403.0" layoutY="12.0" opacity="0.9" text="Total = " textFill="#22a390">
+      <Label layoutX="441.0" layoutY="12.0" opacity="0.9" text="Total = " textFill="#22a390">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="466.0" layoutY="11.0" prefHeight="28.0" prefWidth="92.0" text="Label">
+      <Label fx:id="lblTotal" layoutX="504.0" layoutY="11.0" prefHeight="28.0" prefWidth="92.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -71,7 +71,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="306.0" layoutY="12.0" prefHeight="28.0" prefWidth="50.0" text="Label">
+      <Label fx:id="lblOrderDate" layoutX="306.0" layoutY="12.0" prefHeight="28.0" prefWidth="116.0">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

@@ -211,6 +211,7 @@ public class EmployeeFormController {
         try {
             boolean b = model.updateEmployee(dto);
             if (b) {
+                getAllEmployee();
 
                 Image image=new Image("/Icon/iconsOk.png");
                 try {

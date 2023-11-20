@@ -56,8 +56,9 @@ public class EmployeeModel {
         pstm.setDouble(2,dto.getSalary());
         pstm.setString(3,dto.getEmail());
         pstm.setString(4,dto.getType());
-        pstm.setInt(5,dto.getEmpId());
-        pstm.setString(6,dto.getAddress());
+        pstm.setString(5,dto.getAddress());
+        pstm.setInt(6,dto.getEmpId());
+
 
         return pstm.executeUpdate() > 0;
     }

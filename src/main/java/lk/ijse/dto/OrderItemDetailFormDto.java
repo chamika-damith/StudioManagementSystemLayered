@@ -2,6 +2,8 @@ package lk.ijse.dto;
 
 import lombok.*;
 
+import java.sql.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -10,9 +12,11 @@ import lombok.*;
 
 public class OrderItemDetailFormDto {
     int orderId;
+    Date orderDate;
     int itemId;
     String description;
     String name;
+    double totprice;
     double price;
     String category;
     int qty;

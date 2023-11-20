@@ -55,7 +55,7 @@ public class OrderModel {
 
     public boolean saveOrder(int orderId, Date orderDate, Date returnDate, int userId, int cusId, double total) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
-        String sql="INSERT INTO orders(orderId, orderDate, returnDate, userId, cusId, price) VALUES(?, ?, ?, ?, ?,?)";
+        String sql="INSERT INTO orders(orderId, orderDate, returnDate, userId, cusId, totprice) VALUES(?, ?, ?, ?, ?,?)";
         PreparedStatement pstm=connection.prepareStatement(sql);
         pstm.setInt(1, orderId);
         pstm.setDate(2, orderDate);

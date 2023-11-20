@@ -125,8 +125,8 @@
          </image>
       </ImageView>
       <TextField fx:id="txtSearchBar" layoutX="260.0" layoutY="17.0" onAction="#txtSearchBarOnAction" prefHeight="38.0" prefWidth="302.0" promptText="Search..." style="-fx-background-color: #D3D5DA; -fx-border-color: #1d1f24; -fx-border-radius: 10; -fx-background-radius: 10;">
-         <cursor>1
-            <Cursor fx:constant="TEXT" />
+         <cursor>
+            <Cursor fx:constant="HAND" />
          </cursor></TextField>
       <ImageView fitHeight="21.0" fitWidth="15.0" layoutX="537.0" layoutY="29.0" opacity="0.46" pickOnBounds="true" preserveRatio="true">
          <image>

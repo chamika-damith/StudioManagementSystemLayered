@@ -2,6 +2,7 @@ package lk.ijse.controller.Order;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,6 +25,9 @@ public class OrderItemDetailFormController {
     public TableColumn colCategory;
     public TableColumn colQty;
     public TableColumn colImg;
+    public Label lblOrderId;
+    public Label lblOrderDate;
+    public Label lblTotal;
 
     ObservableList<OrderItemTm> obList;
 
@@ -32,6 +36,7 @@ public class OrderItemDetailFormController {
     public void initialize(){
         setCellValueFactory();
         getAllValues();
+        lblOrderId.setText(String.valueOf(focusedIndex));
     }
 
     private void getAllValues() {
@@ -44,6 +49,8 @@ public class OrderItemDetailFormController {
             List<OrderItemDetailFormDto> dto=model.getAllValues(focusedIndex);
 
             for (OrderItemDetailFormDto oDto : dto) {
+                lblOrderDate.setText(String.valueOf(oDto.getOrderDate()));
+                lblTotal.setText(String.valueOf(oDto.getTotprice()));
                 obList.add(new OrderItemTm(
                         oDto.getItemId(),
                         oDto.getDescription(),
