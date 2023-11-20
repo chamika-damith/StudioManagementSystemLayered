@@ -175,25 +175,18 @@ public class InventoryOrderDetailFormController {
 
     }
 
-    public void txtQtyOnAction(ActionEvent actionEvent) {
+    public void txtQtyOnAction(ActionEvent actionEvent) throws SQLException {
+        btnAddToCart(actionEvent);
     }
 
     public void btnPlaceOrderOnAction(ActionEvent actionEvent) throws SQLException {
-        int id = Integer.parseInt(lblOrderId.getText());
-        String description = lblDescription.getText();
-        Date orderDate = Date.valueOf(lblOrderDate.getText());
-        Date returnDate=null;
-        String category = String.valueOf(cmbCategoey.getValue());
-        String supplierId= String.valueOf(cmbSupplierId.getValue());
-        int supId = Integer.parseInt(supplierId);
-        int txtqty = qty+allQty;
 
-        if (SupOrdermodel.isExists(id)){
+        if (tblCart.getItems().isEmpty()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
             try {
                 Notifications notifications=Notifications.create();
                 notifications.graphic(new ImageView(image));
-                notifications.text("Orders is already added");
+                notifications.text("Value is empty! Please enter all values");
                 notifications.title("Warning");
                 notifications.hideAfter(Duration.seconds(5));
                 notifications.position(Pos.TOP_RIGHT);
@@ -202,23 +195,22 @@ public class InventoryOrderDetailFormController {
                 e.printStackTrace();
             }
         }else {
-            List<InventoryOrderTm> cartTmList = new ArrayList<>();
-            for (int i = 0; i < tblCart.getItems().size(); i++) {
-                InventoryOrderTm cartTm = obList.get(i);
-                cartTmList.add(cartTm);
-            }
+            int id = Integer.parseInt(lblOrderId.getText());
+            String description = lblDescription.getText();
+            Date orderDate = Date.valueOf(lblOrderDate.getText());
+            Date returnDate=null;
+            String category = String.valueOf(cmbCategoey.getValue());
+            String supplierId= String.valueOf(cmbSupplierId.getValue());
+            int supId = Integer.parseInt(supplierId);
+            int txtqty = qty+allQty;
 
-            var dto=new InventoryOrderDto(id,description,orderDate, null,category,supId,cartTmList,txtqty,qty);
-            boolean isPlaceOrder = placeOrder.placeOrder(dto);
-            if (isPlaceOrder){
-                tblCart.getItems().clear();
-                generateNextOrderId();
-                Image image=new Image("/Icon/iconsOk.png");
+            if (SupOrdermodel.isExists(id)){
+                Image image=new Image("/Icon/icons8-cancel-50.png");
                 try {
                     Notifications notifications=Notifications.create();
                     notifications.graphic(new ImageView(image));
-                    notifications.text("Inventory Order Successfully");
-                    notifications.title("Successfully");
+                    notifications.text("Orders is already added");
+                    notifications.title("Warning");
                     notifications.hideAfter(Duration.seconds(5));
                     notifications.position(Pos.TOP_RIGHT);
                     notifications.show();
@@ -226,14 +218,116 @@ public class InventoryOrderDetailFormController {
                     e.printStackTrace();
                 }
             }else {
-                System.out.println("Inventory order is not placed");
+                List<InventoryOrderTm> cartTmList = new ArrayList<>();
+                for (int i = 0; i < tblCart.getItems().size(); i++) {
+                    InventoryOrderTm cartTm = obList.get(i);
+                    cartTmList.add(cartTm);
+                }
+
+                var dto=new InventoryOrderDto(id,description,orderDate, null,category,supId,cartTmList,txtqty,qty);
+                boolean isPlaceOrder = placeOrder.placeOrder(dto);
+                if (isPlaceOrder){
+                    tblCart.getItems().clear();
+                    generateNextOrderId();
+                    Image image=new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Inventory Order Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }else {
+                    System.out.println("Inventory order is not placed");
+                    Image image=new Image("/Icon/icons8-cancel-50.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Order Place Unsuccessfully");
+                        notifications.title("Unsuccessfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    public void btnAddToCart(ActionEvent actionEvent) throws SQLException {
+
+        if (isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
+            String textDescription = lblDescription.getText();
+            Date textDate = Date.valueOf(lblOrderDate.getText());
+            double price = Double.parseDouble(lblUnitPrice.getText());
+            qty= Integer.parseInt(txtQty.getText());
+            double total=price*qty;
+
+            int qtyIndex= Integer.parseInt(txtQty.getText());
+
+            Button btn= createButton();
+
+            if (!obList.isEmpty()) {
+                for (int i = 0; i < tblCart.getItems().size(); i++) {
+                    if (colItemId.getCellData(i).equals(itemID)) {
+                        int col_qty = (int) colQty.getCellData(i);
+                        qty += col_qty;
+                        return;
+                    }
+                }
+            }
+
+            if (qty <= 0) {
                 Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications = Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Quantity is empty");
+                    notifications.title("Unsuccessful");
+                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else {
+                setRemoveBtnAction(btn);
+                btn.setCursor(Cursor.HAND);
+
+                var cartTm=new InventoryOrderTm(itemID,textDescription,textDate,total,qty,btn);
+
+                obList.add(cartTm);
+
+                tblCart.setItems(obList);
+                calculateTotal();
+                tblCart.refresh();
+
+                Image image=new Image("/Icon/iconsOk.png");
                 try {
                     Notifications notifications=Notifications.create();
                     notifications.graphic(new ImageView(image));
-                    notifications.text("Order Place Unsuccessfully");
-                    notifications.title("Unsuccessfully");
-                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.text("Stock Order Added to Cart");
+                    notifications.title("Successfully Added");
+                    notifications.hideAfter(Duration.seconds(4));
                     notifications.position(Pos.TOP_RIGHT);
                     notifications.show();
                 }catch (Exception e){
@@ -241,68 +335,6 @@ public class InventoryOrderDetailFormController {
                 }
             }
         }
-    }
-
-    public void btnAddToCart(ActionEvent actionEvent) throws SQLException {
-        String textDescription = lblDescription.getText();
-        Date textDate = Date.valueOf(lblOrderDate.getText());
-        double price = Double.parseDouble(lblUnitPrice.getText());
-        qty= Integer.parseInt(txtQty.getText());
-        double total=price*qty;
-
-        int qtyIndex= Integer.parseInt(txtQty.getText());
-
-        Button btn= createButton();
-
-        if (!obList.isEmpty()) {
-            for (int i = 0; i < tblCart.getItems().size(); i++) {
-                if (colItemId.getCellData(i).equals(itemID)) {
-                    int col_qty = (int) colQty.getCellData(i);
-                    qty += col_qty;
-                    return;
-                }
-            }
-        }
-
-        if (qty <= 0) {
-            Image image=new Image("/Icon/icons8-cancel-50.png");
-            try {
-                Notifications notifications = Notifications.create();
-                notifications.graphic(new ImageView(image));
-                notifications.text("Quantity is empty");
-                notifications.title("Unsuccessful");
-                notifications.hideAfter(Duration.seconds(4));
-                notifications.position(Pos.TOP_RIGHT);
-                notifications.show();
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-        }else {
-            setRemoveBtnAction(btn);
-            btn.setCursor(Cursor.HAND);
-
-            var cartTm=new InventoryOrderTm(itemID,textDescription,textDate,total,qty,btn);
-
-            obList.add(cartTm);
-
-            tblCart.setItems(obList);
-            calculateTotal();
-            tblCart.refresh();
-
-            Image image=new Image("/Icon/iconsOk.png");
-            try {
-                Notifications notifications=Notifications.create();
-                notifications.graphic(new ImageView(image));
-                notifications.text("Stock Order Added to Cart");
-                notifications.title("Successfully Added");
-                notifications.hideAfter(Duration.seconds(4));
-                notifications.position(Pos.TOP_RIGHT);
-                notifications.show();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-
     }
 
     private void setRemoveBtnAction(Button btn) {
@@ -366,4 +398,13 @@ public class InventoryOrderDetailFormController {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
+
+    private boolean isEmptyCheck(){
+        if (cmbCategoey.getValue() == null || cmbItem.getValue() == null || cmbSupplierId.getValue() == null || txtQty.getText().isEmpty()){
+            System.out.println("inventory order value is empty");
+            return true;
+        }
+        return false;
+    }
+
 }
