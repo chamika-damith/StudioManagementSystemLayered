@@ -55,7 +55,6 @@ public class SupplierFormController {
 
     public void initialize(){
         cmbCategory.setItems(FXCollections.observableArrayList("CAMERA", "LENS", "DRONE", "LIGHTS", "ACCESORIES"));
-        setValueLable();
         generateNextSupId();
         setCellValue();
         getAllSupplier();
@@ -115,93 +114,126 @@ public class SupplierFormController {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
-        int id = Integer.parseInt(txtId.getText());
-        String name = txtName.getText();
-        String address = txtAddress.getText();
-        String mobile = txtMobile.getText();
-        String category = (String) cmbCategory.getValue();
 
-        try {
-            if (model.isExists(id)) {
-                clearField();
-                Image image=new Image("/Icon/icons8-cancel-50.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Supplier is already registered");
-                    notifications.title("Warning");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else {
-
-                var dto= new SupplierDto(id,name,mobile,address,category);
-
-                try {
-                    boolean b = model.saveSupplier(dto);
-                    if (b) {
-                        setValueLable();
-                        clearField();
-                        generateNextSupId();
-                        getAllSupplier();
-                        searchTable();
-                        Image image=new Image("/Icon/iconsOk.png");
-                        try {
-                            Notifications notifications=Notifications.create();
-                            notifications.graphic(new ImageView(image));
-                            notifications.text("Supplier Saved Successfully");
-                            notifications.title("Successfully");
-                            notifications.hideAfter(Duration.seconds(5));
-                            notifications.position(Pos.TOP_RIGHT);
-                            notifications.show();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-
+        if (isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }else {
+
+            int id = Integer.parseInt(txtId.getText());
+            String name = txtName.getText();
+            String address = txtAddress.getText();
+            String mobile = txtMobile.getText();
+            String category = (String) cmbCategory.getValue();
+
+            try {
+                if (model.isExists(id)) {
+                    clearField();
+                    Image image = new Image("/Icon/icons8-cancel-50.png");
+                    try {
+                        Notifications notifications = Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Supplier is already registered");
+                        notifications.title("Warning");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+
+                    var dto = new SupplierDto(id, name, mobile, address, category);
+
+                    try {
+                        boolean b = model.saveSupplier(dto);
+                        if (b) {
+                            clearField();
+                            generateNextSupId();
+                            getAllSupplier();
+                            searchTable();
+                            Image image = new Image("/Icon/iconsOk.png");
+                            try {
+                                Notifications notifications = Notifications.create();
+                                notifications.graphic(new ImageView(image));
+                                notifications.text("Supplier Saved Successfully");
+                                notifications.title("Successfully");
+                                notifications.hideAfter(Duration.seconds(5));
+                                notifications.position(Pos.TOP_RIGHT);
+                                notifications.show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-        int id = Integer.parseInt(txtId.getText());
-        String name = txtName.getText();
-        String address = txtAddress.getText();
-        String mobile = txtMobile.getText();
-        String category = (String) cmbCategory.getValue();
 
-
-        var dto= new SupplierDto(id,name,address,mobile,category);
-
-
-        try {
-            boolean b = model.updateSupplier(dto);
-            if (b) {
-                getAllSupplier();
-                searchTable();
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Supplier Update Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+        if (isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }else {
+
+            int id = Integer.parseInt(txtId.getText());
+            String name = txtName.getText();
+            String address = txtAddress.getText();
+            String mobile = txtMobile.getText();
+            String category = (String) cmbCategory.getValue();
+
+
+            var dto = new SupplierDto(id, name, address, mobile, category);
+
+
+            try {
+                boolean b = model.updateSupplier(dto);
+                if (b) {
+                    getAllSupplier();
+                    searchTable();
+                    Image image = new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications = Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Supplier Update Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -271,7 +303,6 @@ public class SupplierFormController {
                             System.out.println("delete selected");
                             obList.remove(focusedIndex);
                             getAllSupplier();
-                            setValueLable();
                             searchTable();
                         }
                     } catch (SQLException ex) {
@@ -288,23 +319,6 @@ public class SupplierFormController {
         txtAddress.clear();
         txtName.clear();
         cmbCategory.getSelectionModel().clearSelection();
-    }
-
-    public void setValueLable(){
-        try {
-
-            int count =0;
-            List<SupplierDto> allSup = model.getAllSupplier();
-
-            for (SupplierDto dto : allSup){
-                count+=1;
-            }
-
-            lblSupplier.setText(String.valueOf(count));
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private void generateNextSupId() {
@@ -338,5 +352,14 @@ public class SupplierFormController {
         SortedList<SupplierTm> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tblSupplier.comparatorProperty());
         tblSupplier.setItems(sortedData);
+    }
+
+    private boolean isEmptyCheck(){
+        if (txtId.getText().isEmpty() || txtName.getText().isEmpty() || txtAddress.getText().isEmpty() || txtMobile.getText().isEmpty() || cmbCategory.getValue() == null){
+            System.out.println("Supplier value is empty");
+            return true;
+        }else {
+            return false;
+        }
     }
 }

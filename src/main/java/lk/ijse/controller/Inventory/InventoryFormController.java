@@ -84,6 +84,7 @@ public class InventoryFormController {
         try {
             int orderID = ItemModel.generateNextOrderId();
             orderId.setText(String.valueOf("00"+orderID));
+            txtid.setText(String.valueOf("00"+orderID));
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }

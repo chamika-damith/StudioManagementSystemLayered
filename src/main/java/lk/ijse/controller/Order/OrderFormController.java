@@ -221,7 +221,7 @@ public class OrderFormController {
                 }
             }
 
-            if (lblQty > 0) {
+            if (lblQty > 0 & textQty < lblQty) {
 
                 saveQty = lblQty - textQty;
                 lblItemQty.setText(String.valueOf(saveQty));
@@ -252,7 +252,7 @@ public class OrderFormController {
 
             } else {
                 OrderCartRoot.setEffect(new GaussianBlur());
-                Optional<ButtonType> buttonType = new Alert(Alert.AlertType.WARNING, "Item is empty..Do you want to order this item ?", ButtonType.OK, ButtonType.NO).showAndWait();
+                Optional<ButtonType> buttonType = new Alert(Alert.AlertType.WARNING, "Stock Count is Low.Do you want to order this item in stock ?", ButtonType.OK, ButtonType.NO).showAndWait();
                 if (buttonType.orElse(ButtonType.NO) == ButtonType.OK) {
                     OrderCartRoot.setEffect(null);
                     Parent parent = null;

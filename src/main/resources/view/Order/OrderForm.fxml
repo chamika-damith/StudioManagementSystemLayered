@@ -244,7 +244,7 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <Label fx:id="lblTotal" layoutX="114.0" layoutY="661.0" prefHeight="28.0" prefWidth="74.0" textFill="RED">
+      <Label fx:id="lblTotal" layoutX="131.0" layoutY="662.0" prefHeight="28.0" prefWidth="118.0" textFill="RED">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -278,5 +278,6 @@
             <Font name="System Bold" size="10.0" />
          </font>
       </JFXButton>
+      <Label layoutX="111.0" layoutY="668.0" text="Rs." />
    </children>
 </AnchorPane>
