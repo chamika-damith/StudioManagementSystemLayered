@@ -74,7 +74,6 @@ public class InventoryFormController {
 
     public void initialize(){
         txtcomboBox.setItems(FXCollections.observableArrayList("CAMERA", "LENS", "DRONE", "LIGHTS", "ACCESORIES"));
-        setValueLable();
         getAllItem();
         setCellValue();
         generateNextOrderId();
@@ -137,23 +136,6 @@ public class InventoryFormController {
     }
 
 
-    public void setValueLable(){
-        try {
-
-            int count=0;
-            List<ItemDto> allItems = model.getAllItems();
-
-            for (ItemDto item : allItems){
-                count+=1;
-            }
-
-            txtAllInventory.setText(String.valueOf(count));
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 
     public void btnImgSelect(ActionEvent actionEvent) {
             FileChooser chooser = new FileChooser();
@@ -169,22 +151,13 @@ public class InventoryFormController {
 
 
     public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException {
-        int id = Integer.parseInt(txtid.getText());
-        String name = txtname.getText();
-        int qty = Integer.parseInt(txtqty.getText());
-        double price = Double.parseDouble(txtprice.getText());
-        String description = txtdescription.getText();
-        String category = (String) txtcomboBox.getValue();
-        Image imgId = img.getImage();
-        byte[] blob = model.imagenToByte(imgId);
 
-
-        if (model.isExists(id)){
+        if (isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
             try {
                 Notifications notifications=Notifications.create();
                 notifications.graphic(new ImageView(image));
-                notifications.text("Item is already added");
+                notifications.text("Value is empty! Please enter all values");
                 notifications.title("Warning");
                 notifications.hideAfter(Duration.seconds(5));
                 notifications.position(Pos.TOP_RIGHT);
@@ -193,24 +166,105 @@ public class InventoryFormController {
                 e.printStackTrace();
             }
         }else {
+            int id = Integer.parseInt(txtid.getText());
+            String name = txtname.getText();
+            int qty = Integer.parseInt(txtqty.getText());
+            double price = Double.parseDouble(txtprice.getText());
+            String description = txtdescription.getText();
+            String category = (String) txtcomboBox.getValue();
+            Image imgId = img.getImage();
+            byte[] blob = model.imagenToByte(imgId);
+
+
+            if (model.isExists(id)){
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Item is already added");
+                    notifications.title("Warning");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else {
+                ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
+
+
+                try {
+                    boolean b = model.saveItem(itemDto);
+
+                    if(b) {
+                        getAllItem();
+                        clearFeild();
+                        generateNextOrderId();
+                        searchTable();
+
+                        Image image=new Image("/Icon/iconsOk.png");
+                        try {
+                            Notifications notifications=Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Item Saved Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                        System.out.println("Item saved successfully");
+                    }else {
+                        System.out.println("Item not saved successfully");
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    public void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException {
+
+        if (isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
+            int id = Integer.parseInt(txtid.getText());
+            String name = txtname.getText();
+            int qty = Integer.parseInt(txtqty.getText());
+            double price = Double.parseDouble(txtprice.getText());
+            String description = txtdescription.getText();
+            String category = (String) txtcomboBox.getValue();
+            Image imgId = img.getImage();
+            byte[] blob = model.imagenToByte(imgId);
+
             ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
 
-
             try {
-                boolean b = model.saveItem(itemDto);
-
-                if(b) {
-                    setValueLable();
+                boolean b = model.updateItem(itemDto);
+                if (b) {
                     getAllItem();
                     clearFeild();
-                    generateNextOrderId();
                     searchTable();
 
                     Image image=new Image("/Icon/iconsOk.png");
                     try {
                         Notifications notifications=Notifications.create();
                         notifications.graphic(new ImageView(image));
-                        notifications.text("Item Saved Successfully");
+                        notifications.text("Item Update Successfully");
                         notifications.title("Successfully");
                         notifications.hideAfter(Duration.seconds(5));
                         notifications.position(Pos.TOP_RIGHT);
@@ -219,54 +273,13 @@ public class InventoryFormController {
                         e.printStackTrace();
                     }
 
-                    System.out.println("Item saved successfully");
+                    System.out.println("Item updated successfully");
                 }else {
-                    System.out.println("Item not saved successfully");
+                    System.out.println("Item not updated successfully");
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        }
-    }
-
-    public void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException {
-        int id = Integer.parseInt(txtid.getText());
-        String name = txtname.getText();
-        int qty = Integer.parseInt(txtqty.getText());
-        double price = Double.parseDouble(txtprice.getText());
-        String description = txtdescription.getText();
-        String category = (String) txtcomboBox.getValue();
-        Image imgId = img.getImage();
-        byte[] blob = model.imagenToByte(imgId);
-
-        ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
-
-        try {
-            boolean b = model.updateItem(itemDto);
-            if (b) {
-                getAllItem();
-                clearFeild();
-                searchTable();
-
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Item Update Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-                System.out.println("Item updated successfully");
-            }else {
-                System.out.println("Item not updated successfully");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -358,7 +371,6 @@ public class InventoryFormController {
                             System.out.println("delete selected");
                             obList.remove(focusedIndex);
                             getAllItem();
-                            setValueLable();
                         }
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
@@ -435,5 +447,14 @@ public class InventoryFormController {
         Parent parent=FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryForm.fxml"));
         InventoryRoot.getChildren().clear();
         InventoryRoot.getChildren().addAll(parent);
+    }
+
+    private boolean isEmptyCheck(){
+        if (txtid.getText().isEmpty() || txtname.getText().isEmpty() || txtqty.getText().isEmpty() || txtprice.getText().isEmpty()
+        || txtdescription.getText().isEmpty() || txtcomboBox.getValue()==null || img.getImage()==null){
+            System.out.println("inventory is empty");
+            return true;
+        }
+        return false;
     }
 }
