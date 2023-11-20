@@ -55,7 +55,6 @@ public class ServiceFormController {
         getAllService();
         setCellValue();
         searchTable();
-        setValueLable();
     }
 
     private void setCellValue() {
@@ -68,50 +67,66 @@ public class ServiceFormController {
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
-        int serviceId = Integer.parseInt(txtId.getText());
-        String type = (String) cmbType.getValue();
-        double price = Double.parseDouble(txtPrice.getText());
-        String name = txtName.getText();
 
-        try {
-            if (Model.isExists(serviceId)) {
-                Image image=new Image("/Icon/icons8-cancel-50.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Service is already Added");
-                    notifications.title("Warning");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else {
-                var dto=new ServiceDto(serviceId,name,price,type);
-                boolean b = Model.savePackageDto(dto);
-                if (b) {
-                    setValueLable();
-                    clearField();
-                    getAllService();
-                    generateNextPkgId();
-                    searchTable();
-                    Image image=new Image("/Icon/iconsOk.png");
+        if (isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
+
+            int serviceId = Integer.parseInt(txtId.getText());
+            String type = (String) cmbType.getValue();
+            double price = Double.parseDouble(txtPrice.getText());
+            String name = txtName.getText();
+
+            try {
+                if (Model.isExists(serviceId)) {
+                    Image image = new Image("/Icon/icons8-cancel-50.png");
                     try {
-                        Notifications notifications=Notifications.create();
+                        Notifications notifications = Notifications.create();
                         notifications.graphic(new ImageView(image));
-                        notifications.text("service Saved Successfully");
-                        notifications.title("Successfully");
+                        notifications.text("Service is already Added");
+                        notifications.title("Warning");
                         notifications.hideAfter(Duration.seconds(5));
                         notifications.position(Pos.TOP_RIGHT);
                         notifications.show();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
+                } else {
+                    var dto = new ServiceDto(serviceId, name, price, type);
+                    boolean b = Model.savePackageDto(dto);
+                    if (b) {
+                        clearField();
+                        getAllService();
+                        generateNextPkgId();
+                        searchTable();
+                        Image image = new Image("/Icon/iconsOk.png");
+                        try {
+                            Notifications notifications = Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("service Saved Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -231,7 +246,6 @@ public class ServiceFormController {
                             System.out.println(index);
                             obList.remove(index);
                             getAllService();
-                            setValueLable();
                             searchTable();
                         }
                     } catch (SQLException ex) {
@@ -243,34 +257,51 @@ public class ServiceFormController {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) {
-        int id = Integer.parseInt(txtId.getText());
-        String name = txtName.getText();
-        double price = Double.parseDouble(txtPrice.getText());
-        String type = (String) cmbType.getValue();
 
-        ServiceDto dto=new ServiceDto(id,name,price,type);
-
-        try {
-            boolean b = Model.updateService(dto);
-            if (b) {
-                getAllService();
-                searchTable();
-                clearField();
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Service Update Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+        if (isEmptyCheck()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Value is empty! Please enter all values");
+                notifications.title("Warning");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }else {
+
+            int id = Integer.parseInt(txtId.getText());
+            String name = txtName.getText();
+            double price = Double.parseDouble(txtPrice.getText());
+            String type = (String) cmbType.getValue();
+
+            ServiceDto dto = new ServiceDto(id, name, price, type);
+
+            try {
+                boolean b = Model.updateService(dto);
+                if (b) {
+                    getAllService();
+                    searchTable();
+                    clearField();
+                    Image image = new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications = Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Service Update Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -297,27 +328,20 @@ public class ServiceFormController {
         tblEmployee.setItems(sortedData);
     }
 
-    public void setValueLable(){
-        try {
-
-            int count =0;
-            List<ServiceDto> allItems = Model.getAllService();
-
-            for (ServiceDto dto : allItems){
-                count+=1;
-            }
-
-            lblService.setText(String.valueOf(count));
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public void clearField(){
         txtId.clear();
         txtPrice.clear();
         txtName.clear();
         cmbType.getSelectionModel().clearSelection();
+    }
+
+    private boolean isEmptyCheck(){
+        if (txtId.getText().isEmpty() || txtName.getText().isEmpty() || txtPrice.getText().isEmpty() || cmbType.getValue() == null ){
+            System.out.println("service value is empty");
+            return true;
+        }else {
+            return false;
+        }
     }
 }
