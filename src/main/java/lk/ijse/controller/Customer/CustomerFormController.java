@@ -16,7 +16,9 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import lk.ijse.barCode.RegexPattern;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.tm.CustomerTm;
@@ -29,6 +31,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+
+import static io.github.palexdev.materialfx.controls.MFXTextField.DEFAULT_TEXT_COLOR;
 
 public class CustomerFormController {
     public AnchorPane CustomerRoot;
@@ -151,6 +155,7 @@ public class CustomerFormController {
         try {
             int cusid = CustomerModel.generateNextCusId();
             cusId.setText(String.valueOf("00"+cusid));
+            txtId.setText("00"+cusid);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
@@ -196,32 +201,50 @@ public class CustomerFormController {
                     }
                 }else {
 
-                    CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
+                    if (checkValidate()){
 
-                    try {
-                        boolean b = model.saveCustomer(dto);
-                        if (b) {
-                            clearField();
-                            generateNextCusId();
-                            getAllCustomer();
-                            searchTable();
-                            Image image=new Image("/Icon/iconsOk.png");
-                            try {
-                                Notifications notifications=Notifications.create();
-                                notifications.graphic(new ImageView(image));
-                                notifications.text("Customer Saved Successfully");
-                                notifications.title("Successfully");
-                                notifications.hideAfter(Duration.seconds(5));
-                                notifications.position(Pos.TOP_RIGHT);
-                                notifications.show();
-                            }catch (Exception e){
-                                e.printStackTrace();
+                        nullTextFieldColor();
+
+                        CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
+
+                        try {
+                            boolean b = model.saveCustomer(dto);
+                            if (b) {
+                                clearField();
+                                generateNextCusId();
+                                getAllCustomer();
+                                searchTable();
+                                nullTextFieldColor();
+                                Image image=new Image("/Icon/iconsOk.png");
+                                try {
+                                    Notifications notifications=Notifications.create();
+                                    notifications.graphic(new ImageView(image));
+                                    notifications.text("Customer Saved Successfully");
+                                    notifications.title("Successfully");
+                                    notifications.hideAfter(Duration.seconds(5));
+                                    notifications.position(Pos.TOP_RIGHT);
+                                    notifications.show();
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
                             }
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
                         }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                    }else {
+                        Image image=new Image("/Icon/icons8-cancel-50.png");
+                        try {
+                            Notifications notifications=Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Invalid input..Please enter a valid input ");
+                            notifications.title("Error");
+                            notifications.hideAfter(Duration.seconds(4));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
-
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -229,7 +252,6 @@ public class CustomerFormController {
         }
 
     }
-
 
 
     public void clearField(){
@@ -372,5 +394,41 @@ public class CustomerFormController {
         }else {
             return false;
         }
+    }
+
+    public boolean checkValidate(){
+        if (!(RegexPattern.getNamePattern().matcher(txtName.getText()).matches())) {
+            txtName.requestFocus();
+            txtName.setFocusColor(Color.RED);
+            return false;
+        }
+
+        if (!(RegexPattern.getAddressPattern().matcher(txtAddress.getText()).matches())){
+            txtAddress.requestFocus();
+            txtAddress.setFocusColor(Color.RED);
+            return false;
+        }
+
+        if (!(RegexPattern.getEmailPattern().matcher(txtEmail.getText()).matches())){
+            txtEmail.requestFocus();
+            txtEmail.setFocusColor(Color.RED);
+            return false;
+        }
+
+        if (!(RegexPattern.getMobilePattern().matcher(txtMobile.getText()).matches())){
+            txtMobile.requestFocus();
+            txtMobile.setFocusColor(Color.RED);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void nullTextFieldColor() {
+        txtId.setFocusColor(Color.web("#0040ff"));
+        txtName.setFocusColor(Color.web("#0040ff"));
+        txtMobile.setFocusColor(Color.web("#0040ff"));
+        txtEmail.setFocusColor(Color.web("#0040ff"));
+        txtAddress.setFocusColor(Color.web("#0040ff"));
     }
 }

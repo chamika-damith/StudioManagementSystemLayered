@@ -398,6 +398,8 @@ public class BookingFormController {
                 setRemoveBtnAction(btn);
                 btn.setCursor(Cursor.HAND);
 
+                txtAddress.setFocusColor(Color.web("#0040ff"));
+
                 if (bookingModel.isExists(id)){
                     Image image=new Image("/Icon/icons8-cancel-50.png");
                     try {
