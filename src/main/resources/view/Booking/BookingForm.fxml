@@ -269,7 +269,7 @@
             </Label>
          </children>
       </Pane>
-      <JFXButton buttonType="RAISED" layoutX="1161.0" layoutY="656.0" onAction="#btnSaveOnAction" prefHeight="28.0" prefWidth="145.0" style="-fx-background-color: #17594A; -fx-background-radius: 13;" text="Place Appoinment" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="1161.0" layoutY="656.0" onAction="#btnSaveOnAction" prefHeight="28.0" prefWidth="146.0" style="-fx-background-color: #17594A; -fx-background-radius: 13;" text="Place Appoinment" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

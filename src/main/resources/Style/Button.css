@@ -20,9 +20,22 @@
     -fx-background-color: transparent;
     -fx-border-color: #22a492;
     -fx-border-radius: 3;
-
     -fx-text-fill: #22a492;
 }
+
+.outlineLogOut-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #22a492;
+    -fx-border-radius: 3;
+    -fx-text-fill: #000000;
+}
+.outlineLogOut-button:hover,
+.outlineLogOut:focused {
+    -fx-background-color: #22a492;
+    -fx-text-fill: white;
+}
+
+
 
 .outline-button:hover,
 .outline-button:focused {
@@ -47,4 +60,17 @@
 
 .link-button .mfx-ripple-generator {
     -mfx-ripple-color: #D9E9FF;
+}
+
+
+
+.click-button {
+    -fx-background-color: transparent;
+    -fx-border-radius: 10;
+    -fx-text-fill: #000000;
+}
+.click-button:hover,
+.click:focused {
+    -fx-background-color: linear-gradient(to right, #B4C5EE,#22a492);
+    -fx-text-fill: white;
 }
