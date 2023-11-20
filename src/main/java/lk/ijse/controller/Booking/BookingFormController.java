@@ -52,6 +52,8 @@ public class BookingFormController {
     public TableColumn colPackage;
     public TableColumn colDate;
     public TableColumn Action;
+    public Label lblpkgName;
+    public Label lblEmpName;
 
     private ObservableList<BookingCartTm> obList=FXCollections.observableArrayList();
 
@@ -201,7 +203,8 @@ public class BookingFormController {
         }
     }
 
-    public void cmbPackageOnAction(ActionEvent actionEvent) {
+    public void cmbPackageOnAction(ActionEvent actionEvent) throws SQLException {
+        getPkgName();
     }
 
     public void txtSearchOnAction(ActionEvent actionEvent) {
@@ -406,7 +409,7 @@ public class BookingFormController {
         int employeeId = Integer.valueOf(empid);
         EmployeeDto employeeDto = employeeModel.searchEmployee(employeeId);
         if (employeeDto != null){
-            //empName=employeeDto.getName();
+            lblEmpName.setText(employeeDto.getName());
         }
     }
 
@@ -415,7 +418,7 @@ public class BookingFormController {
         int pakageId= Integer.parseInt(pkgid);
         ServiceDto serviceDto = serviceModel.searchService(pakageId);
         if (serviceDto != null){
-            //pkgName=serviceDto.getName();
+            lblpkgName.setText(serviceDto.getName());
         }
     }
 
@@ -423,5 +426,9 @@ public class BookingFormController {
         Parent parent=FXMLLoader.load(getClass().getResource("/view/Booking/ViewIBooking.fxml"));
         BookinRoot.getChildren().clear();
         BookinRoot.getChildren().add(parent);
+    }
+
+    public void cmbEmpIdOnAction(ActionEvent actionEvent) throws SQLException {
+        getEmpName();
     }
 }
