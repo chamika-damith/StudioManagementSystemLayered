@@ -16,7 +16,9 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import lk.ijse.barCode.RegexPattern;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.BookingCartTm;
 import lk.ijse.model.BookingModel;
@@ -30,6 +32,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import static lk.ijse.controller.Booking.EventType.*;
 
@@ -390,34 +393,52 @@ public class BookingFormController {
             Date date = Date.valueOf(appDate.getValue());
             Button btn = createButton();
 
-            setRemoveBtnAction(btn);
-            btn.setCursor(Cursor.HAND);
+            if (RegexPattern.getAddressPattern().matcher(address).matches()){
 
-            if (bookingModel.isExists(id)){
+                setRemoveBtnAction(btn);
+                btn.setCursor(Cursor.HAND);
+
+                if (bookingModel.isExists(id)){
+                    Image image=new Image("/Icon/icons8-cancel-50.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Booking is already registered");
+                        notifications.title("Warning");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }else {
+                    var cartTm=new BookingCartTm(id,eventName,address,employeeId,pkgid,date,btn);
+
+                    obList.add(cartTm);
+                    tblBookingCart.setItems(obList);
+
+                    Image image=new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Booking Added to Cart");
+                        notifications.title("Successfully Added");
+                        notifications.hideAfter(Duration.seconds(4));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }else {
+                txtAddress.requestFocus();
+                txtAddress.setFocusColor(Color.RED);
                 Image image=new Image("/Icon/icons8-cancel-50.png");
                 try {
                     Notifications notifications=Notifications.create();
                     notifications.graphic(new ImageView(image));
-                    notifications.text("Booking is already registered");
-                    notifications.title("Warning");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else {
-                var cartTm=new BookingCartTm(id,eventName,address,employeeId,pkgid,date,btn);
-
-                obList.add(cartTm);
-                tblBookingCart.setItems(obList);
-
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Booking Added to Cart");
-                    notifications.title("Successfully Added");
+                    notifications.text("Invalid input for Address ");
+                    notifications.title("Error");
                     notifications.hideAfter(Duration.seconds(4));
                     notifications.position(Pos.TOP_RIGHT);
                     notifications.show();
