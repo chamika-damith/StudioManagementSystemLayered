@@ -276,28 +276,43 @@ public class CustomerFormController {
             String email = txtEmail.getText();
             String address = txtAddress.getText();
 
-            CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
+            if (checkValidate()){
+                CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
 
-            try {
-                boolean b = model.updateCustomer(dto);
-                if (b) {
-                    getAllCustomer();
-                    searchTable();
-                    Image image=new Image("/Icon/iconsOk.png");
-                    try {
-                        Notifications notifications=Notifications.create();
-                        notifications.graphic(new ImageView(image));
-                        notifications.text("Customer Update Successfully");
-                        notifications.title("Successfully");
-                        notifications.hideAfter(Duration.seconds(5));
-                        notifications.position(Pos.TOP_RIGHT);
-                        notifications.show();
-                    }catch (Exception e){
-                        e.printStackTrace();
+                try {
+                    boolean b = model.updateCustomer(dto);
+                    if (b) {
+                        getAllCustomer();
+                        searchTable();
+                        Image image=new Image("/Icon/iconsOk.png");
+                        try {
+                            Notifications notifications=Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Customer Update Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            }else {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Invalid input..Please enter a valid input ");
+                    notifications.title("Error");
+                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }

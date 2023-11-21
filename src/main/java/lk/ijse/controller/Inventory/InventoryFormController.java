@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
@@ -28,6 +29,7 @@ import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.ItemTm;
 import lk.ijse.model.ItemModel;
+import lk.ijse.regex.RegexPattern;
 import org.controlsfx.control.Notifications;
 
 import javax.swing.*;
@@ -168,62 +170,79 @@ public class InventoryFormController {
             }
         }else {
             int id = Integer.parseInt(txtid.getText());
-            String name = txtname.getText();
-            int qty = Integer.parseInt(txtqty.getText());
-            double price = Double.parseDouble(txtprice.getText());
-            String description = txtdescription.getText();
-            String category = (String) txtcomboBox.getValue();
-            Image imgId = img.getImage();
-            byte[] blob = model.imagenToByte(imgId);
+
+                if (model.isExists(id)){
+                    Image image=new Image("/Icon/icons8-cancel-50.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Item is already added");
+                        notifications.title("Warning");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }else {
+                    if (checkValidate()){
+
+                        String name = txtname.getText();
+                        int qty = Integer.parseInt(txtqty.getText());
+                        double price = Double.parseDouble(txtprice.getText());
+                        String description = txtdescription.getText();
+                        String category = (String) txtcomboBox.getValue();
+                        Image imgId = img.getImage();
+                        byte[] blob = model.imagenToByte(imgId);
+
+                        ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
 
 
-            if (model.isExists(id)){
-                Image image=new Image("/Icon/icons8-cancel-50.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Item is already added");
-                    notifications.title("Warning");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else {
-                ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
+                        try {
+                            boolean b = model.saveItem(itemDto);
 
+                            if(b) {
+                                getAllItem();
+                                clearFeild();
+                                generateNextOrderId();
+                                searchTable();
+                                nullTextFieldColor();
 
-                try {
-                    boolean b = model.saveItem(itemDto);
+                                Image image=new Image("/Icon/iconsOk.png");
+                                try {
+                                    Notifications notifications=Notifications.create();
+                                    notifications.graphic(new ImageView(image));
+                                    notifications.text("Item Saved Successfully");
+                                    notifications.title("Successfully");
+                                    notifications.hideAfter(Duration.seconds(5));
+                                    notifications.position(Pos.TOP_RIGHT);
+                                    notifications.show();
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
 
-                    if(b) {
-                        getAllItem();
-                        clearFeild();
-                        generateNextOrderId();
-                        searchTable();
-
-                        Image image=new Image("/Icon/iconsOk.png");
+                                System.out.println("Item saved successfully");
+                            }else {
+                                System.out.println("Item not saved successfully");
+                            }
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }else {
+                        Image image=new Image("/Icon/icons8-cancel-50.png");
                         try {
                             Notifications notifications=Notifications.create();
                             notifications.graphic(new ImageView(image));
-                            notifications.text("Item Saved Successfully");
-                            notifications.title("Successfully");
-                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.text("Invalid input..Please enter a valid input ");
+                            notifications.title("Error");
+                            notifications.hideAfter(Duration.seconds(4));
                             notifications.position(Pos.TOP_RIGHT);
                             notifications.show();
                         }catch (Exception e){
                             e.printStackTrace();
                         }
-
-                        System.out.println("Item saved successfully");
-                    }else {
-                        System.out.println("Item not saved successfully");
                     }
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
                 }
-            }
         }
     }
 
@@ -243,43 +262,61 @@ public class InventoryFormController {
                 e.printStackTrace();
             }
         }else {
-            int id = Integer.parseInt(txtid.getText());
-            String name = txtname.getText();
-            int qty = Integer.parseInt(txtqty.getText());
-            double price = Double.parseDouble(txtprice.getText());
-            String description = txtdescription.getText();
-            String category = (String) txtcomboBox.getValue();
-            Image imgId = img.getImage();
-            byte[] blob = model.imagenToByte(imgId);
 
-            ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
+            if (checkValidate()){
 
-            try {
-                boolean b = model.updateItem(itemDto);
-                if (b) {
-                    getAllItem();
-                    clearFeild();
-                    searchTable();
+                int id = Integer.parseInt(txtid.getText());
+                String name = txtname.getText();
+                int qty = Integer.parseInt(txtqty.getText());
+                double price = Double.parseDouble(txtprice.getText());
+                String description = txtdescription.getText();
+                String category = (String) txtcomboBox.getValue();
+                Image imgId = img.getImage();
+                byte[] blob = model.imagenToByte(imgId);
 
-                    Image image=new Image("/Icon/iconsOk.png");
-                    try {
-                        Notifications notifications=Notifications.create();
-                        notifications.graphic(new ImageView(image));
-                        notifications.text("Item Update Successfully");
-                        notifications.title("Successfully");
-                        notifications.hideAfter(Duration.seconds(5));
-                        notifications.position(Pos.TOP_RIGHT);
-                        notifications.show();
-                    }catch (Exception e){
-                        e.printStackTrace();
+                ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
+
+                try {
+                    boolean b = model.updateItem(itemDto);
+                    if (b) {
+                        getAllItem();
+                        clearFeild();
+                        searchTable();
+                        nullTextFieldColor();
+
+                        Image image=new Image("/Icon/iconsOk.png");
+                        try {
+                            Notifications notifications=Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Item Update Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                        System.out.println("Item updated successfully");
+                    }else {
+                        System.out.println("Item not updated successfully");
                     }
-
-                    System.out.println("Item updated successfully");
-                }else {
-                    System.out.println("Item not updated successfully");
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            }else {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Invalid input..Please enter a valid input ");
+                    notifications.title("Error");
+                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -457,5 +494,30 @@ public class InventoryFormController {
             return true;
         }
         return false;
+    }
+
+    private boolean checkValidate(){
+        if (!(RegexPattern.getNamePattern().matcher(txtname.getText()).matches())){
+            txtname.requestFocus();
+            txtname.setFocusColor(Color.RED);
+            return false;
+        }
+        if (!(RegexPattern.getIntPattern().matcher(txtqty.getText()).matches())){
+            txtqty.requestFocus();
+            txtqty.setFocusColor(Color.RED);
+            return false;
+        }
+        if (!(RegexPattern.getDoublePattern().matcher(txtprice.getText()).matches())){
+            txtprice.requestFocus();
+            txtprice.setFocusColor(Color.RED);
+            return false;
+        }
+        return true;
+    }
+
+    private void nullTextFieldColor(){
+        txtname.setFocusColor(Color.web("#0040ff"));
+        txtqty.setFocusColor(Color.web("#0040ff"));
+        txtprice.setFocusColor(Color.web("#0040ff"));
     }
 }

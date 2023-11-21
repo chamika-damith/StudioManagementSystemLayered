@@ -160,10 +160,6 @@ public class EmployeeFormController {
             }
         }else {
 
-            if (checkValidate()){
-
-                nullTextFieldColor();
-
                 String type = comboBox.getValue();
                 int empId = Integer.parseInt(txtEmpId.getText());
                 String name = txtName.getText();
@@ -190,19 +186,36 @@ public class EmployeeFormController {
                         }
                         return;
                     }else {
-                        boolean b = model.saveEmployee(dto);
-                        if (b) {
-                            getAllEmployee();
-                            Image image = new Image("/Icon/iconsOk.png");
+
+                        if (checkValidate()){
+                            boolean b = model.saveEmployee(dto);
+                            if (b) {
+                                getAllEmployee();
+                                nullTextFieldColor();
+                                Image image = new Image("/Icon/iconsOk.png");
+                                try {
+                                    Notifications notifications = Notifications.create();
+                                    notifications.graphic(new ImageView(image));
+                                    notifications.text("Employee Saved Successfully");
+                                    notifications.title("Successfully");
+                                    notifications.hideAfter(Duration.seconds(5));
+                                    notifications.position(Pos.TOP_RIGHT);
+                                    notifications.show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }else {
+                            Image image=new Image("/Icon/icons8-cancel-50.png");
                             try {
-                                Notifications notifications = Notifications.create();
+                                Notifications notifications=Notifications.create();
                                 notifications.graphic(new ImageView(image));
-                                notifications.text("Employee Saved Successfully");
-                                notifications.title("Successfully");
-                                notifications.hideAfter(Duration.seconds(5));
+                                notifications.text("Invalid input..Please enter a valid input ");
+                                notifications.title("Error");
+                                notifications.hideAfter(Duration.seconds(4));
                                 notifications.position(Pos.TOP_RIGHT);
                                 notifications.show();
-                            } catch (Exception e) {
+                            }catch (Exception e){
                                 e.printStackTrace();
                             }
                         }
@@ -210,20 +223,6 @@ public class EmployeeFormController {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-            }else {
-                Image image=new Image("/Icon/icons8-cancel-50.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Invalid input..Please enter a valid input ");
-                    notifications.title("Error");
-                    notifications.hideAfter(Duration.seconds(4));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
@@ -260,28 +259,44 @@ public class EmployeeFormController {
             String email = txtEmail.getText();
             String address = txtAddress.getText();
 
-            var dto=new EmployeeDto(empId,name,salary,email,type,address);
+            if (checkValidate()){
+                var dto=new EmployeeDto(empId,name,salary,email,type,address);
 
-            try {
-                boolean b = model.updateEmployee(dto);
-                if (b) {
-                    getAllEmployee();
+                try {
+                    boolean b = model.updateEmployee(dto);
+                    if (b) {
+                        getAllEmployee();
+                        nullTextFieldColor();
 
-                    Image image=new Image("/Icon/iconsOk.png");
-                    try {
-                        Notifications notifications=Notifications.create();
-                        notifications.graphic(new ImageView(image));
-                        notifications.text("Employee Update Successfully");
-                        notifications.title("Successfully");
-                        notifications.hideAfter(Duration.seconds(5));
-                        notifications.position(Pos.TOP_RIGHT);
-                        notifications.show();
-                    }catch (Exception e){
-                        e.printStackTrace();
+                        Image image=new Image("/Icon/iconsOk.png");
+                        try {
+                            Notifications notifications=Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Employee Update Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            }else {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Invalid input..Please enter a valid input ");
+                    notifications.title("Error");
+                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }
