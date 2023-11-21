@@ -47,7 +47,7 @@ import java.util.Optional;
 
 public class OrderFormController {
     public JFXComboBox cmbCustomerId;
-    public JFXComboBox cmbItemId;
+    public JFXComboBox<String> cmbItemId;
     public Label lblOrderId;
     public Label lblCusName;
     public Label lblItemQty;
@@ -106,6 +106,7 @@ public class OrderFormController {
 
     private void setDate() {
         //lblDate.setText(String.valueOf(LocalDate.now()));
+        cmbDate.setValue(LocalDate.now());
     }
 
     @FXML
@@ -326,6 +327,8 @@ public class OrderFormController {
                 obList.remove(focusedIndex);
                 calculateTotal();
                 tblCart.refresh();
+                int txtLblQty = Integer.parseInt(lblItemQty.getText());
+                lblItemQty.setText(String.valueOf(txtLblQty+qty));
             }
             OrderCartRoot.setEffect(null);
         });
@@ -485,4 +488,6 @@ public class OrderFormController {
     public void cmbDateOnAction(ActionEvent actionEvent) {
         lblDate.setText(String.valueOf(cmbDate.getValue()));
     }
+
+
 }
