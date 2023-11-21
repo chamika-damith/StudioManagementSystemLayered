@@ -18,6 +18,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.controller.Customer.CustomerFormController;
@@ -29,6 +30,7 @@ import lk.ijse.dto.tm.CartTm;
 import lk.ijse.dto.tm.ItemTm;
 import lk.ijse.dto.tm.OrderItemTm;
 import lk.ijse.model.*;
+import lk.ijse.regex.RegexPattern;
 import lk.ijse.smtp.MailSend;
 import org.controlsfx.control.Notifications;
 
@@ -199,74 +201,93 @@ public class OrderFormController {
                 e.printStackTrace();
             }
         }else {
-            String itemId = (String) cmbItemId.getValue();
-            int orderId = Integer.parseInt(lblOrderId.getText());
-            String desc = lblItemDesc.getText();
-            Date date = Date.valueOf(lblDate.getText());
-            double price = Double.parseDouble(lblItemPrice.getText());
-            qty = Integer.parseInt(txtQty.getText());
-            double totPrice = price * qty;
-            Button btn = createButton();
 
-            lblQty = Integer.parseInt(lblItemQty.getText());
-            textQty = Integer.parseInt(txtQty.getText());
+            if (checkValidate()){
 
-            if (!obList.isEmpty()) {
-                for (int i = 0; i < tblCart.getItems().size(); i++) {
-                    if (colItemId.getCellData(i).equals(itemId)) {
-                        int col_qty = (int) colQty.getCellData(i);
-                        qty += col_qty;
-                        return;
+                String itemId = (String) cmbItemId.getValue();
+                int orderId = Integer.parseInt(lblOrderId.getText());
+                String desc = lblItemDesc.getText();
+                Date date = Date.valueOf(lblDate.getText());
+                double price = Double.parseDouble(lblItemPrice.getText());
+                qty = Integer.parseInt(txtQty.getText());
+                double totPrice = price * qty;
+                Button btn = createButton();
+
+                lblQty = Integer.parseInt(lblItemQty.getText());
+                textQty = Integer.parseInt(txtQty.getText());
+
+                if (!obList.isEmpty()) {
+                    for (int i = 0; i < tblCart.getItems().size(); i++) {
+                        if (colItemId.getCellData(i).equals(itemId)) {
+                            int col_qty = (int) colQty.getCellData(i);
+                            qty += col_qty;
+                            return;
+                        }
                     }
                 }
-            }
 
-            if (lblQty > 0 & textQty < lblQty) {
+                if (lblQty > 0 & textQty < lblQty) {
 
-                saveQty = lblQty - textQty;
-                lblItemQty.setText(String.valueOf(saveQty));
+                    saveQty = lblQty - textQty;
+                    lblItemQty.setText(String.valueOf(saveQty));
 
-                setRemoveBtnAction(btn);
-                btn.setCursor(Cursor.HAND);
+                    setRemoveBtnAction(btn);
+                    btn.setCursor(Cursor.HAND);
 
-                var cartTm = new CartTm(itemId, desc, date, totPrice, qty, btn);
+                    var cartTm = new CartTm(itemId, desc, date, totPrice, qty, btn);
 
-                obList.add(cartTm);
+                    obList.add(cartTm);
 
-                tblCart.setItems(obList);
-                calculateTotal();
-                tblCart.refresh();
+                    tblCart.setItems(obList);
+                    calculateTotal();
+                    tblCart.refresh();
 
-                Image image = new Image("/Icon/iconsOk.png");
+                    Image image = new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications = Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Order Added to Cart");
+                        notifications.title("Successfully Added");
+                        notifications.hideAfter(Duration.seconds(4));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    OrderCartRoot.setEffect(new GaussianBlur());
+                    Optional<ButtonType> buttonType = new Alert(Alert.AlertType.WARNING, "Stock Count is Low.Do you want to order this item in stock ?", ButtonType.OK, ButtonType.NO).showAndWait();
+                    if (buttonType.orElse(ButtonType.NO) == ButtonType.OK) {
+                        OrderCartRoot.setEffect(null);
+                        Parent parent = null;
+                        try {
+                            parent = FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryOrderDetail.fxml"));
+                            OrderCartRoot.getChildren().clear();
+                            OrderCartRoot.getChildren().add(parent);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                    OrderCartRoot.setEffect(null);
+                }
+            }else {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
                 try {
-                    Notifications notifications = Notifications.create();
+                    Notifications notifications=Notifications.create();
                     notifications.graphic(new ImageView(image));
-                    notifications.text("Order Added to Cart");
-                    notifications.title("Successfully Added");
+                    notifications.text("Invalid input..Please enter a valid input ");
+                    notifications.title("Error");
                     notifications.hideAfter(Duration.seconds(4));
                     notifications.position(Pos.TOP_RIGHT);
                     notifications.show();
-                } catch (Exception e) {
+                }catch (Exception e){
                     e.printStackTrace();
                 }
-
-            } else {
-                OrderCartRoot.setEffect(new GaussianBlur());
-                Optional<ButtonType> buttonType = new Alert(Alert.AlertType.WARNING, "Stock Count is Low.Do you want to order this item in stock ?", ButtonType.OK, ButtonType.NO).showAndWait();
-                if (buttonType.orElse(ButtonType.NO) == ButtonType.OK) {
-                    OrderCartRoot.setEffect(null);
-                    Parent parent = null;
-                    try {
-                        parent = FXMLLoader.load(getClass().getResource("/view/Inventory/InventoryOrderDetail.fxml"));
-                        OrderCartRoot.getChildren().clear();
-                        OrderCartRoot.getChildren().add(parent);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
-                OrderCartRoot.setEffect(null);
             }
+
+
         }
     }
 
@@ -317,7 +338,7 @@ public class OrderFormController {
                 try {
                     Notifications notifications=Notifications.create();
                     notifications.graphic(new ImageView(image));
-                    notifications.text("Value is empty! Please enter all values");
+                    notifications.text("Cart is empty! Please add cart to items");
                     notifications.title("Warning");
                     notifications.hideAfter(Duration.seconds(5));
                     notifications.position(Pos.TOP_RIGHT);
@@ -441,5 +462,17 @@ public class OrderFormController {
             return true;
         }
         return false;
+    }
+
+    private boolean checkValidate(){
+        if (!(RegexPattern.getIntPattern().matcher(txtQty.getText()).matches())){
+            txtQty.requestFocus();
+            txtQty.setFocusColor(Color.RED);
+            return false;
+        }
+        return true;
+    }
+    private void nullTextFieldColor() {
+        txtQty.setFocusColor(Color.web("#0040ff"));
     }
 }
