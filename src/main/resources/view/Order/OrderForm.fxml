@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -73,14 +74,14 @@
       </JFXButton>
       <Pane layoutX="12.0" layoutY="47.0" prefHeight="220.0" prefWidth="1307.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
          <children>
-            <Label layoutX="24.0" layoutY="10.0" opacity="0.9" text="Order Details" textFill="#22a390">
+            <Label layoutX="13.0" layoutY="6.0" opacity="0.6" text="Order Details" textFill="#22a390">
                <font>
-                  <Font name="System Bold" size="19.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="cmbCustomerId" labelFloat="true" layoutX="64.0" layoutY="50.0" onAction="#cmbCustomerOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Customer Id *" />
-            <JFXComboBox fx:id="cmbItemId" labelFloat="true" layoutX="527.0" layoutY="50.0" onAction="#cmbItemOnAction" prefHeight="25.0" prefWidth="399.0" promptText="Item Id *" />
-            <JFXTextField fx:id="txtQty" labelFloat="true" layoutX="991.0" layoutY="50.0" onAction="#txtQtyOnAction" prefHeight="25.0" prefWidth="171.0" promptText="Qty :" />
+            <JFXComboBox fx:id="cmbCustomerId" labelFloat="true" layoutX="85.0" layoutY="56.0" onAction="#cmbCustomerOnAction" prefHeight="25.0" prefWidth="204.0" promptText="Customer Id *" />
+            <JFXComboBox fx:id="cmbItemId" labelFloat="true" layoutX="382.0" layoutY="56.0" onAction="#cmbItemOnAction" prefHeight="25.0" prefWidth="204.0" promptText="Item Id *" />
+            <JFXTextField fx:id="txtQty" labelFloat="true" layoutX="984.0" layoutY="56.0" onAction="#txtQtyOnAction" prefHeight="25.0" prefWidth="204.0" promptText="Qty :" />
             <Label layoutX="1141.0" layoutY="14.0" text="Order Id - " textFill="#22a390">
                <font>
                   <Font name="System Bold" size="16.0" />
@@ -170,6 +171,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
+            <MFXDatePicker fx:id="cmbDate" layoutX="674.0" layoutY="50.0" onAction="#cmbDateOnAction" prefHeight="38.0" prefWidth="204.0" promptText="orders date" />
          </children>
       </Pane>
       <Label layoutX="1258.0" layoutY="5.0" opacity="0.9" text="Orders" textFill="#22a390">
@@ -179,7 +181,7 @@
       </Label>
       <Pane layoutX="18.0" layoutY="277.0" prefHeight="375.0" prefWidth="1298.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
          <children>
-            <Label layoutX="27.0" layoutY="14.0" opacity="0.9" text="View Cart" textFill="#22a390">
+            <Label layoutX="27.0" layoutY="14.0" opacity="0.6" text="View Cart" textFill="#22a390">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>

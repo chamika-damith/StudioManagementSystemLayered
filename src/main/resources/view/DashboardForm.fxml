@@ -215,5 +215,10 @@
             <Image url="@../Icon/dashboard.png" />
          </image>
       </ImageView>
+      <Label fx:id="lblDateTime" layoutX="1319.0" layoutY="83.0" prefHeight="27.0" prefWidth="219.0" textFill="#1d1f24">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

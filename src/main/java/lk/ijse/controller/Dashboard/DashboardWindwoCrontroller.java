@@ -5,6 +5,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import lk.ijse.dto.DasboardDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.model.*;
 
@@ -20,6 +21,8 @@ public class DashboardWindwoCrontroller {
     public Label lblOrders;
     public Label lblEmpId;
     public BarChart<String,Number> barChart;
+
+    private DashboardModel model=new DashboardModel();
 
     public void initialize(){
         chart1();
@@ -41,11 +44,22 @@ public class DashboardWindwoCrontroller {
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
 
-        series.getData().add(new XYChart.Data<>("Nov ", 4));
-        series.getData().add(new XYChart.Data<>("Nov 8", 8));
-        series.getData().add(new XYChart.Data<>("Nov 15", 12));
-        series.getData().add(new XYChart.Data<>("Nov 22", 3));
-        series.getData().add(new XYChart.Data<>("Nov 29", 15));
+
+        try {
+            List<DasboardDto> dataFromDatabase = model.getChartData();
+
+            for (DasboardDto dto : dataFromDatabase) {
+                series.getData().add(new XYChart.Data<>(dto.getMonthName(), dto.getTotal()));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+//        series.getData().add(new XYChart.Data<>("Nov ", 4));
+//        series.getData().add(new XYChart.Data<>("Nov", 8));
+//        series.getData().add(new XYChart.Data<>("Nov", 12));
+//        series.getData().add(new XYChart.Data<>("Nov", 3));
+//        series.getData().add(new XYChart.Data<>("Nov", 15));
 
         Linechart.getData().addAll(series);
 

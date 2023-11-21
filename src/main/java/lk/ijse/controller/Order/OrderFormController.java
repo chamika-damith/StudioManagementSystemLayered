@@ -2,6 +2,7 @@ package lk.ijse.controller.Order;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,6 +64,7 @@ public class OrderFormController {
     public JFXTextField txtQty;
     public Label lblTotal;
     public AnchorPane OrderCartRoot;
+    public MFXDatePicker cmbDate;
 
     private String cusName;
     private int saveQty;
@@ -103,7 +105,7 @@ public class OrderFormController {
     }
 
     private void setDate() {
-        lblDate.setText(String.valueOf(LocalDate.now()));
+        //lblDate.setText(String.valueOf(LocalDate.now()));
     }
 
     @FXML
@@ -204,6 +206,8 @@ public class OrderFormController {
 
             if (checkValidate()){
 
+                nullTextFieldColor();
+
                 String itemId = (String) cmbItemId.getValue();
                 int orderId = Integer.parseInt(lblOrderId.getText());
                 String desc = lblItemDesc.getText();
@@ -211,6 +215,7 @@ public class OrderFormController {
                 double price = Double.parseDouble(lblItemPrice.getText());
                 qty = Integer.parseInt(txtQty.getText());
                 double totPrice = price * qty;
+
                 Button btn = createButton();
 
                 lblQty = Integer.parseInt(lblItemQty.getText());
@@ -230,6 +235,7 @@ public class OrderFormController {
 
                     saveQty = lblQty - textQty;
                     lblItemQty.setText(String.valueOf(saveQty));
+
 
                     setRemoveBtnAction(btn);
                     btn.setCursor(Cursor.HAND);
@@ -474,5 +480,9 @@ public class OrderFormController {
     }
     private void nullTextFieldColor() {
         txtQty.setFocusColor(Color.web("#0040ff"));
+    }
+
+    public void cmbDateOnAction(ActionEvent actionEvent) {
+        lblDate.setText(String.valueOf(cmbDate.getValue()));
     }
 }

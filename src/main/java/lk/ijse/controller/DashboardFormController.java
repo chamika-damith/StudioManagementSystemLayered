@@ -2,6 +2,9 @@ package lk.ijse.controller;
 
 import com.mysql.cj.log.Log;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,9 +16,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Duration;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class DashboardFormController {
     public AnchorPane DashboardRoot;
@@ -23,17 +30,31 @@ public class DashboardFormController {
     @FXML
     public Label lblUserId;
     public TextField txtSearchBar;
+    public Label lblDateTime;
     @FXML
     private Label lblUserName;
 
     public void initialize(){
         lblUserId.setText("001");
+        DateTime();
         search();
         try {
             SetUi("/view/Dashboard/DashboardWindow.fxml");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void DateTime() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            LocalDate date = LocalDate.now();
+            LocalTime time = LocalTime.now();
+            lblDateTime.setText(date.format(DateTimeFormatter.ISO_DATE) + " " + time.getHour() + ":" + time.getMinute() + ":" + time.getSecond());
+        }),
+                new KeyFrame(Duration.seconds(1))
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
     public void search(){
