@@ -1,4 +1,4 @@
-package lk.ijse.barCode;
+package lk.ijse.regex;
 
 import java.util.regex.Pattern;
 

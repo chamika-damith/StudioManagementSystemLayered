@@ -13,6 +13,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.EmployeeDto;
@@ -20,6 +21,7 @@ import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.EmployeeTm;
 import lk.ijse.model.CustomerModel;
 import lk.ijse.model.EmployeeModel;
+import lk.ijse.regex.RegexPattern;
 import org.controlsfx.control.Notifications;
 
 import java.sql.SQLException;
@@ -42,6 +44,7 @@ public class EmployeeFormController {
     public TableColumn colType;
     public TableColumn Action;
     public AnchorPane EmployeeRoot;
+    public Label lblempId;
 
     private EmployeeModel model=new EmployeeModel();
 
@@ -156,51 +159,70 @@ public class EmployeeFormController {
                 e.printStackTrace();
             }
         }else {
-            String type = comboBox.getValue();
-            int empId = Integer.parseInt(txtEmpId.getText());
-            String name = txtName.getText();
-            double salary = Double.parseDouble(txtSalary.getText());
-            String email = txtEmail.getText();
-            String address = txtAddress.getText();
 
-            var dto=new EmployeeDto(empId,name,salary,email,type,address);
+            if (checkValidate()){
 
-            try {
-                if (model.isExists(empId)) {
-                    txtEmpId.requestFocus();
-                    Image image=new Image("/Icon/icons8-cancel-50.png");
-                    try {
-                        Notifications notifications=Notifications.create();
-                        notifications.graphic(new ImageView(image));
-                        notifications.text("Employee is already registered");
-                        notifications.title("Warning");
-                        notifications.hideAfter(Duration.seconds(5));
-                        notifications.position(Pos.TOP_RIGHT);
-                        notifications.show();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    return;
-                }else {
-                    boolean b = model.saveEmployee(dto);
-                    if (b) {
-                        getAllEmployee();
-                        Image image = new Image("/Icon/iconsOk.png");
+                nullTextFieldColor();
+
+                String type = comboBox.getValue();
+                int empId = Integer.parseInt(txtEmpId.getText());
+                String name = txtName.getText();
+                double salary = Double.parseDouble(txtSalary.getText());
+                String email = txtEmail.getText();
+                String address = txtAddress.getText();
+
+                var dto=new EmployeeDto(empId,name,salary,email,type,address);
+
+                try {
+                    if (model.isExists(empId)) {
+                        txtEmpId.requestFocus();
+                        Image image=new Image("/Icon/icons8-cancel-50.png");
                         try {
-                            Notifications notifications = Notifications.create();
+                            Notifications notifications=Notifications.create();
                             notifications.graphic(new ImageView(image));
-                            notifications.text("Employee Saved Successfully");
-                            notifications.title("Successfully");
+                            notifications.text("Employee is already registered");
+                            notifications.title("Warning");
                             notifications.hideAfter(Duration.seconds(5));
                             notifications.position(Pos.TOP_RIGHT);
                             notifications.show();
-                        } catch (Exception e) {
+                        }catch (Exception e){
                             e.printStackTrace();
                         }
+                        return;
+                    }else {
+                        boolean b = model.saveEmployee(dto);
+                        if (b) {
+                            getAllEmployee();
+                            Image image = new Image("/Icon/iconsOk.png");
+                            try {
+                                Notifications notifications = Notifications.create();
+                                notifications.graphic(new ImageView(image));
+                                notifications.text("Employee Saved Successfully");
+                                notifications.title("Successfully");
+                                notifications.hideAfter(Duration.seconds(5));
+                                notifications.position(Pos.TOP_RIGHT);
+                                notifications.show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            }else {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Invalid input..Please enter a valid input ");
+                    notifications.title("Error");
+                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -209,6 +231,7 @@ public class EmployeeFormController {
         try {
             int empid = model.generateNextEmpId();
             txtEmpId.setText(String.valueOf("00"+empid));
+            lblempId.setText("00"+empid);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
@@ -315,5 +338,37 @@ public class EmployeeFormController {
         }else {
             return false;
         }
+    }
+
+    private boolean checkValidate(){
+        if(!(RegexPattern.getAddressPattern().matcher(txtAddress.getText()).matches())){
+            txtAddress.requestFocus();
+            txtAddress.setFocusColor(Color.RED);
+            return false;
+        }
+        if (!(RegexPattern.getNamePattern().matcher(txtName.getText()).matches())){
+            txtName.requestFocus();
+            txtName.setFocusColor(Color.RED);
+            return false;
+        }
+        if (!(RegexPattern.getEmailPattern().matcher(txtEmail.getText()).matches())){
+            txtEmail.requestFocus();
+            txtEmail.setFocusColor(Color.RED);
+            return false;
+        }
+        if (!(RegexPattern.getDoublePattern().matcher(txtSalary.getText()).matches())){
+            txtSalary.requestFocus();
+            txtSalary.setFocusColor(Color.RED);
+            return false;
+        }
+        return true;
+    }
+
+    private void nullTextFieldColor(){
+        txtAddress.setFocusColor(Color.web("#0040ff"));
+        txtName.setFocusColor(Color.web("#0040ff"));
+        txtEmail.setFocusColor(Color.web("#0040ff"));
+        txtSalary.setFocusColor(Color.web("#0040ff"));
+
     }
 }

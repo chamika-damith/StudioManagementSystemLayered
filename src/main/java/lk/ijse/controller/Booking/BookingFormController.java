@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import lk.ijse.barCode.RegexPattern;
+import lk.ijse.regex.RegexPattern;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.BookingCartTm;
 import lk.ijse.model.BookingModel;
@@ -32,7 +32,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 import static lk.ijse.controller.Booking.EventType.*;
 

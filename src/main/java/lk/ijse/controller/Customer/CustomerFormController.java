@@ -6,10 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
@@ -18,21 +16,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import lk.ijse.barCode.RegexPattern;
+import lk.ijse.regex.RegexPattern;
 import lk.ijse.dto.CustomerDto;
-import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.tm.CustomerTm;
-import lk.ijse.dto.tm.ItemTm;
 import lk.ijse.model.CustomerModel;
-import lk.ijse.model.ItemModel;
 import org.controlsfx.control.Notifications;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-
-import static io.github.palexdev.materialfx.controls.MFXTextField.DEFAULT_TEXT_COLOR;
 
 public class CustomerFormController {
     public AnchorPane CustomerRoot;
