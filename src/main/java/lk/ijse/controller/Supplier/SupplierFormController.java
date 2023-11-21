@@ -15,6 +15,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import lk.ijse.controller.Customer.CustomerFormController;
 import lk.ijse.dto.CustomerDto;
@@ -23,6 +24,7 @@ import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.SupplierTm;
 import lk.ijse.model.CustomerModel;
 import lk.ijse.model.SupplierModel;
+import lk.ijse.regex.RegexPattern;
 import org.controlsfx.control.Notifications;
 
 import java.sql.SQLException;
@@ -130,58 +132,73 @@ public class SupplierFormController {
             }
         }else {
 
-            int id = Integer.parseInt(txtId.getText());
-            String name = txtName.getText();
-            String address = txtAddress.getText();
-            String mobile = txtMobile.getText();
-            String category = (String) cmbCategory.getValue();
+            if (checkValidate()){
+                int id = Integer.parseInt(txtId.getText());
+                String name = txtName.getText();
+                String address = txtAddress.getText();
+                String mobile = txtMobile.getText();
+                String category = (String) cmbCategory.getValue();
 
-            try {
-                if (model.isExists(id)) {
-                    clearField();
-                    Image image = new Image("/Icon/icons8-cancel-50.png");
-                    try {
-                        Notifications notifications = Notifications.create();
-                        notifications.graphic(new ImageView(image));
-                        notifications.text("Supplier is already registered");
-                        notifications.title("Warning");
-                        notifications.hideAfter(Duration.seconds(5));
-                        notifications.position(Pos.TOP_RIGHT);
-                        notifications.show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-
-                    var dto = new SupplierDto(id, name, mobile, address, category);
-
-                    try {
-                        boolean b = model.saveSupplier(dto);
-                        if (b) {
-                            clearField();
-                            generateNextSupId();
-                            getAllSupplier();
-                            searchTable();
-                            Image image = new Image("/Icon/iconsOk.png");
-                            try {
-                                Notifications notifications = Notifications.create();
-                                notifications.graphic(new ImageView(image));
-                                notifications.text("Supplier Saved Successfully");
-                                notifications.title("Successfully");
-                                notifications.hideAfter(Duration.seconds(5));
-                                notifications.position(Pos.TOP_RIGHT);
-                                notifications.show();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                try {
+                    if (model.isExists(id)) {
+                        clearField();
+                        Image image = new Image("/Icon/icons8-cancel-50.png");
+                        try {
+                            Notifications notifications = Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Supplier is already registered");
+                            notifications.title("Warning");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    } else {
 
+                        var dto = new SupplierDto(id, name, mobile, address, category);
+
+                        try {
+                            boolean b = model.saveSupplier(dto);
+                            if (b) {
+                                clearField();
+                                generateNextSupId();
+                                getAllSupplier();
+                                searchTable();
+                                Image image = new Image("/Icon/iconsOk.png");
+                                try {
+                                    Notifications notifications = Notifications.create();
+                                    notifications.graphic(new ImageView(image));
+                                    notifications.text("Supplier Saved Successfully");
+                                    notifications.title("Successfully");
+                                    notifications.hideAfter(Duration.seconds(5));
+                                    notifications.position(Pos.TOP_RIGHT);
+                                    notifications.show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            }else {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Invalid input..Please enter a valid input ");
+                    notifications.title("Error");
+                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -203,36 +220,51 @@ public class SupplierFormController {
             }
         }else {
 
-            int id = Integer.parseInt(txtId.getText());
-            String name = txtName.getText();
-            String address = txtAddress.getText();
-            String mobile = txtMobile.getText();
-            String category = (String) cmbCategory.getValue();
+            if (checkValidate()){
+                int id = Integer.parseInt(txtId.getText());
+                String name = txtName.getText();
+                String address = txtAddress.getText();
+                String mobile = txtMobile.getText();
+                String category = (String) cmbCategory.getValue();
 
 
-            var dto = new SupplierDto(id, name, address, mobile, category);
+                var dto = new SupplierDto(id, name, address, mobile, category);
 
 
-            try {
-                boolean b = model.updateSupplier(dto);
-                if (b) {
-                    getAllSupplier();
-                    searchTable();
-                    Image image = new Image("/Icon/iconsOk.png");
-                    try {
-                        Notifications notifications = Notifications.create();
-                        notifications.graphic(new ImageView(image));
-                        notifications.text("Supplier Update Successfully");
-                        notifications.title("Successfully");
-                        notifications.hideAfter(Duration.seconds(5));
-                        notifications.position(Pos.TOP_RIGHT);
-                        notifications.show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                try {
+                    boolean b = model.updateSupplier(dto);
+                    if (b) {
+                        getAllSupplier();
+                        searchTable();
+                        Image image = new Image("/Icon/iconsOk.png");
+                        try {
+                            Notifications notifications = Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Supplier Update Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            }else {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Invalid input..Please enter a valid input ");
+                    notifications.title("Error");
+                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -290,7 +322,7 @@ public class SupplierFormController {
                     try {
                         boolean b = model.deleteSupplier(supId);
                         if (b) {
-
+                            generateNextSupId();
                             Image image=new Image("/Icon/iconsDelete.png");
                             Notifications notifications=Notifications.create();
                             notifications.graphic(new ImageView(image));
@@ -361,5 +393,33 @@ public class SupplierFormController {
         }else {
             return false;
         }
+    }
+
+    public boolean checkValidate(){
+        if (!(RegexPattern.getNamePattern().matcher(txtName.getText()).matches())) {
+            txtName.requestFocus();
+            txtName.setFocusColor(Color.RED);
+            return false;
+        }
+
+        if (!(RegexPattern.getAddressPattern().matcher(txtAddress.getText()).matches())){
+            txtAddress.requestFocus();
+            txtAddress.setFocusColor(Color.RED);
+            return false;
+        }
+
+        if (!(RegexPattern.getMobilePattern().matcher(txtMobile.getText()).matches())){
+            txtMobile.requestFocus();
+            txtMobile.setFocusColor(Color.RED);
+            return false;
+        }
+
+        return true;
+    }
+    private void nullTextFieldColor() {
+        txtId.setFocusColor(Color.web("#0040ff"));
+        txtName.setFocusColor(Color.web("#0040ff"));
+        txtMobile.setFocusColor(Color.web("#0040ff"));
+        txtAddress.setFocusColor(Color.web("#0040ff"));
     }
 }
