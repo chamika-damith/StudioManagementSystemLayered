@@ -15,6 +15,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.ServiceDto;
@@ -22,6 +23,7 @@ import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.ServiceTm;
 import lk.ijse.model.CustomerModel;
 import lk.ijse.model.ServiceModel;
+import lk.ijse.regex.RegexPattern;
 import org.controlsfx.control.Notifications;
 
 import java.sql.SQLException;
@@ -83,49 +85,64 @@ public class ServiceFormController {
             }
         }else {
 
-            int serviceId = Integer.parseInt(txtId.getText());
-            String type = (String) cmbType.getValue();
-            double price = Double.parseDouble(txtPrice.getText());
-            String name = txtName.getText();
+            if (checkValidate()){
+                int serviceId = Integer.parseInt(txtId.getText());
+                String type = (String) cmbType.getValue();
+                double price = Double.parseDouble(txtPrice.getText());
+                String name = txtName.getText();
 
-            try {
-                if (Model.isExists(serviceId)) {
-                    Image image = new Image("/Icon/icons8-cancel-50.png");
-                    try {
-                        Notifications notifications = Notifications.create();
-                        notifications.graphic(new ImageView(image));
-                        notifications.text("Service is already Added");
-                        notifications.title("Warning");
-                        notifications.hideAfter(Duration.seconds(5));
-                        notifications.position(Pos.TOP_RIGHT);
-                        notifications.show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    var dto = new ServiceDto(serviceId, name, price, type);
-                    boolean b = Model.savePackageDto(dto);
-                    if (b) {
-                        clearField();
-                        getAllService();
-                        generateNextPkgId();
-                        searchTable();
-                        Image image = new Image("/Icon/iconsOk.png");
+                try {
+                    if (Model.isExists(serviceId)) {
+                        Image image = new Image("/Icon/icons8-cancel-50.png");
                         try {
                             Notifications notifications = Notifications.create();
                             notifications.graphic(new ImageView(image));
-                            notifications.text("service Saved Successfully");
-                            notifications.title("Successfully");
+                            notifications.text("Service is already Added");
+                            notifications.title("Warning");
                             notifications.hideAfter(Duration.seconds(5));
                             notifications.position(Pos.TOP_RIGHT);
                             notifications.show();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                    } else {
+                        var dto = new ServiceDto(serviceId, name, price, type);
+                        boolean b = Model.savePackageDto(dto);
+                        if (b) {
+                            clearField();
+                            getAllService();
+                            generateNextPkgId();
+                            searchTable();
+                            Image image = new Image("/Icon/iconsOk.png");
+                            try {
+                                Notifications notifications = Notifications.create();
+                                notifications.graphic(new ImageView(image));
+                                notifications.text("service Saved Successfully");
+                                notifications.title("Successfully");
+                                notifications.hideAfter(Duration.seconds(5));
+                                notifications.position(Pos.TOP_RIGHT);
+                                notifications.show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            }else {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Invalid input..Please enter a valid input ");
+                    notifications.title("Error");
+                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -234,6 +251,7 @@ public class ServiceFormController {
                         boolean b = Model.deleteService(id);
                         if (b) {
                             clearField();
+                            generateNextPkgId();
                             Image image=new Image("/Icon/iconsDelete.png");
                             Notifications notifications=Notifications.create();
                             notifications.graphic(new ImageView(image));
@@ -273,34 +291,49 @@ public class ServiceFormController {
             }
         }else {
 
-            int id = Integer.parseInt(txtId.getText());
-            String name = txtName.getText();
-            double price = Double.parseDouble(txtPrice.getText());
-            String type = (String) cmbType.getValue();
+            if (checkValidate()){
+                int id = Integer.parseInt(txtId.getText());
+                String name = txtName.getText();
+                double price = Double.parseDouble(txtPrice.getText());
+                String type = (String) cmbType.getValue();
 
-            ServiceDto dto = new ServiceDto(id, name, price, type);
+                ServiceDto dto = new ServiceDto(id, name, price, type);
 
-            try {
-                boolean b = Model.updateService(dto);
-                if (b) {
-                    getAllService();
-                    searchTable();
-                    clearField();
-                    Image image = new Image("/Icon/iconsOk.png");
-                    try {
-                        Notifications notifications = Notifications.create();
-                        notifications.graphic(new ImageView(image));
-                        notifications.text("Service Update Successfully");
-                        notifications.title("Successfully");
-                        notifications.hideAfter(Duration.seconds(5));
-                        notifications.position(Pos.TOP_RIGHT);
-                        notifications.show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                try {
+                    boolean b = Model.updateService(dto);
+                    if (b) {
+                        getAllService();
+                        searchTable();
+                        clearField();
+                        Image image = new Image("/Icon/iconsOk.png");
+                        try {
+                            Notifications notifications = Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Service Update Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            }else {
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Invalid input..Please enter a valid input ");
+                    notifications.title("Error");
+                    notifications.hideAfter(Duration.seconds(4));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -343,5 +376,26 @@ public class ServiceFormController {
         }else {
             return false;
         }
+    }
+
+    public boolean checkValidate(){
+        if (!(RegexPattern.getNamePattern().matcher(txtName.getText()).matches())) {
+            txtName.requestFocus();
+            txtName.setFocusColor(Color.RED);
+            return false;
+        }
+
+        if (!(RegexPattern.getDoublePattern().matcher(txtPrice.getText()).matches())){
+            txtPrice.requestFocus();
+            txtPrice.setFocusColor(Color.RED);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void nullTextFieldColor() {
+        txtPrice.setFocusColor(Color.web("#0040ff"));
+        txtName.setFocusColor(Color.web("#0040ff"));
     }
 }
