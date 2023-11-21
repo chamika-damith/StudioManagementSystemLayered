@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -12,7 +11,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Dashboard.DashboardWindwoCrontroller">
@@ -24,7 +22,7 @@
                   <Image url="@../../Icon/trolley.png" />
                </image>
             </ImageView>
-            <Label layoutX="31.0" layoutY="71.0" opacity="0.7" text="Orders">
+            <Label layoutX="22.0" layoutY="71.0" opacity="0.7" text="Total Orders">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -38,19 +36,19 @@
       </Pane>
       <Pane layoutX="371.0" layoutY="15.0" prefHeight="126.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
          <children>
-            <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="37.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="31.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Icon/tag.png" />
                </image>
             </ImageView>
-            <Label layoutX="38.0" layoutY="72.0" opacity="0.7" text="Inventory">
+            <Label layoutX="17.0" layoutY="72.0" opacity="0.7" text="Last Sales Price">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lblAllInventory" layoutX="152.0" layoutY="26.0" prefHeight="45.0" prefWidth="60.0">
+            <Label fx:id="lblAllInventory" layoutX="112.0" layoutY="36.0" prefHeight="40.0" prefWidth="132.0">
                <font>
-                  <Font name="System Bold" size="45.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Label>
          </children>
@@ -62,7 +60,7 @@
                   <Image url="@../../Icon/chart.png" />
                </image>
             </ImageView>
-            <Label layoutX="37.0" layoutY="70.0" opacity="0.7" text="Customers">
+            <Label layoutX="23.0" layoutY="71.0" opacity="0.7" text="Total Customers">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -81,7 +79,7 @@
                   <Image url="@../../Icon/male.png" />
                </image>
             </ImageView>
-            <Label layoutX="36.0" layoutY="71.0" opacity="0.7" text="Employee">
+            <Label layoutX="21.0" layoutY="71.0" opacity="0.7" text="Total Employee">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -93,14 +91,14 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="54.0" layoutY="157.0" prefHeight="238.0" prefWidth="574.0" style="-fx-background-radius: 15; -fx-background-color: FFFFFF;">
+      <Pane layoutX="54.0" layoutY="157.0" prefHeight="238.0" prefWidth="1237.0" style="-fx-background-radius: 15; -fx-background-color: FFFFFF;">
          <children>
             <Label layoutX="26.0" layoutY="7.0" opacity="0.87" text="Total sales">
                <font>
                   <Font name="Arial Rounded MT Bold" size="18.0" />
                </font>
             </Label>
-            <LineChart fx:id="Linechart" layoutY="73.0" prefHeight="165.0" prefWidth="574.0" stylesheets="@../../Style/chart.css">
+            <LineChart fx:id="Linechart" layoutY="29.0" prefHeight="209.0" prefWidth="1238.0" stylesheets="@../../Style/chart.css">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -108,22 +106,6 @@
                 <NumberAxis prefHeight="312.0" prefWidth="28.0" side="LEFT" />
               </yAxis>
             </LineChart>
-            <Circle fill="DODGERBLUE" layoutX="31.0" layoutY="52.0" opacity="0.9" radius="3.0" stroke="BLACK" strokeType="INSIDE" />
-            <Label layoutX="38.0" layoutY="36.0" opacity="0.89" prefHeight="30.0" prefWidth="19.0" text="Rs.">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="57.0" layoutY="30.0" text="00">
-               <font>
-                  <Font name="System Bold" size="25.0" />
-               </font>
-            </Label>
-            <Label layoutX="41.0" layoutY="61.0" opacity="0.91" text="Revenue">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Label>
          </children>
       </Pane>
       <Pane layoutX="54.0" layoutY="407.0" prefHeight="278.0" prefWidth="1245.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
@@ -159,13 +141,5 @@
             </Pane>
          </children>
       </Pane>
-      <BarChart fx:id="barChart" categoryGap="2.0" layoutX="655.0" layoutY="142.0" legendSide="LEFT" prefHeight="266.0" prefWidth="644.0" title="Sales Chart" titleSide="BOTTOM">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" upperBound="50.0" />
-        </yAxis>
-      </BarChart>
    </children>
 </AnchorPane>

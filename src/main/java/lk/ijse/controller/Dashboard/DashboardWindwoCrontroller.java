@@ -12,7 +12,10 @@ import lk.ijse.model.*;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DashboardWindwoCrontroller {
     public LineChart<String,Number> Linechart;
@@ -32,7 +35,7 @@ public class DashboardWindwoCrontroller {
     public void setLblValue(){
         try {
             lblAllCustomerd.setText(CustomerModel.returnLbCuslValue());
-            lblAllInventory.setText(ItemModel.returnLbItemlValue());
+            lblAllInventory.setText(OrderModel.returnlblTotalSale());
             lblOrders.setText(OrderModel.returnLbOrderlValue());
             lblEmpId.setText(EmployeeModel.returnLbEmployeeValue());
         } catch (SQLException e) {
@@ -41,29 +44,45 @@ public class DashboardWindwoCrontroller {
     }
 
     private void chart1() {
-
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-
-
         try {
             List<DasboardDto> dataFromDatabase = model.getChartData();
+
+            dataFromDatabase.sort(Comparator.comparingInt(month -> {
+                Map<String, Integer> monthOrder = new HashMap<>();
+                monthOrder.put("Jan", 1);
+                monthOrder.put("Feb", 2);
+                monthOrder.put("Mar", 3);
+                monthOrder.put("Apr", 4);
+                monthOrder.put("May", 5);
+                monthOrder.put("Jun", 6);
+                monthOrder.put("Jul", 7);
+                monthOrder.put("Aug", 8);
+                monthOrder.put("Sep", 9);
+                monthOrder.put("Oct", 10);
+                monthOrder.put("Nov", 11);
+                monthOrder.put("Dec", 12);
+
+                String monthName = month.getMonthName();
+
+                if (monthName != null) {
+                    return monthOrder.getOrDefault(monthName, 0);
+                } else {
+                    return 0;
+                }
+            }));
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
 
             for (DasboardDto dto : dataFromDatabase) {
                 series.getData().add(new XYChart.Data<>(dto.getMonthName(), dto.getTotal()));
             }
+
+            Linechart.getData().addAll(series);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-//        series.getData().add(new XYChart.Data<>("Nov ", 4));
-//        series.getData().add(new XYChart.Data<>("Nov", 8));
-//        series.getData().add(new XYChart.Data<>("Nov", 12));
-//        series.getData().add(new XYChart.Data<>("Nov", 3));
-//        series.getData().add(new XYChart.Data<>("Nov", 15));
-
-        Linechart.getData().addAll(series);
-
     }
+
 
 
 }

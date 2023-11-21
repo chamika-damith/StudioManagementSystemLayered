@@ -67,16 +67,17 @@ public class OrderModel {
         return pstm.executeUpdate() > 0;
     }
 
-    public int getAllOrderCount(Date date) throws SQLException {
+    public static String returnlblTotalSale() throws SQLException {
+        String sale;
         Connection connection = DbConnection.getInstance().getConnection();
-        String categoryQuery = "SELECT COUNT(orderId) FROM orders WHERE orderDate=?";
-        PreparedStatement pstm=connection.prepareStatement(categoryQuery);
-        pstm.setDate(1, date);
-        int count=0;
+        String sql = "SELECT totprice FROM orders";
+
+        PreparedStatement pstm=connection.prepareStatement(sql);
         ResultSet resultSet = pstm.executeQuery();
-        while (resultSet.next()) {
-            count+=1;
+        while (resultSet.next()){
+            sale= String.valueOf(resultSet.getInt(1));
+            return sale;
         }
-        return count;
+        return null;
     }
 }
