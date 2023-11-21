@@ -16,12 +16,14 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import lk.ijse.dto.InventoryOrderDto;
 import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.InventoryOrderTm;
 import lk.ijse.model.*;
+import lk.ijse.regex.RegexPattern;
 import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
@@ -186,7 +188,7 @@ public class InventoryOrderDetailFormController {
             try {
                 Notifications notifications=Notifications.create();
                 notifications.graphic(new ImageView(image));
-                notifications.text("Value is empty! Please enter all values");
+                notifications.text("Cart is empty! Please add cart to items");
                 notifications.title("Warning");
                 notifications.hideAfter(Duration.seconds(5));
                 notifications.position(Pos.TOP_RIGHT);
@@ -195,6 +197,7 @@ public class InventoryOrderDetailFormController {
                 e.printStackTrace();
             }
         }else {
+
             int id = Integer.parseInt(lblOrderId.getText());
             String description = lblDescription.getText();
             Date orderDate = Date.valueOf(lblOrderDate.getText());
@@ -276,57 +279,75 @@ public class InventoryOrderDetailFormController {
                 e.printStackTrace();
             }
         }else {
-            String textDescription = lblDescription.getText();
-            Date textDate = Date.valueOf(lblOrderDate.getText());
-            double price = Double.parseDouble(lblUnitPrice.getText());
-            qty= Integer.parseInt(txtQty.getText());
-            double total=price*qty;
+            if (checkValidate()){
 
-            int qtyIndex= Integer.parseInt(txtQty.getText());
+                nullTextFieldColor();
 
-            Button btn= createButton();
+                String textDescription = lblDescription.getText();
+                Date textDate = Date.valueOf(lblOrderDate.getText());
+                double price = Double.parseDouble(lblUnitPrice.getText());
+                qty= Integer.parseInt(txtQty.getText());
+                double total=price*qty;
 
-            if (!obList.isEmpty()) {
-                for (int i = 0; i < tblCart.getItems().size(); i++) {
-                    if (colItemId.getCellData(i).equals(itemID)) {
-                        int col_qty = (int) colQty.getCellData(i);
-                        qty += col_qty;
-                        return;
+                int qtyIndex= Integer.parseInt(txtQty.getText());
+
+                Button btn= createButton();
+
+                if (!obList.isEmpty()) {
+                    for (int i = 0; i < tblCart.getItems().size(); i++) {
+                        if (colItemId.getCellData(i).equals(itemID)) {
+                            int col_qty = (int) colQty.getCellData(i);
+                            qty += col_qty;
+                            return;
+                        }
                     }
                 }
-            }
 
-            if (qty <= 0) {
-                Image image=new Image("/Icon/icons8-cancel-50.png");
-                try {
-                    Notifications notifications = Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Quantity is empty");
-                    notifications.title("Unsuccessful");
-                    notifications.hideAfter(Duration.seconds(4));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e) {
-                    e.printStackTrace();
+                if (qty <= 0) {
+                    Image image=new Image("/Icon/icons8-cancel-50.png");
+                    try {
+                        Notifications notifications = Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Quantity is empty");
+                        notifications.title("Unsuccessful");
+                        notifications.hideAfter(Duration.seconds(4));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    setRemoveBtnAction(btn);
+                    btn.setCursor(Cursor.HAND);
+
+                    var cartTm=new InventoryOrderTm(itemID,textDescription,textDate,total,qty,btn);
+
+                    obList.add(cartTm);
+
+                    tblCart.setItems(obList);
+                    calculateTotal();
+                    tblCart.refresh();
+
+                    Image image=new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Stock Order Added to Cart");
+                        notifications.title("Successfully Added");
+                        notifications.hideAfter(Duration.seconds(4));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }else {
-                setRemoveBtnAction(btn);
-                btn.setCursor(Cursor.HAND);
-
-                var cartTm=new InventoryOrderTm(itemID,textDescription,textDate,total,qty,btn);
-
-                obList.add(cartTm);
-
-                tblCart.setItems(obList);
-                calculateTotal();
-                tblCart.refresh();
-
-                Image image=new Image("/Icon/iconsOk.png");
+                Image image=new Image("/Icon/icons8-cancel-50.png");
                 try {
                     Notifications notifications=Notifications.create();
                     notifications.graphic(new ImageView(image));
-                    notifications.text("Stock Order Added to Cart");
-                    notifications.title("Successfully Added");
+                    notifications.text("Invalid input..Please enter a valid input ");
+                    notifications.title("Error");
                     notifications.hideAfter(Duration.seconds(4));
                     notifications.position(Pos.TOP_RIGHT);
                     notifications.show();
@@ -405,6 +426,19 @@ public class InventoryOrderDetailFormController {
             return true;
         }
         return false;
+    }
+
+    private boolean checkValidate(){
+        if (!(RegexPattern.getIntPattern().matcher(txtQty.getText()).matches())){
+            txtQty.requestFocus();
+            txtQty.setFocusColor(Color.RED);
+            return false;
+        }
+        return true;
+    }
+
+    private void nullTextFieldColor() {
+        txtQty.setFocusColor(Color.web("#0040ff"));
     }
 
 }
