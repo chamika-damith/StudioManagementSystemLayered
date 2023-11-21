@@ -49,7 +49,7 @@ public class DashboardFormController {
         Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             LocalDate date = LocalDate.now();
             LocalTime time = LocalTime.now();
-            lblDateTime.setText(date.format(DateTimeFormatter.ISO_DATE) + " " + time.getHour() + ":" + time.getMinute() + ":" + time.getSecond());
+            lblDateTime.setText(date.format(DateTimeFormatter.ISO_DATE) + " | " + time.getHour() + ":" + time.getMinute() + ":" + time.getSecond());
         }),
                 new KeyFrame(Duration.seconds(1))
         );
