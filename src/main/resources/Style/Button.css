@@ -74,3 +74,8 @@
     -fx-background-color: linear-gradient(to right, #B4C5EE,#22a492);
     -fx-text-fill: white;
 }
+
+
+.reportBtn{
+    -fx-background-color: linear-gradient(to right, #D988B9,#FFE4D6);
+}
