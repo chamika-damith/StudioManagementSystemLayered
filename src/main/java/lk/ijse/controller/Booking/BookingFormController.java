@@ -26,12 +26,15 @@ import lk.ijse.model.*;
 import lk.ijse.regex.RegexPattern;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.BookingCartTm;
+import lk.ijse.smtp.MailSend;
+import lk.ijse.smtp.mail;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import org.controlsfx.control.Notifications;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
@@ -63,6 +66,9 @@ public class BookingFormController {
     public Label lblEmpName;
     public JFXButton btnPay;
     public static int textTotal=0;
+    private static String cusEmail;
+
+    private static String filePath;
 
     private ObservableList<BookingCartTm> obList=FXCollections.observableArrayList();
 
@@ -120,75 +126,93 @@ public class BookingFormController {
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
 
-        if(isEmptyCheck()){
+        if (BookingPaymentFormController.getValidPayment()){
+
+            if(isEmptyCheck()){
+                Image image=new Image("/Icon/icons8-cancel-50.png");
+                try {
+                    Notifications notifications=Notifications.create();
+                    notifications.graphic(new ImageView(image));
+                    notifications.text("Value is empty! Please enter all values");
+                    notifications.title("Warning");
+                    notifications.hideAfter(Duration.seconds(5));
+                    notifications.position(Pos.TOP_RIGHT);
+                    notifications.show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else {
+                int cusId = Integer.parseInt(String.valueOf(cmbCustomerID.getValue()));
+                Date date= Date.valueOf(appDate.getValue());
+                String evenType = String.valueOf(cmbEventType.getValue());
+                String address = txtAddress.getText();
+                int pkg = Integer.parseInt(String.valueOf(cmbPackage.getValue()));
+                int empId= Integer.parseInt(String.valueOf(cmbEmpId.getValue()));
+                int bId= Integer.parseInt(txtAppid.getText());
+
+                try {
+
+                    if (bookingModel.isExists(bId)) {
+                        Image image=new Image("/Icon/icons8-cancel-50.png");
+                        try {
+                            Notifications notifications=Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Booking is already registered");
+                            notifications.title("Warning");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }else {
+                        var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
+
+                        try {
+                            boolean b = bookingModel.saveBookingDto(dto);
+                            if (b){
+
+                                loadReport();
+                                tblBookingCart.getItems().clear();
+
+                                isTrue=true;
+                                Image image=new Image("/Icon/iconsOk.png");
+                                try {
+                                    Notifications notifications=Notifications.create();
+                                    notifications.graphic(new ImageView(image));
+                                    notifications.text("Booking Add Successfully");
+                                    notifications.title("Successfully");
+                                    notifications.hideAfter(Duration.seconds(5));
+                                    notifications.position(Pos.TOP_RIGHT);
+                                    notifications.show();
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }catch (SQLException | JRException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }else {
             Image image=new Image("/Icon/icons8-cancel-50.png");
             try {
                 Notifications notifications=Notifications.create();
                 notifications.graphic(new ImageView(image));
-                notifications.text("Value is empty! Please enter all values");
-                notifications.title("Warning");
-                notifications.hideAfter(Duration.seconds(5));
+                notifications.text("Complete Payment");
+                notifications.title("Error");
+                notifications.hideAfter(Duration.seconds(3));
                 notifications.position(Pos.TOP_RIGHT);
                 notifications.show();
             }catch (Exception e){
                 e.printStackTrace();
             }
-        }else {
-            int cusId = Integer.parseInt(String.valueOf(cmbCustomerID.getValue()));
-            Date date= Date.valueOf(appDate.getValue());
-            String evenType = String.valueOf(cmbEventType.getValue());
-            String address = txtAddress.getText();
-            int pkg = Integer.parseInt(String.valueOf(cmbPackage.getValue()));
-            int empId= Integer.parseInt(String.valueOf(cmbEmpId.getValue()));
-            int bId= Integer.parseInt(txtAppid.getText());
-
-            try {
-
-                if (bookingModel.isExists(bId)) {
-                    Image image=new Image("/Icon/icons8-cancel-50.png");
-                    try {
-                        Notifications notifications=Notifications.create();
-                        notifications.graphic(new ImageView(image));
-                        notifications.text("Booking is already registered");
-                        notifications.title("Warning");
-                        notifications.hideAfter(Duration.seconds(5));
-                        notifications.position(Pos.TOP_RIGHT);
-                        notifications.show();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }else {
-                    var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
-
-                    try {
-                        boolean b = bookingModel.saveBookingDto(dto);
-                        if (b){
-
-                            loadReport();
-
-                            isTrue=true;
-                            Image image=new Image("/Icon/iconsOk.png");
-                            try {
-                                Notifications notifications=Notifications.create();
-                                notifications.graphic(new ImageView(image));
-                                notifications.text("Booking Add Successfully");
-                                notifications.title("Successfully");
-                                notifications.hideAfter(Duration.seconds(5));
-                                notifications.position(Pos.TOP_RIGHT);
-                                notifications.show();
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }catch (SQLException | JRException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
+
     }
 
     private void loadReport() throws JRException, SQLException {
@@ -200,10 +224,13 @@ public class BookingFormController {
         Map<String, Object> parameters = new HashMap<>();
 
         BookingReportDto reportDetail = bookingModel.getReportDetail(Integer.parseInt(txtAppid.getText()));
+        String bookingId = String.valueOf(reportDetail.getBookingId());
+        filePath="D:\\email";
+        String subject="Thank You for Booking with FOCUS Studio";
 
         if (!(reportDetail==null)) {
 
-            String bookingId = String.valueOf(reportDetail.getBookingId());
+            //String bookingId = String.valueOf(reportDetail.getBookingId());
             String price= String.valueOf(reportDetail.getPrice());
             String packageId = String.valueOf(reportDetail.getPackageName());
             String total= String.valueOf(reportDetail.getTotal());
@@ -217,7 +244,27 @@ public class BookingFormController {
                         DbConnection.getInstance().getConnection() //database connection
                 );
 
-        JasperViewer.viewReport(jasperPrint, false);
+        //JasperViewer.viewReport(jasperPrint, false);
+        JasperExportManager.exportReportToPdfFile(jasperPrint, filePath + "\\Receipt " + bookingId + ".pdf");
+
+
+        MailSend.sendOrderConformMailFile(cusEmail,subject,new File(filePath + "\\Receipt " + bookingId + ".pdf"));
+
+        Image image = new Image("/Icon/iconsOk.png");
+        try {
+            Notifications notifications = Notifications.create();
+            notifications.graphic(new ImageView(image));
+            notifications.text("Invoice send Email Address");
+            notifications.title("Successfully");
+            notifications.hideAfter(Duration.seconds(4));
+            notifications.position(Pos.TOP_RIGHT);
+            notifications.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("send recipt file");
+
     }
 
     private void generateNextBookId() {
@@ -404,6 +451,7 @@ public class BookingFormController {
                 CustomerDto customerDto = customerModel.searchCustomer(cId);
                 System.out.println(customerDto.getName());
                 lblCusName.setText(customerDto.getName());
+                cusEmail=customerDto.getEmail();
 
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -597,6 +645,31 @@ public class BookingFormController {
     }
 
     public void btnVievReport(ActionEvent actionEvent) throws JRException, SQLException {
+        InputStream resourceAsStream = getClass().getResourceAsStream("/ReportForm/BookRecipt.jrxml");
+        JasperDesign load = JRXmlLoader.load(resourceAsStream);
+        JasperReport jasperReport = JasperCompileManager.compileReport(load);
 
+        Map<String, Object> parameters = new HashMap<>();
+
+        BookingReportDto reportDetail = bookingModel.getReportDetail(Integer.parseInt(txtAppid.getText()));
+        String bookingId = String.valueOf(reportDetail.getBookingId());
+
+        if (!(reportDetail==null)) {
+
+            //String bookingId = String.valueOf(reportDetail.getBookingId());
+            String price= String.valueOf(reportDetail.getPrice());
+            String packageId = String.valueOf(reportDetail.getPackageName());
+            String total= String.valueOf(reportDetail.getTotal());
+
+            parameters.put("BookId", bookingId);
+        }
+        JasperPrint jasperPrint =
+                JasperFillManager.fillReport(
+                        jasperReport, //compiled report
+                        parameters,
+                        DbConnection.getInstance().getConnection() //database connection
+                );
+
+        JasperViewer.viewReport(jasperPrint, false);
     }
 }

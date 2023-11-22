@@ -14,10 +14,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.CubicCurve;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.model.LoginClassModel;
 import org.controlsfx.control.Notifications;
 import org.controlsfx.control.textfield.TextFields;
 
+import javax.security.auth.spi.LoginModule;
+import java.awt.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class LoginFormController {
     public AnchorPane LoginRoot;
@@ -25,27 +29,46 @@ public class LoginFormController {
     public MFXTextField txtUserName;
     public MFXPasswordField txtPassword;
 
-    public void btnLoginOnAction(ActionEvent actionEvent) throws IOException {
-        Parent parent= FXMLLoader.load(this.getClass().getResource("/view/DashboardForm.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage= (Stage) LoginRoot.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Dashboard");
-        stage.centerOnScreen();
+    public LoginClassModel model=new LoginClassModel();
+
+    public void btnLoginOnAction(ActionEvent actionEvent) throws IOException, SQLException {
+
+        if (checkLogin()){
+            Parent parent= FXMLLoader.load(this.getClass().getResource("/view/DashboardForm.fxml"));
+            Scene scene = new Scene(parent);
+            Stage stage= (Stage) LoginRoot.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Dashboard");
+            stage.centerOnScreen();
 
 
-        Image image=new Image("/Icon/iconsOk.png");
-        try {
-            Notifications notifications=Notifications.create();
-            notifications.graphic(new ImageView(image));
-            notifications.text("Login Successfully");
-            notifications.title("Successfully");
-            notifications.hideAfter(Duration.seconds(3));
-            notifications.position(Pos.TOP_RIGHT);
-            notifications.show();
-        }catch (Exception e){
-            e.printStackTrace();
+            Image image=new Image("/Icon/iconsOk.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Login Successfully");
+                notifications.title("Successfully");
+                notifications.hideAfter(Duration.seconds(3));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Username or Password is Invalid");
+                notifications.title("Login Successfully");
+                notifications.hideAfter(Duration.seconds(3));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
+
 
     }
 
@@ -56,6 +79,15 @@ public class LoginFormController {
 
     public void rootOnMouseMove(MouseEvent mouseEvent) {
         curve.setControlX2(mouseEvent.getX());
+    }
+
+    public boolean checkLogin() throws SQLException {
+        boolean b = model.checkLogin(txtUserName.getText(), txtPassword.getText());
+        if (b) {
+            return true;
+        }else {
+            return false;
+        }
     }
 
 }

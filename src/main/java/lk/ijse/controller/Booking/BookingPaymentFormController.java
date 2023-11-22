@@ -18,18 +18,16 @@ public class BookingPaymentFormController {
 
     private int textTotal;
 
+    public static boolean isTrue=false;
+
     public void initialize(){
         setTxtTotal();
         txtTotal.setText(String.valueOf(textTotal));
     }
 
     public void btnPay(ActionEvent actionEvent) {
-        String total = txtTotal.getText();
-        String amount = txtAmountOnAction.getText();
-
-        if (total.equals(amount)) {
             txtTotal.clear();
-            txtAmountOnAction.clear();
+            isTrue=true;
             Image image=new Image("/Icon/iconsOk.png");
             try {
                 Notifications notifications=Notifications.create();
@@ -42,29 +40,13 @@ public class BookingPaymentFormController {
             }catch (Exception e){
                 e.printStackTrace();
             }
-        }else {
-            txtAmountOnAction.requestFocus();
-            txtAmountOnAction.setFocusColor(Color.RED);
-            Image image=new Image("/Icon/icons8-cancel-50.png");
-            try {
-                Notifications notifications=Notifications.create();
-                notifications.graphic(new ImageView(image));
-                notifications.text("Payment not Successful..Enter amount is lower");
-                notifications.title("Error");
-                notifications.hideAfter(Duration.seconds(4));
-                notifications.position(Pos.TOP_RIGHT);
-                notifications.show();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void txtTotalOnAction(ActionEvent actionEvent) {
-        txtAmountOnAction.requestFocus();
     }
 
     public void setTxtTotal() {
         textTotal = BookingFormController.getTextTotal();
+    }
+
+    public static boolean getValidPayment() {
+        return isTrue;
     }
 }

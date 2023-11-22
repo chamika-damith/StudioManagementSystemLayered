@@ -5,7 +5,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="project"/>
 	<parameter name="BookId" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT b.bookingId,p.name,p.price,SUM(p.price) OVER () AS total_price_for_all_bookings FROM booking b JOIN packages p on b.packageId= p.packageId WHERE b.bookingId=$P{BookId} GROUP BY b.bookingId ORDER BY b.bookingId ASC;]]>
+		<![CDATA[SELECT b.bookingId,p.name,p.price,SUM(p.price) OVER () AS total_price_for_all_bookings FROM booking b JOIN packages p on b.packageId = p.packageId where b.bookingId=$P{BookId} GROUP BY b.bookingId ORDER BY b.bookingId ASC;]]>
 	</queryString>
 	<field name="bookingId" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="bookingId"/>
@@ -43,9 +43,9 @@
 	</background>
 	<title>
 		<band height="106" splitType="Stretch">
-			<image>
+			<image hAlign="Center" vAlign="Middle">
 				<reportElement x="0" y="0" width="80" height="80" uuid="d4f77b59-ab60-426b-b230-f8418928b94f"/>
-				<imageExpression><![CDATA["C:/Users/Chamika/Downloads/Camera/1.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["C:/Users/Chamika/Downloads/photography logo.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="89" y="-1" width="251" height="30" forecolor="#41A39B" uuid="866eb66c-d6c4-4bc1-8446-ccdfa6f71581"/>
@@ -74,20 +74,15 @@
 				<text><![CDATA[INVOICE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="392" y="38" width="48" height="14" uuid="9e23fbd4-1fca-4229-aed2-66a0c1b997fa"/>
+				<reportElement x="392" y="41" width="48" height="14" uuid="9e23fbd4-1fca-4229-aed2-66a0c1b997fa"/>
 				<textElement textAlignment="Right"/>
 				<text><![CDATA[Date:]]></text>
 			</staticText>
 			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="440" y="37" width="100" height="16" uuid="1696d2b8-777c-4747-a1a4-b6aa211fedfc"/>
+				<reportElement x="440" y="40" width="100" height="16" uuid="1696d2b8-777c-4747-a1a4-b6aa211fedfc"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="376" y="59" width="64" height="18" uuid="82d2f434-e76e-4965-9991-1da160d1a020"/>
-				<textElement textAlignment="Right"/>
-				<text><![CDATA[Payment Id;]]></text>
-			</staticText>
 		</band>
 	</title>
 	<columnHeader>

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Dashboard.DashboardWindwoCrontroller">
+<AnchorPane fx:id="dashboardRoot" prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Dashboard.DashboardWindwoCrontroller">
    <children>
       <Pane layoutX="54.0" layoutY="21.0" prefHeight="125.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
          <children>
@@ -91,7 +91,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="54.0" layoutY="157.0" prefHeight="238.0" prefWidth="1237.0" style="-fx-background-radius: 15; -fx-background-color: FFFFFF;">
+      <Pane layoutX="6.0" layoutY="157.0" prefHeight="238.0" prefWidth="1310.0" style="-fx-background-radius: 15; -fx-background-color: FFFFFF;">
          <children>
             <Label layoutX="26.0" layoutY="7.0" opacity="0.87" text="Total sales">
                <font>
@@ -108,26 +108,26 @@
             </LineChart>
          </children>
       </Pane>
-      <Pane layoutX="54.0" layoutY="407.0" prefHeight="278.0" prefWidth="1245.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
+      <Pane layoutX="10.0" layoutY="410.0" prefHeight="276.0" prefWidth="1310.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
          <children>
-            <Label layoutX="27.0" layoutY="12.0" opacity="0.9" text="View Employee Attendance" textFill="#22a390">
+            <Label layoutX="27.0" layoutY="14.0" opacity="0.9" text="View Orders" textFill="#22a390">
                <font>
-                  <Font name="System Bold" size="17.0" />
+                  <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <TableView fx:id="tblCustomer" layoutX="14.0" layoutY="50.0" prefHeight="200.0" prefWidth="1217.0" stylesheets="@../../Style/Table.css">
+            <TableView fx:id="tblOrder" layoutX="14.0" layoutY="58.0" prefHeight="209.0" prefWidth="1274.0" stylesheets="@../../Style/Table.css">
                <columns>
-                  <TableColumn fx:id="colId" prefWidth="74.39998626708984" text="Id" />
-                  <TableColumn fx:id="colName" prefWidth="186.39999389648438" text="Name" />
-                  <TableColumn fx:id="colAddress" prefWidth="222.40005493164062" text="Address" />
-                  <TableColumn fx:id="colEmail" prefWidth="258.39996337890625" text="Email" />
-                  <TableColumn fx:id="colMobile" prefWidth="296.79998779296875" text="Mobile" />
-                  <TableColumn fx:id="colAction" prefWidth="172.79998779296875" text="Action" />
+                  <TableColumn fx:id="colOrderId" prefWidth="89.60003662109375" text="Order Id" />
+                  <TableColumn fx:id="colName" prefWidth="253.59998321533203" text="Customer Name" />
+                  <TableColumn fx:id="colAddress" prefWidth="327.1999816894531" text="Address" />
+                  <TableColumn fx:id="colEmail" minWidth="0.0" prefWidth="236.0" text="Email" />
+                  <TableColumn fx:id="colMobile" prefWidth="217.60009765625" text="Mobile" />
+                  <TableColumn fx:id="colMore" prefWidth="146.39990234375" text="More Details" />
                </columns>
             </TableView>
-            <Pane layoutX="993.0" layoutY="7.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">
+            <Pane layoutX="1040.0" layoutY="12.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">
                <children>
-                  <JFXTextField fx:id="txtCostSearchTable" focusColor="#0040ff" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Employee Id or Name">
+                  <JFXTextField fx:id="txtSearchOrder" focusColor="#0040ff" labelFloat="true" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Order Id or Customer Name">
                      <font>
                         <Font size="10.0" />
                      </font>
