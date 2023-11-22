@@ -251,7 +251,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="1045.0" layoutY="661.0" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: D83F31; -fx-background-radius: 10;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Make Payment" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="1045.0" layoutY="661.0" onAction="#btnOrderPaymentOnAction" prefHeight="28.0" prefWidth="106.0" style="-fx-background-color: D83F31; -fx-background-radius: 10;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Make Payment" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

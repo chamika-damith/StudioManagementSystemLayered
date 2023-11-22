@@ -203,7 +203,7 @@ public class BookingFormController {
             try {
                 Notifications notifications=Notifications.create();
                 notifications.graphic(new ImageView(image));
-                notifications.text("Complete Payment");
+                notifications.text("Payment not completed");
                 notifications.title("Error");
                 notifications.hideAfter(Duration.seconds(3));
                 notifications.position(Pos.TOP_RIGHT);
@@ -517,6 +517,8 @@ public class BookingFormController {
                     btnPay.setVisible(true);
 
                     setAppId();
+
+
 
                     Image image=new Image("/Icon/iconsOk.png");
                     try {
