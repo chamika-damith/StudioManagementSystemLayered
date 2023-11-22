@@ -138,4 +138,27 @@ public class BookingModel {
 
         return pstm.executeUpdate() > 0;
     }
+
+    public BookingReportDto getReportDetail(int id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="SELECT b.bookingId,p.name,p.price,SUM(p.price) OVER () AS total FROM booking b JOIN packages p on b.packageId = p.packageId WHERE b.bookingId=? GROUP BY b.bookingId";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        pstm.setInt(1, id);
+
+        ResultSet resultSet = pstm.executeQuery();
+
+        BookingReportDto dto =null;
+        while (resultSet.next()) {
+            int bookingId = resultSet.getInt("bookingId");
+            String name = resultSet.getString("name");
+            double price=resultSet.getDouble("price");
+            int total=resultSet.getInt("total");
+
+
+            dto = new BookingReportDto(bookingId,name,price,total);
+        }
+        System.out.println(dto.getBookingId());
+        return dto;
+    }
+
 }

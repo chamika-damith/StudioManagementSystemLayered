@@ -37,4 +37,21 @@ public class InventoryOrderItemDetailModel {
         }
         return dtoList;
     }
+
+    public int getAllTotal(int id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="SELECT b.bookingId,p.price,SUM(p.price) OVER () AS total FROM booking b JOIN packages p on b.packageId = p.packageId WHERE b.bookingId=? GROUP BY b.bookingId";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        pstm.setInt(1,id);
+
+        ResultSet resultSet = pstm.executeQuery();
+
+        int total = 0;
+        
+        if (resultSet.next()){
+            total = resultSet.getInt("total");
+        }
+        
+        return total;
+    }
 }

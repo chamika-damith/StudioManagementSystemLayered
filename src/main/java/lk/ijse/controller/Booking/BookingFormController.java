@@ -1,5 +1,6 @@
 package lk.ijse.controller.Booking;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -10,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
@@ -17,21 +19,24 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.db.DbConnection;
+import lk.ijse.model.*;
 import lk.ijse.regex.RegexPattern;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.BookingCartTm;
-import lk.ijse.model.BookingModel;
-import lk.ijse.model.CustomerModel;
-import lk.ijse.model.EmployeeModel;
-import lk.ijse.model.ServiceModel;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static lk.ijse.controller.Booking.EventType.*;
 
@@ -56,6 +61,8 @@ public class BookingFormController {
     public TableColumn Action;
     public Label lblpkgName;
     public Label lblEmpName;
+    public JFXButton btnPay;
+    public static int textTotal=0;
 
     private ObservableList<BookingCartTm> obList=FXCollections.observableArrayList();
 
@@ -68,6 +75,12 @@ public class BookingFormController {
 
     private ServiceModel serviceModel=new ServiceModel();
 
+    private InventoryOrderItemDetailModel inventoryOrderItemDetailModel=new InventoryOrderItemDetailModel();
+
+    private List<Integer> listPrice=new ArrayList<>();
+
+    private boolean isTrue=false;
+
 
     public void initialize(){
         cmbEventType.setItems(FXCollections.observableArrayList(PHOTOGRAPHY, VIDEOGRAPHY, AUDIO_PRODUCTION,EventType.TV_SHOWS));
@@ -76,6 +89,7 @@ public class BookingFormController {
         loadPackageIds();
         loadEmpIds();
         setCellValueFactory();
+        btnPay.setVisible(false);
     }
 
     private void setCellValueFactory() {
@@ -149,6 +163,10 @@ public class BookingFormController {
                     try {
                         boolean b = bookingModel.saveBookingDto(dto);
                         if (b){
+
+                            loadReport();
+
+                            isTrue=true;
                             Image image=new Image("/Icon/iconsOk.png");
                             try {
                                 Notifications notifications=Notifications.create();
@@ -161,8 +179,9 @@ public class BookingFormController {
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
+
                         }
-                    }catch (SQLException e) {
+                    }catch (SQLException | JRException e) {
                         throw new RuntimeException(e);
                     }
                 }
@@ -170,6 +189,35 @@ public class BookingFormController {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    private void loadReport() throws JRException, SQLException {
+
+        InputStream resourceAsStream = getClass().getResourceAsStream("/ReportForm/BookRecipt.jrxml");
+        JasperDesign load = JRXmlLoader.load(resourceAsStream);
+        JasperReport jasperReport = JasperCompileManager.compileReport(load);
+
+        Map<String, Object> parameters = new HashMap<>();
+
+        BookingReportDto reportDetail = bookingModel.getReportDetail(Integer.parseInt(txtAppid.getText()));
+
+        if (!(reportDetail==null)) {
+
+            String bookingId = String.valueOf(reportDetail.getBookingId());
+            String price= String.valueOf(reportDetail.getPrice());
+            String packageId = String.valueOf(reportDetail.getPackageName());
+            String total= String.valueOf(reportDetail.getTotal());
+
+            parameters.put("BookId", bookingId);
+        }
+        JasperPrint jasperPrint =
+                JasperFillManager.fillReport(
+                        jasperReport, //compiled report
+                        parameters,
+                        DbConnection.getInstance().getConnection() //database connection
+                );
+
+        JasperViewer.viewReport(jasperPrint, false);
     }
 
     private void generateNextBookId() {
@@ -418,6 +466,10 @@ public class BookingFormController {
                     obList.add(cartTm);
                     tblBookingCart.setItems(obList);
 
+                    btnPay.setVisible(true);
+
+                    setAppId();
+
                     Image image=new Image("/Icon/iconsOk.png");
                     try {
                         Notifications notifications=Notifications.create();
@@ -491,6 +543,7 @@ public class BookingFormController {
         ServiceDto serviceDto = serviceModel.searchService(pakageId);
         if (serviceDto != null){
             lblpkgName.setText(serviceDto.getName());
+            listPrice.add((int) serviceDto.getPrice());
         }
     }
 
@@ -513,5 +566,37 @@ public class BookingFormController {
         }else {
             return false;
         }
+    }
+
+    public void btnPaymentOnAction(ActionEvent actionEvent) throws IOException {
+        Parent parent=FXMLLoader.load(getClass().getResource("/view/Booking/BookingPaymentForm.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Payment Form");
+        stage.centerOnScreen();
+        stage.show();
+
+        BookinRoot.setEffect(new GaussianBlur());
+
+        stage.setOnCloseRequest(event -> {
+            BookinRoot.setEffect(null);
+        });
+    }
+
+    public void setAppId() throws SQLException {
+        for (int value : listPrice) {
+            textTotal+=value;
+            System.out.println(value);
+            System.out.println(textTotal);
+        }
+    }
+
+    public static int getTextTotal(){
+        return textTotal;
+    }
+
+    public void btnVievReport(ActionEvent actionEvent) throws JRException, SQLException {
+
     }
 }

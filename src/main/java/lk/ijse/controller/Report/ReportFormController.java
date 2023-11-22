@@ -9,6 +9,8 @@ import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReportFormController {
     public void btnCusReport(ActionEvent actionEvent) throws JRException, SQLException {

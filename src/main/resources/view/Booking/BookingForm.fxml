@@ -20,7 +20,7 @@
 
 <AnchorPane fx:id="BookinRoot" prefHeight="700.0" prefWidth="1330.0" style="-fx-background-color: #D3D5DA; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.Booking.BookingFormController">
    <children>
-      <JFXButton buttonType="RAISED" layoutX="28.0" layoutY="20.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" text="New Appointment" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="28.0" layoutY="20.0" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="New Appointment" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -44,7 +44,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="191.0" layoutY="20.0" onAction="#btnViewAppointment" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" text="Appontment Details" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="191.0" layoutY="20.0" onAction="#btnViewAppointment" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #618264; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Appontment Details" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -104,7 +104,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="501.0" layoutY="185.0" onAction="#btnAddToCart" prefHeight="28.0" prefWidth="91.0" style="-fx-background-color: #5D9C59; -fx-background-radius: 13;" text="Add" textFill="WHITE">
+            <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="501.0" layoutY="185.0" onAction="#btnAddToCart" prefHeight="28.0" prefWidth="91.0" style="-fx-background-color: #5D9C59; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Add" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -133,7 +133,7 @@
                   </LinearGradient>
                </ripplerFill>
             </JFXButton>
-            <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="666.0" layoutY="185.0" onAction="#btnUpdateOnAction" prefHeight="28.0" prefWidth="91.0" style="-fx-background-color: #E7B10A; -fx-background-radius: 13;" text="Update" textFill="WHITE">
+            <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="666.0" layoutY="185.0" onAction="#btnUpdateOnAction" prefHeight="28.0" prefWidth="91.0" style="-fx-background-color: #E7B10A; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Update" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -199,7 +199,7 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="352.0" layoutY="20.0" onAction="#btnCustomerOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: FA7070; -fx-background-radius: 13;" text="Add Customer" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="352.0" layoutY="20.0" onAction="#btnCustomerOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: FA7070; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Add Customer" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -269,7 +269,7 @@
             </Label>
          </children>
       </Pane>
-      <JFXButton buttonType="RAISED" layoutX="1161.0" layoutY="656.0" onAction="#btnSaveOnAction" prefHeight="28.0" prefWidth="146.0" style="-fx-background-color: #17594A; -fx-background-radius: 13;" text="Place Appoinment" textFill="WHITE">
+      <JFXButton fx:id="lblbtnSPlaceApp" buttonType="RAISED" layoutX="1003.0" layoutY="656.0" onAction="#btnSaveOnAction" prefHeight="28.0" prefWidth="146.0" style="-fx-background-color: #17594A; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Place Appoinment" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -298,7 +298,7 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="513.0" layoutY="20.0" onAction="#btnPackageOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #884A39; -fx-background-radius: 13;" text="Package" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="513.0" layoutY="20.0" onAction="#btnPackageOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #884A39; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Package" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -326,6 +326,59 @@
          <font>
             <Font name="System Bold" size="10.0" />
          </font>
+      </JFXButton>
+      <JFXButton fx:id="btnPay" buttonType="RAISED" layoutX="840.0" layoutY="656.0" onAction="#btnPaymentOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: Red; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Payment" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.9892328398384924">
+                     <color>
+                        <Color red="0.13333334028720856" green="0.6431372761726379" blue="0.572549045085907" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
+         <font>
+            <Font name="System Bold" size="10.0" />
+         </font>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="1178.0" layoutY="656.0" onAction="#btnVievReport" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: #4A86E4; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Report View" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="System Bold" size="10.0" />
+         </font>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.16470588743686676" green="0.7803921699523926" blue="0.615686297416687" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
       </JFXButton>
    </children>
 </AnchorPane>
