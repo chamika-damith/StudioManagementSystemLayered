@@ -1,5 +1,6 @@
 package lk.ijse.controller.Customer;
 
+import com.google.zxing.WriterException;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,12 +17,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import lk.ijse.controller.qr.QrGenerator;
 import lk.ijse.regex.RegexPattern;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.model.CustomerModel;
 import org.controlsfx.control.Notifications;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -202,6 +205,9 @@ public class CustomerFormController {
                         try {
                             boolean b = model.saveCustomer(dto);
                             if (b) {
+
+                                qrGenerate(txtName.getText(),txtMobile.getText(),txtEmail.getText(),txtAddress.getText());            //generate qr pass data
+
                                 clearField();
                                 generateNextCusId();
                                 getAllCustomer();
@@ -221,6 +227,10 @@ public class CustomerFormController {
                                 }
                             }
                         } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (WriterException e) {
                             throw new RuntimeException(e);
                         }
                     }else {
@@ -284,6 +294,9 @@ public class CustomerFormController {
                     if (b) {
                         getAllCustomer();
                         searchTable();
+
+                        qrGenerate(txtName.getText(),txtMobile.getText(),txtEmail.getText(),txtAddress.getText());
+
                         Image image=new Image("/Icon/iconsOk.png");
                         try {
                             Notifications notifications=Notifications.create();
@@ -298,6 +311,10 @@ public class CustomerFormController {
                         }
                     }
                 } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (WriterException e) {
                     throw new RuntimeException(e);
                 }
             }else {
@@ -437,5 +454,11 @@ public class CustomerFormController {
         txtMobile.setFocusColor(Color.web("#0040ff"));
         txtEmail.setFocusColor(Color.web("#0040ff"));
         txtAddress.setFocusColor(Color.web("#0040ff"));
+    }
+
+    private void qrGenerate(String txtName,String mobile,String email,String address) throws IOException, WriterException {
+        QrGenerator qrGenerator = new QrGenerator();
+        String data = "Name "+txtName+"\n mobile "+mobile+"\n email "+email+"\n address "+address;
+        qrGenerator.getGenerator(data);
     }
 }

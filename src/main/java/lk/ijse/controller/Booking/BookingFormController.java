@@ -248,7 +248,7 @@ public class BookingFormController {
         JasperExportManager.exportReportToPdfFile(jasperPrint, filePath + "\\Receipt " + bookingId + ".pdf");
 
 
-        MailSend.sendOrderConformMailFile(cusEmail,subject,new File(filePath + "\\Receipt " + bookingId + ".pdf"));
+        MailSend.sendOrderConformMail(cusEmail,subject,new File(filePath + "\\Receipt " + bookingId + ".pdf"));
 
         Image image = new Image("/Icon/iconsOk.png");
         try {

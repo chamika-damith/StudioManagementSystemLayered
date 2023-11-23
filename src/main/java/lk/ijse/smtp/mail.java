@@ -51,7 +51,7 @@ public class mail {
         return flag;
     }
 
-    public boolean sendEmailFile(String to, String from,String subject, File file) {
+    public boolean sendEmail(String to, String from,String subject, File file) {
 
         boolean flag = false;
 

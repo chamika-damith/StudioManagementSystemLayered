@@ -23,6 +23,22 @@
             <version>6.17.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/io.github.typhon0/AnimateFX -->
+        <dependency>
+            <groupId>io.github.typhon0</groupId>
+            <artifactId>AnimateFX</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.zxing/javase -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
+
+
 
         <dependency>
 

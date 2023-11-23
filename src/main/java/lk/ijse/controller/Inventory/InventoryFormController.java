@@ -1,5 +1,6 @@
 package lk.ijse.controller.Inventory;
 
+import com.google.zxing.WriterException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -25,6 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import lk.ijse.controller.qr.QrGenerator;
 import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.ItemTm;
@@ -208,6 +210,8 @@ public class InventoryFormController {
                                 searchTable();
                                 nullTextFieldColor();
 
+                                BarcodeGenerate(txtid.getText());
+
                                 Image image=new Image("/Icon/iconsOk.png");
                                 try {
                                     Notifications notifications=Notifications.create();
@@ -226,6 +230,10 @@ public class InventoryFormController {
                                 System.out.println("Item not saved successfully");
                             }
                         } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (WriterException e) {
                             throw new RuntimeException(e);
                         }
                     }else {
@@ -519,5 +527,11 @@ public class InventoryFormController {
         txtname.setFocusColor(Color.web("#0040ff"));
         txtqty.setFocusColor(Color.web("#0040ff"));
         txtprice.setFocusColor(Color.web("#0040ff"));
+    }
+
+    private void BarcodeGenerate(String txtId) throws IOException, WriterException {
+        QrGenerator qrGenerator = new QrGenerator();
+        String data = "Item Id "+txtId;
+        qrGenerator.getGeneratorBarcode(data);
     }
 }
