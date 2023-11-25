@@ -77,7 +77,7 @@
     -fx-alignment: center;
 }
 .moreBtn{
-    -fx-background-color:  #005B41;
+    -fx-background-color:  #7D7C7C;
     -fx-text-fill: white;
     -fx-background-radius: 9px;
     -fx-alignment: center;
@@ -86,6 +86,14 @@
 
 .completeBtn{
     -fx-background-color:  #0766AD;
+    -fx-text-fill: white;
+    -fx-background-radius: 9px;
+    -fx-alignment: center;
+    -fx-opacity: 80%;
+}
+
+.deleteBtn{
+    -fx-background-color:  red;
     -fx-text-fill: white;
     -fx-background-radius: 9px;
     -fx-alignment: center;

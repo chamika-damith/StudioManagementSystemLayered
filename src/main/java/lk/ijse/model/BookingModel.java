@@ -171,4 +171,12 @@ public class BookingModel {
         return pstm.executeUpdate() > 0;
     }
 
+    public boolean deleteBooking(int bookId) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="DELETE FROM booking WHERE bookingId=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setInt(1, bookId);
+        return pstm.executeUpdate() > 0;
+    }
 }

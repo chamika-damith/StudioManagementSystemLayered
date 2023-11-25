@@ -11,9 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
@@ -25,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.dto.OrderViewDto;
 import lk.ijse.dto.ViewBookingDto;
+import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.ViewBookingTm;
 import lk.ijse.dto.tm.ViewOrderTm;
 import lk.ijse.model.BookingModel;
@@ -34,6 +33,7 @@ import org.controlsfx.control.Notifications;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class ViewBookingController {
     public TableView tblAppointment;
@@ -144,9 +144,9 @@ public class ViewBookingController {
     }
     public Button createCancelButton(){
         Button btn=new Button("cancel");
-        btn.getStyleClass().add("moreBtn");
+        btn.getStyleClass().add("deleteBtn");
         btn.setCursor(Cursor.cursor("Hand"));
-        setMoreBtnAction(btn);
+        setCancelBtnAction(btn);
         return btn;
     }
     public Button createCompleteButton(){
@@ -208,6 +208,49 @@ public class ViewBookingController {
             ViewBookingTm viewBookingTm= (ViewBookingTm) tblAppointment.getSelectionModel().getSelectedItem();
             int selectId=viewBookingTm.getBookingId();
 
+        });
+    }
+
+    private void setCancelBtnAction(Button btn) {
+
+        btn.setOnAction((e) -> {
+            viewAppointmentRoot.setEffect(new GaussianBlur());
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to cancel appointment?", yes, no).showAndWait();
+
+            viewAppointmentRoot.setEffect(null);
+
+            if (type.orElse(no) == yes) {
+                int focusedIndex = tblAppointment.getSelectionModel().getSelectedIndex();
+                ViewBookingTm selected = (ViewBookingTm) tblAppointment.getSelectionModel().getSelectedItem();
+
+                if (selected != null) {
+                    int BookId = selected.getBookingId();
+                    try {
+                        boolean b = model.deleteBooking(BookId);
+                        if (b) {
+
+                            Image image=new Image("/Icon/iconsDelete.png");
+                            Notifications notifications=Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Booking Cancel Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+
+                            System.out.println("cancel booking selected");
+                            obList.remove(focusedIndex);
+                            getAllAppointment();
+                            searchTable();
+                        }
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
         });
     }
 
