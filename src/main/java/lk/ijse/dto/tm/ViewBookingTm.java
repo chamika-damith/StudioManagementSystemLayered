@@ -18,4 +18,5 @@ public class ViewBookingTm {
     Button complete;
     Button cancel;
     Button more;
+    Button status;
 }

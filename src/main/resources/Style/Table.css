@@ -85,9 +85,16 @@
 }
 
 .completeBtn{
-    -fx-background-color:  #96EFFF;
+    -fx-background-color:  #0766AD;
     -fx-text-fill: white;
     -fx-background-radius: 9px;
+    -fx-alignment: center;
+    -fx-opacity: 80%;
+}
+
+.statusBtn{
+    -fx-background-radius: 30px;
+    -fx-pref-height: 25px;
     -fx-alignment: center;
     -fx-opacity: 80%;
 }

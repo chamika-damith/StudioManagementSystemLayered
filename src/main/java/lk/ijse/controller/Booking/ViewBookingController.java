@@ -15,10 +15,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.dto.OrderViewDto;
@@ -45,6 +47,7 @@ public class ViewBookingController {
     public TableColumn colMore;
     public JFXTextField txtSearchOrder;
     public AnchorPane viewAppointmentRoot;
+    public TableColumn colStatus;
 
     private ObservableList<ViewBookingTm> obList;
 
@@ -57,17 +60,19 @@ public class ViewBookingController {
     }
 
     private void getAllAppointment() {
-        var ItemOrderModel = new viewBookingModel();
+        var viewBookingModel = new viewBookingModel();
 
         obList= FXCollections.observableArrayList();
 
         try {
-            List<ViewBookingDto> allItems = ItemOrderModel.getAllItems();
+            List<ViewBookingDto> allItems = viewBookingModel.getAllBooking();
 
             for (ViewBookingDto dto : allItems){
                 Button morebtn = createMoreButton();
                 Button cancelbtn = createCancelButton();
                 Button completebtn = createCompleteButton();
+                String status = isStatus(dto.isStatus());
+                Button statusbtn = createStatusButton(status);
                 obList.add(new ViewBookingTm(
                         dto.getBookingId(),
                         dto.getCusName(),
@@ -76,7 +81,8 @@ public class ViewBookingController {
                         dto.getMobile(),
                         completebtn,
                         cancelbtn,
-                        morebtn
+                        morebtn,
+                        statusbtn
                 ));
 
             }
@@ -84,6 +90,15 @@ public class ViewBookingController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String isStatus(boolean status) {
+        if (status){
+            return "GREEN";
+        }else {
+            return "RED";
+        }
+
     }
 
     private void setCellValues() {
@@ -95,6 +110,7 @@ public class ViewBookingController {
         colMore.setCellValueFactory(new PropertyValueFactory<>("more"));
         colComplete.setCellValueFactory(new PropertyValueFactory<>("complete"));
         colNotComplete.setCellValueFactory(new PropertyValueFactory<>("cancel"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
     public void searchTable(){
@@ -138,6 +154,14 @@ public class ViewBookingController {
         btn.getStyleClass().add("completeBtn");
         btn.setCursor(Cursor.cursor("Hand"));
         setCompleteBtnAction(btn);
+        return btn;
+    }
+
+    public Button createStatusButton(String color){
+        Button btn=new Button();
+        btn.setStyle("-fx-background-color: " + color + ";");
+        btn.getStyleClass().add("statusBtn");
+        btn.setCursor(Cursor.NONE);
         return btn;
     }
 

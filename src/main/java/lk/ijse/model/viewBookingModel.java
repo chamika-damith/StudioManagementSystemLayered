@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class viewBookingModel {
-    public List<ViewBookingDto> getAllItems() throws SQLException {
+    public List<ViewBookingDto> getAllBooking() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
-        String sql="SELECT b.bookingId,c.name,b.location,c.email,c.mobile FROM booking b JOIN customer c ON b.custId = c.cusId";
+        String sql="SELECT b.bookingId,b.status,c.name,b.location,c.email,c.mobile FROM booking b JOIN customer c ON b.custId = c.cusId";
         PreparedStatement pstm=connection.prepareStatement(sql);
         ResultSet resultSet = pstm.executeQuery();
 
@@ -26,7 +26,8 @@ public class viewBookingModel {
                     resultSet.getString("name"),
                     resultSet.getString("location"),
                     resultSet.getString("email"),
-                    resultSet.getString("mobile")
+                    resultSet.getString("mobile"),
+                    resultSet.getBoolean("status")
             ));
         }
         return dto;

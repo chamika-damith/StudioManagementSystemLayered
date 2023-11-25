@@ -15,4 +15,5 @@ public class ViewBookingDto {
     String address;
     String email;
     String mobile;
+    boolean status;
 }

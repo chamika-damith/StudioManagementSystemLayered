@@ -83,10 +83,11 @@
                   <TableColumn fx:id="colName" prefWidth="173.59999084472656" text="Customer Name" />
                   <TableColumn fx:id="colAddress" prefWidth="245.5999755859375" text="Address" />
                   <TableColumn fx:id="colEmail" minWidth="0.0" prefWidth="237.5999755859375" text="Email" />
-                  <TableColumn fx:id="colMobile" prefWidth="205.5999755859375" text="Mobile" />
-                  <TableColumn fx:id="colComplete" prefWidth="104.00018310546875" text="Complete" />
-                  <TableColumn fx:id="colNotComplete" prefWidth="107.1998291015625" text="Cancel" />
-                  <TableColumn fx:id="colMore" prefWidth="111.2000732421875" text="More Details" />
+                  <TableColumn fx:id="colMobile" prefWidth="210.39996337890625" text="Mobile" />
+                  <TableColumn fx:id="colComplete" prefWidth="83.19989013671875" text="Complete" />
+                  <TableColumn fx:id="colNotComplete" prefWidth="81.5999755859375" text="Cancel" />
+                  <TableColumn fx:id="colMore" prefWidth="92.7999267578125" text="More Details" />
+                  <TableColumn fx:id="colStatus" prefWidth="62.400146484375" text="Status" />
                </columns>
             </TableView>
             <Pane layoutX="1040.0" layoutY="12.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">
