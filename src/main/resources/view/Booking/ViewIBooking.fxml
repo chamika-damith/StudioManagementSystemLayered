@@ -85,7 +85,7 @@
                   <TableColumn fx:id="colEmail" minWidth="0.0" prefWidth="237.5999755859375" text="Email" />
                   <TableColumn fx:id="colMobile" prefWidth="205.5999755859375" text="Mobile" />
                   <TableColumn fx:id="colComplete" prefWidth="104.00018310546875" text="Complete" />
-                  <TableColumn fx:id="colNotComplete" prefWidth="107.1998291015625" text="Not Complete" />
+                  <TableColumn fx:id="colNotComplete" prefWidth="107.1998291015625" text="Cancel" />
                   <TableColumn fx:id="colMore" prefWidth="111.2000732421875" text="More Details" />
                </columns>
             </TableView>

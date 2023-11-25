@@ -7,6 +7,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,13 +16,18 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import lk.ijse.dto.OrderViewDto;
 import lk.ijse.dto.ViewBookingDto;
 import lk.ijse.dto.tm.ViewBookingTm;
 import lk.ijse.dto.tm.ViewOrderTm;
+import lk.ijse.model.BookingModel;
 import lk.ijse.model.viewBookingModel;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -41,6 +47,8 @@ public class ViewBookingController {
     public AnchorPane viewAppointmentRoot;
 
     private ObservableList<ViewBookingTm> obList;
+
+    private BookingModel model=new BookingModel();
 
     public void initialize(){
         setCellValues();
@@ -127,10 +135,45 @@ public class ViewBookingController {
     }
     public Button createCompleteButton(){
         Button btn=new Button("complete");
-        btn.getStyleClass().add("moreBtn");
+        btn.getStyleClass().add("completeBtn");
         btn.setCursor(Cursor.cursor("Hand"));
-        setMoreBtnAction(btn);
+        setCompleteBtnAction(btn);
         return btn;
+    }
+
+    private void setCompleteBtnAction(Button btn) {
+
+        btn.setOnAction((e) -> {
+
+            int focusedIndex = tblAppointment.getSelectionModel().getSelectedIndex();
+            ViewBookingTm viewBookingTm= (ViewBookingTm) tblAppointment.getSelectionModel().getSelectedItem();
+            int selectId=viewBookingTm.getBookingId();
+
+            if (selectId !=0) {
+                try {
+                    boolean b = model.updateBookingStatus(selectId);
+                    if (b) {
+
+                        Image image=new Image("/Icon/iconsOk.png");
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Booking Complete Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+
+                        System.out.println("booking complete selected");
+                        obList.remove(focusedIndex);
+                        getAllAppointment();
+                        searchTable();
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+        });
     }
 
     private void setMoreBtnAction(Button btn) {

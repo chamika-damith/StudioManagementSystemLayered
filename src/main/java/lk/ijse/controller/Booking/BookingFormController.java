@@ -421,7 +421,7 @@ public class BookingFormController {
             var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
 
             try {
-                boolean b = bookingModel.updateCustomer(dto);
+                boolean b = bookingModel.updateBooking(dto);
                 if (b) {
                     Image image=new Image("/Icon/iconsOk.png");
                     try {

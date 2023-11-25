@@ -123,7 +123,7 @@ public class BookingModel {
         return false;
     }
 
-    public boolean updateCustomer(BookingDto dto) throws SQLException {
+    public boolean updateBooking(BookingDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="UPDATE booking SET eventType = ? , date = ? , location=? , empId=?, packageId=? , custId=? WHERE bookingId=?";
         PreparedStatement pstm=connection.prepareStatement(sql);
@@ -159,6 +159,16 @@ public class BookingModel {
         }
         System.out.println(dto.getBookingId());
         return dto;
+    }
+
+    public boolean updateBookingStatus(int id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="UPDATE booking SET status=true WHERE bookingId=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setInt(1,id);
+
+        return pstm.executeUpdate() > 0;
     }
 
 }
