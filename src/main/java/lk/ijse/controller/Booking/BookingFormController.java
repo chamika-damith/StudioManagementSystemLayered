@@ -37,8 +37,8 @@ import org.controlsfx.control.Notifications;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.*;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.*;
 
 import static lk.ijse.controller.Booking.EventType.*;

@@ -167,7 +167,7 @@ public class DashboardWindwoCrontroller {
             lblAllCustomerd.setText(CustomerModel.returnLbCuslValue());
             lblAllInventory.setText(OrderModel.returnlblTotalSale());
             lblOrders.setText(OrderModel.returnLbOrderlValue());
-            lblEmpId.setText(EmployeeModel.returnLbEmployeeValue());
+            lblEmpId.setText(BookingModel.returnLbBookingValue());
         } catch (SQLException e) {
             e.getMessage();
         }

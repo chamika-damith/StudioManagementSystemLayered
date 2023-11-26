@@ -179,4 +179,19 @@ public class BookingModel {
         pstm.setInt(1, bookId);
         return pstm.executeUpdate() > 0;
     }
+
+
+    public static String returnLbBookingValue() throws SQLException {
+        String BookCount;
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "SELECT COUNT(bookingId) FROM booking where status=true";
+
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        ResultSet resultSet = pstm.executeQuery();
+        while (resultSet.next()){
+            BookCount= String.valueOf(resultSet.getInt(1));
+            return BookCount;
+        }
+        return null;
+    }
 }

@@ -70,7 +70,7 @@ public class OrderModel {
     public static String returnlblTotalSale() throws SQLException {
         String sale;
         Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT totprice FROM orders";
+        String sql = "SELECT SUM(totprice) FROM orders";
 
         PreparedStatement pstm=connection.prepareStatement(sql);
         ResultSet resultSet = pstm.executeQuery();

@@ -85,10 +85,13 @@ public class QrReaderController implements Initializable {
                                 webcam.close();
                                 txtLable.setText(result.getText() + "\n");
                                 new Alert(Alert.AlertType.INFORMATION, "Data Scanned Successfully!").showAndWait();
+                                stopWebcam();
                             } else {
                                 new Alert(Alert.AlertType.ERROR, "No Data Found!").showAndWait();
                             }
                         });
+                    } else {
+                        System.out.println("Image is null");
                     }
                 } catch (NotFoundException | InterruptedException | RuntimeException ignored) {
                     // ignored
