@@ -6,35 +6,37 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import lk.ijse.controller.Order.OrderItemDetailFormController;
+import lk.ijse.dto.BookingDto;
 import lk.ijse.dto.DasboardDto;
 import lk.ijse.dto.OrderViewDto;
+import lk.ijse.dto.ViewBookingDto;
 import lk.ijse.dto.tm.CustomerTm;
+import lk.ijse.dto.tm.ViewBookingTm;
 import lk.ijse.dto.tm.ViewOrderTm;
 import lk.ijse.model.*;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DashboardWindwoCrontroller {
     public LineChart<String,Number> Linechart;
@@ -52,10 +54,20 @@ public class DashboardWindwoCrontroller {
     public TableColumn colMore;
     public JFXTextField txtSearchOrder;
     public AnchorPane dashboardRoot;
+    public TableView tblAppointment;
+    public TableColumn colBookingId;
+    public TableColumn colComplete;
+    public TableColumn colNotComplete;
+    public TableColumn colStatus;
 
-    private DashboardModel model=new DashboardModel();
+    private boolean completeBooking=false;
+    private boolean cancelBooking=false;
 
-    private ObservableList<ViewOrderTm> obList;
+    private DashboardModel Dashboardmodel=new DashboardModel();
+
+    private ObservableList<ViewBookingTm> obList;
+
+    private BookingModel model=new BookingModel();
 
     private OrderItemDetailFormController OIDController=new OrderItemDetailFormController();
 
@@ -63,65 +75,86 @@ public class DashboardWindwoCrontroller {
         chart1();
         setLblValue();
         setCellValues();
-        getAllOrders();
+        getAllBooking();
         searchTable();
     }
 
     public void searchTable(){
-        FilteredList<ViewOrderTm> filteredData = new FilteredList<>(obList, b -> true);
+        FilteredList<ViewBookingTm> filteredData = new FilteredList<>(obList, b -> true);
 
         txtSearchOrder.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(viewOrderTm -> {
+            filteredData.setPredicate(viewBookingTm -> {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase();
-                String itemId = String.valueOf(viewOrderTm.getOrderId());
-                String name = viewOrderTm.getCustomerName().toLowerCase();
+                String itemId = String.valueOf(viewBookingTm.getBookingId());
+                String name = viewBookingTm.getCusName().toLowerCase();
 
                 return itemId.contains(lowerCaseFilter) || name.contains(lowerCaseFilter);
             });
         });
 
-        SortedList<ViewOrderTm> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(tblOrder.comparatorProperty());
-        tblOrder.setItems(sortedData);
+        SortedList<ViewBookingTm> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tblAppointment.comparatorProperty());
+        tblAppointment.setItems(sortedData);
     }
 
     private void setCellValues() {
-        colOrderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        colBookingId.setCellValueFactory(new PropertyValueFactory<>("bookingId"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("cusName"));
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colMobile.setCellValueFactory(new PropertyValueFactory<>("mobile"));
-        colMore.setCellValueFactory(new PropertyValueFactory<>("btnMore"));
+        colMore.setCellValueFactory(new PropertyValueFactory<>("more"));
+        colComplete.setCellValueFactory(new PropertyValueFactory<>("complete"));
+        colNotComplete.setCellValueFactory(new PropertyValueFactory<>("cancel"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
-    private void getAllOrders() {
-        var OrderModel = new OrderDetailViewModel();
+    private void getAllBooking() {
+        var model=new viewBookingModel();
+
+        String date= String.valueOf(LocalDate.now());
 
         obList= FXCollections.observableArrayList();
 
         try {
-            List<OrderViewDto> allItems = OrderModel.getAllItems();
+            List<ViewBookingDto> allItems = model.getTodayBooking(Date.valueOf(date));
 
-            for (OrderViewDto dto : allItems){
-                Button button = createButton();
-                obList.add(new ViewOrderTm(
-                        dto.getOrderId(),
-                        dto.getCustomerName(),
+            for (ViewBookingDto dto : allItems){
+                Button morebtn = createMoreButton();
+                Button cancelbtn = createCancelButton();
+                Button completebtn = createCompleteButton();
+                String status = isStatus(dto.isStatus());
+                Button statusbtn = createStatusButton(status);
+                obList.add(new ViewBookingTm(
+                        dto.getBookingId(),
+                        dto.getCusName(),
                         dto.getAddress(),
                         dto.getEmail(),
                         dto.getMobile(),
-                        button
+                        completebtn,
+                        cancelbtn,
+                        morebtn,
+                        statusbtn
                 ));
 
             }
-            tblOrder.setItems(obList);
+            tblAppointment.setItems(obList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String isStatus(boolean status) {
+        if (status){
+            return "GREEN";
+        }else {
+            return "RED";
+        }
+
     }
 
     public Button createButton(){
@@ -130,36 +163,6 @@ public class DashboardWindwoCrontroller {
         btn.setCursor(Cursor.cursor("Hand"));
         setMoreBtnAction(btn);
         return btn;
-    }
-
-    private void setMoreBtnAction(Button btn) {
-
-        btn.setOnAction((e) -> {
-
-            int focusedIndex = tblOrder.getSelectionModel().getSelectedIndex();
-            ViewOrderTm viewOrderTm= (ViewOrderTm) tblOrder.getSelectionModel().getSelectedItem();
-            int selectId=viewOrderTm.getOrderId();
-            OIDController.getIndex(selectId);
-
-            try {
-                Parent parent= FXMLLoader.load(getClass().getResource("/view/Order/OrderItemDetailForm.fxml"));
-                Stage stage = new Stage();
-                Scene scene = new Scene(parent);
-                stage.setTitle("Order Item Detail");
-                stage.setScene(scene);
-                stage.centerOnScreen();
-                stage.show();
-                dashboardRoot.setEffect(new GaussianBlur());
-
-                stage.setOnCloseRequest(event -> {
-                    dashboardRoot.setEffect(null);
-                });
-
-
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
     }
 
     public void setLblValue(){
@@ -175,7 +178,7 @@ public class DashboardWindwoCrontroller {
 
     private void chart1() {
         try {
-            List<DasboardDto> dataFromDatabase = model.getChartData();
+            List<DasboardDto> dataFromDatabase = Dashboardmodel.getChartData();
 
             dataFromDatabase.sort(Comparator.comparingInt(month -> {
                 Map<String, Integer> monthOrder = new HashMap<>();
@@ -213,6 +216,140 @@ public class DashboardWindwoCrontroller {
         }
     }
 
+    public Button createMoreButton(){
+        Button btn=new Button("more");
+        btn.getStyleClass().add("moreBtn");
+        btn.setCursor(Cursor.cursor("Hand"));
+        setMoreBtnAction(btn);
+        return btn;
+    }
+    public Button createCancelButton(){
+        if (completeBooking){
+            System.out.println("complete booking");
+            return null;
+        }else {
+            Button btn=new Button("cancel");
+            btn.getStyleClass().add("deleteBtn");
+            btn.setCursor(Cursor.cursor("Hand"));
+            setCancelBtnAction(btn);
+            return btn;
+        }
+    }
+    public Button createCompleteButton(){
+        if (cancelBooking){
+            System.out.println("booking canceled");
+            return null;
+        }else {
+            Button btn=new Button("complete");
+            btn.getStyleClass().add("completeBtn");
+            btn.setCursor(Cursor.cursor("Hand"));
+            setCompleteBtnAction(btn);
+            return btn;
+        }
+    }
+
+    public Button createStatusButton(String color){
+        Button btn=new Button();
+        btn.setStyle("-fx-background-color: " + color + ";");
+        btn.getStyleClass().add("statusBtn");
+        btn.setCursor(Cursor.NONE);
+        return btn;
+    }
+
+
+    private void setCompleteBtnAction(Button btn) {
+
+        btn.setOnAction((e) -> {
+
+            int focusedIndex = tblAppointment.getSelectionModel().getSelectedIndex();
+            ViewBookingTm viewBookingTm= (ViewBookingTm) tblAppointment.getSelectionModel().getSelectedItem();
+            int selectId=viewBookingTm.getBookingId();
+
+            if (selectId !=0) {
+                try {
+                    boolean b = model.updateBookingStatus(selectId);
+                    if (b) {
+
+                        completeBooking=true;
+
+                        Image image=new Image("/Icon/iconsOk.png");
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Booking Complete Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+
+                        System.out.println("booking complete selected");
+                        obList.remove(focusedIndex);
+                        getAllBooking();
+                        searchTable();
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+        });
+    }
+
+    private void setMoreBtnAction(Button btn) {
+
+        btn.setOnAction((e) -> {
+
+            int focusedIndex = tblAppointment.getSelectionModel().getSelectedIndex();
+            ViewBookingTm viewBookingTm= (ViewBookingTm) tblAppointment.getSelectionModel().getSelectedItem();
+            int selectId=viewBookingTm.getBookingId();
+
+        });
+    }
+
+    private void setCancelBtnAction(Button btn) {
+
+        btn.setOnAction((e) -> {
+            dashboardRoot.setEffect(new GaussianBlur());
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to cancel appointment?", yes, no).showAndWait();
+
+            dashboardRoot.setEffect(null);
+
+            if (type.orElse(no) == yes) {
+                int focusedIndex = tblAppointment.getSelectionModel().getSelectedIndex();
+                ViewBookingTm selected = (ViewBookingTm) tblAppointment.getSelectionModel().getSelectedItem();
+
+                if (selected != null) {
+                    int BookId = selected.getBookingId();
+                    try {
+                        boolean b = model.deleteBooking(BookId);
+                        if (b) {
+
+                            cancelBooking=true;
+
+
+                            Image image=new Image("/Icon/iconsDelete.png");
+                            Notifications notifications=Notifications.create();
+                            notifications.graphic(new ImageView(image));
+                            notifications.text("Booking Cancel Successfully");
+                            notifications.title("Successfully");
+                            notifications.hideAfter(Duration.seconds(5));
+                            notifications.position(Pos.TOP_RIGHT);
+                            notifications.show();
+
+                            System.out.println("cancel booking selected");
+                            obList.remove(focusedIndex);
+                            getAllBooking();
+                            searchTable();
+                        }
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        });
+    }
 
 
 }

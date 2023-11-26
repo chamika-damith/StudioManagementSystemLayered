@@ -387,9 +387,10 @@ public class CustomerFormController {
 
                 String lowerCaseFilter = newValue.toLowerCase();
                 String cusId = String.valueOf(customerTm.getCusId());
+                String mobile = String.valueOf(customerTm.getMobile());
                 String name = customerTm.getName().toLowerCase();
 
-                return cusId.contains(lowerCaseFilter) || name.contains(lowerCaseFilter);
+                return cusId.contains(lowerCaseFilter) || name.contains(lowerCaseFilter) || mobile.contains(lowerCaseFilter);
             });
         });
 
