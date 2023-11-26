@@ -79,9 +79,9 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="cmbCustomerId" labelFloat="true" layoutX="85.0" layoutY="56.0" onAction="#cmbCustomerOnAction" prefHeight="25.0" prefWidth="204.0" promptText="Customer Id *" />
-            <JFXComboBox fx:id="cmbItemId" labelFloat="true" layoutX="382.0" layoutY="56.0" onAction="#cmbItemOnAction" prefHeight="25.0" prefWidth="204.0" promptText="Item Id *" />
-            <JFXTextField fx:id="txtQty" labelFloat="true" layoutX="984.0" layoutY="56.0" onAction="#txtQtyOnAction" prefHeight="25.0" prefWidth="204.0" promptText="Qty :" />
+            <JFXComboBox fx:id="cmbCustomerId" labelFloat="true" layoutX="62.0" layoutY="56.0" onAction="#cmbCustomerOnAction" prefHeight="25.0" prefWidth="204.0" promptText="Customer Id *" />
+            <JFXComboBox fx:id="cmbItemId" labelFloat="true" layoutX="359.0" layoutY="56.0" onAction="#cmbItemOnAction" prefHeight="25.0" prefWidth="204.0" promptText="Item Id *" />
+            <JFXTextField fx:id="txtQty" labelFloat="true" layoutX="991.0" layoutY="56.0" onAction="#txtQtyOnAction" prefHeight="25.0" prefWidth="204.0" promptText="Qty :" />
             <Label layoutX="1141.0" layoutY="14.0" text="Order Id - " textFill="#22a390">
                <font>
                   <Font name="System Bold" size="16.0" />
@@ -171,7 +171,17 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <MFXDatePicker fx:id="cmbDate" layoutX="674.0" layoutY="50.0" onAction="#cmbDateOnAction" prefHeight="38.0" prefWidth="204.0" promptText="orders date" />
+            <MFXDatePicker fx:id="cmbDate" layoutX="690.0" layoutY="50.0" onAction="#cmbDateOnAction" prefHeight="38.0" prefWidth="204.0" promptText="orders date" />
+            <ImageView fitHeight="28.0" fitWidth="38.0" layoutX="580.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Icon/barcode.png" />
+               </image>
+            </ImageView>
+            <JFXButton buttonType="RAISED" layoutX="579.0" layoutY="56.0" onAction="#btnOpenScannerOnAction" prefHeight="25.0" prefWidth="28.0" ripplerFill="#00ffad" text=" ">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
          </children>
       </Pane>
       <Label layoutX="1258.0" layoutY="5.0" opacity="0.9" text="Orders" textFill="#22a390">
@@ -281,5 +291,34 @@
          </font>
       </JFXButton>
       <Label layoutX="111.0" layoutY="668.0" text="Rs." />
+      <JFXButton buttonType="RAISED" layoutX="336.0" layoutY="7.0" onAction="#btnAddCustomerOnAction" prefHeight="28.0" prefWidth="124.0" style="-fx-background-color: FA7070; -fx-background-radius: 13;" styleClass="click-button" stylesheets="@../../Style/Button.css" text="Add Customer" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.9892328398384924">
+                     <color>
+                        <Color red="0.13333334028720856" green="0.6431372761726379" blue="0.572549045085907" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
+         <font>
+            <Font name="System Bold" size="10.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

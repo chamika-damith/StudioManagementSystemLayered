@@ -529,4 +529,20 @@ public class OrderFormController {
     public static int getTextTotal(){
         return getTotal;
     }
+
+    public void btnAddCustomerOnAction(ActionEvent actionEvent) throws IOException {
+        Parent parent= FXMLLoader.load(getClass().getResource("/view/Customer/CustomerForm.fxml"));
+        OrderCartRoot.getChildren().clear();
+        OrderCartRoot.getChildren().add(parent);
+    }
+
+    public void btnOpenScannerOnAction(ActionEvent actionEvent) throws IOException {
+        Parent parent=FXMLLoader.load(getClass().getResource("/qr/QrReader.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Qr Reader");
+        stage.centerOnScreen();
+        stage.show();
+    }
 }
