@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -42,7 +38,7 @@
             </LinearGradient>
          </ripplerFill>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="1006.0" layoutY="81.0" onAction="#btnCusReport" prefHeight="43.0" prefWidth="181.0" style="-fx-background-radius: 13;" text="Customer Report" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="840.0" layoutY="151.0" onAction="#btnCusReport" prefHeight="43.0" prefWidth="181.0" style="-fx-background-radius: 13;" text="Customer Report" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -79,7 +75,7 @@
             <Image url="@../../image/ReportImage.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="1005.0" layoutY="216.0" onAction="#btnOrdersReport" prefHeight="43.0" prefWidth="182.0" style="-fx-background-radius: 13;" text="Order Report" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="839.0" layoutY="286.0" onAction="#btnOrdersReport" prefHeight="43.0" prefWidth="182.0" style="-fx-background-radius: 13;" text="Order Report" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -111,28 +107,5 @@
             <String fx:value="reportBtn" />
          </styleClass>
       </JFXButton>
-      <JFXComboBox fx:id="cmbItemId" layoutX="735.0" layoutY="90.0" onAction="#cmbItemIdOnAction" prefHeight="26.0" prefWidth="146.0" promptText="Item Id" />
-      <Label layoutX="594.0" layoutY="95.0" text="Select Item Id - ">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
-      <Separator layoutX="418.0" layoutY="143.0" prefHeight="0.0" prefWidth="912.0" />
-      <CheckBox fx:id="checkBox" layoutX="899.0" layoutY="102.0" mnemonicParsing="false" text="All">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </CheckBox>
-      <JFXComboBox layoutX="735.0" layoutY="222.0" prefHeight="26.0" prefWidth="146.0" promptText="Item Id" />
-      <Label layoutX="594.0" layoutY="227.0" text="Select Item Id - ">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
-      <CheckBox layoutX="899.0" layoutY="234.0" mnemonicParsing="false" text="All">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </CheckBox>
    </children>
 </AnchorPane>

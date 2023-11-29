@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.controller.Order.OrderFormController;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -46,6 +47,9 @@ public class QrReaderController implements Initializable {
     private WebcamPanel webcamPanel;
     private boolean isReading = false;
 
+    private static String id;
+
+    private OrderFormController orderFormController=new OrderFormController();
 
 
 
@@ -84,6 +88,8 @@ public class QrReaderController implements Initializable {
                             if (result != null) {
                                 webcam.close();
                                 txtLable.setText(result.getText() + "\n");
+                                id=result.getText();
+                                orderFormController.setId(id);
                                 new Alert(Alert.AlertType.INFORMATION, "Data Scanned Successfully!").showAndWait();
                                 stopWebcam();
                             } else {
@@ -125,4 +131,5 @@ public class QrReaderController implements Initializable {
     public void EndOnAction(ActionEvent actionEvent) {
         stopWebcam();
     }
+
 }

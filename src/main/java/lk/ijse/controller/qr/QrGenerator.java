@@ -30,7 +30,7 @@ public class QrGenerator {
 
         data = data.replaceAll("\\r\\n|\\r|\\n", "_");
 
-        path = "C:/Users/Chamika/Downloads/qr/" + data + ".png";
+        path = "C:/Users/Chamika/OneDrive/Desktop/qr/" + data + ".png";
         BitMatrix encode = new MultiFormatWriter().encode(data, BarcodeFormat.QR_CODE, 200, 200);
         Path path1 = Paths.get(path);
         MatrixToImageWriter.writeToPath(encode, path.substring(path.lastIndexOf('.') + 1), path1);
@@ -52,7 +52,7 @@ public class QrGenerator {
 
         data = data.replaceAll("\\r\\n|\\r|\\n", "_");
 
-        path = "C:/Users/Chamika/Downloads/qr/" + data + ".png";
+        path = "C:/Users/Chamika/OneDrive/Desktop/qr/BarCode/" + data + ".png";
         BitMatrix encode = new MultiFormatWriter().encode(data, BarcodeFormat.CODE_128, 200, 100);
         Path path1 = Paths.get(path);
         MatrixToImageWriter.writeToPath(encode, path.substring(path.lastIndexOf('.') + 1), path1);

@@ -89,6 +89,12 @@ public class OrderFormController {
 
     private OrderItemDetailFormModel orderItemDetailFormModel=new OrderItemDetailFormModel();
 
+    private String scanId;
+
+    public void setId(String id) {
+        cmbItemId.setId(scanId);
+    }
+
 
     public void initialize(){
         loadCustomerIds();

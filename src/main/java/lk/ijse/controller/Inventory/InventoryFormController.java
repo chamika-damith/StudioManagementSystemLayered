@@ -211,6 +211,7 @@ public class InventoryFormController {
                                 nullTextFieldColor();
 
                                 BarcodeGenerate(txtid.getText());
+                                qrGenerate(txtid.getText());
 
                                 Image image=new Image("/Icon/iconsOk.png");
                                 try {
@@ -533,5 +534,11 @@ public class InventoryFormController {
         QrGenerator qrGenerator = new QrGenerator();
         String data = "Item Id "+txtId;
         qrGenerator.getGeneratorBarcode(data);
+    }
+
+    private void qrGenerate(String txtId) throws IOException, WriterException {
+        QrGenerator qrGenerator = new QrGenerator();
+        String data = "Item Id "+txtId;
+        qrGenerator.getGenerator(data);
     }
 }
