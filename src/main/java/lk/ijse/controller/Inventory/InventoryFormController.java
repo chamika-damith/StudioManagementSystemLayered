@@ -532,13 +532,13 @@ public class InventoryFormController {
 
     private void BarcodeGenerate(String txtId) throws IOException, WriterException {
         QrGenerator qrGenerator = new QrGenerator();
-        String data = "Item Id "+txtId;
+        String data = txtId;
         qrGenerator.getGeneratorBarcode(data);
     }
 
     private void qrGenerate(String txtId) throws IOException, WriterException {
         QrGenerator qrGenerator = new QrGenerator();
-        String data = "Item Id "+txtId;
+        String data = txtId;
         qrGenerator.getGenerator(data);
     }
 }
