@@ -16,9 +16,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="LoginRoot" onMouseExited="#rootOnMouseExited" onMouseMoved="#rootOnMouseMove" prefHeight="450.0" prefWidth="750.0" style="-fx-background-radius: 10; -fx-border-radius: 20; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #FFFfff;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
+<AnchorPane fx:id="LoginRoot" onMouseExited="#rootOnMouseExited" onMouseMoved="#rootOnMouseMove" prefHeight="450.0" prefWidth="750.0" style="-fx-background-radius: 15; -fx-border-radius: 20; -fx-border-width: 0px 0px 2px 0px; -fx-background-color: #FFFfff;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
    <children>
-      <MFXTextField fx:id="txtUserName" layoutX="408.0" layoutY="139.0" prefHeight="29.0" prefWidth="300.0" promptText="Enter username" style="-fx-background-color: #f2eff1;" stylesheets="@../Style/textFields.css">
+      <MFXTextField fx:id="txtUserName" layoutX="408.0" layoutY="139.0" onAction="#txtUsernameOnAction" prefHeight="29.0" prefWidth="300.0" promptText="Enter username" style="-fx-background-color: #f2eff1;" stylesheets="@../Style/textFields.css">
          <styleClass>
             <String fx:value="customField" />
             <String fx:value="mfx-text-field" />
@@ -26,7 +26,7 @@
          <cursor>
             <Cursor fx:constant="TEXT" />
          </cursor></MFXTextField>
-      <MFXPasswordField fx:id="txtPassword" layoutX="408.0" layoutY="225.0" prefHeight="29.0" prefWidth="300.0" promptText="Enter password" style="-fx-background-color: #f2eff1;" stylesheets="@../Style/textFields.css">
+      <MFXPasswordField fx:id="txtPassword" layoutX="408.0" layoutY="225.0" onAction="#txtPasswordOnAction" prefHeight="29.0" prefWidth="300.0" promptText="Enter password" style="-fx-background-color: #f2eff1;" stylesheets="@../Style/textFields.css">
          <styleClass>
             <String fx:value="customPassword" />
             <String fx:value="mfx-text-field" />
@@ -106,14 +106,11 @@
             <Image url="@../Icon/menu.png" />
          </image>
       </ImageView>
-      <Label layoutX="626.0" layoutY="368.0" text="Forgot password ?" textFill="#2f00ff">
-         <font>
-            <Font size="10.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Label>
       <CubicCurve fx:id="curve" controlX1="209.20001220703125" controlX2="301.20001220703125" controlY1="-16.4000244140625" controlY2="23.5999755859375" endX="509.800048828125" endY="93.79998779296875" fill="#0400ff" layoutX="230.0" layoutY="354.0" opacity="0.04" startX="145.80001831054688" startY="93.79998779296875" stroke="BLACK" strokeWidth="0.0" />
+      <Label layoutX="489.0" layoutY="430.0" opacity="0.32" text="-  FOCUS Photography studio  -">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

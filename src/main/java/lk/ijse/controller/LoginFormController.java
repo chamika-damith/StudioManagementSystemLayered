@@ -90,4 +90,11 @@ public class LoginFormController {
         }
     }
 
+    public void txtUsernameOnAction(ActionEvent actionEvent) {
+        txtPassword.requestFocus();
+    }
+
+    public void txtPasswordOnAction(ActionEvent actionEvent) throws SQLException, IOException {
+        btnLoginOnAction(actionEvent);
+    }
 }
