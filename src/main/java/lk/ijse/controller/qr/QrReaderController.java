@@ -49,8 +49,6 @@ public class QrReaderController implements Initializable {
 
     private static String id;
 
-    private OrderFormController orderFormController=new OrderFormController();
-
 
 
     @Override
@@ -89,7 +87,6 @@ public class QrReaderController implements Initializable {
                                 webcam.close();
                                 txtLable.setText(result.getText() + "\n");
                                 id=result.getText();
-                                orderFormController.setId(id);
                                 new Alert(Alert.AlertType.INFORMATION, "Data Scanned Successfully!").showAndWait();
                                 stopWebcam();
                             } else {

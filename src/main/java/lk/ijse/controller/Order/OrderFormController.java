@@ -33,18 +33,22 @@ import lk.ijse.dto.tm.OrderItemTm;
 import lk.ijse.model.*;
 import lk.ijse.regex.RegexPattern;
 import lk.ijse.smtp.MailSend;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import org.bouncycastle.crypto.io.SignerOutputStream;
 import org.controlsfx.control.Notifications;
 
 import javax.naming.ldap.PagedResultsControl;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class OrderFormController {
     public JFXComboBox cmbCustomerId;
@@ -89,11 +93,8 @@ public class OrderFormController {
 
     private OrderItemDetailFormModel orderItemDetailFormModel=new OrderItemDetailFormModel();
 
-    private String scanId;
+    private String Oid;
 
-    public void setId(String id) {
-        cmbItemId.setId(scanId);
-    }
 
 
     public void initialize(){
@@ -369,6 +370,7 @@ public class OrderFormController {
                 }
             }else{
                 int orderId = Integer.parseInt(lblOrderId.getText());
+                Oid= String.valueOf(orderId);
                 Date date = Date.valueOf(lblDate.getText());
                 int userId = 001;
                 String cusId = (String) cmbCustomerId.getValue();
@@ -515,21 +517,37 @@ public class OrderFormController {
     }
 
     public void btnOrderPaymentOnAction(ActionEvent actionEvent) throws IOException {
-        calculateTotal();
 
-        Parent parent=FXMLLoader.load(getClass().getResource("/view/Order/orderPayment.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.centerOnScreen();
-        stage.setTitle("Order Payment");
-        stage.show();
+        if (tblCart.getItems().isEmpty()){
+            Image image=new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications=Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Item Cart is empty!");
+                notifications.title("Error");
+                notifications.hideAfter(Duration.seconds(4));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else {
+            calculateTotal();
 
-        OrderCartRoot.setEffect(new GaussianBlur());
+            Parent parent=FXMLLoader.load(getClass().getResource("/view/Order/orderPayment.fxml"));
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.setTitle("Order Payment");
+            stage.show();
 
-        stage.setOnCloseRequest(event -> {
-            OrderCartRoot.setEffect(null);
-        });
+            OrderCartRoot.setEffect(new GaussianBlur());
+
+            stage.setOnCloseRequest(event -> {
+                OrderCartRoot.setEffect(null);
+            });
+        }
     }
 
     public static int getTextTotal(){
@@ -550,5 +568,39 @@ public class OrderFormController {
         stage.setTitle("Qr Reader");
         stage.centerOnScreen();
         stage.show();
+    }
+
+    public void btnPrintReciptOnAction(ActionEvent actionEvent) throws SQLException, JRException {
+        if (orderPaymentController.getValidPayment()){
+            InputStream resourceAsStream = getClass().getResourceAsStream("/ReportForm/orderRecipt.jrxml");
+            JasperDesign load = JRXmlLoader.load(resourceAsStream);
+            JasperReport jasperReport = JasperCompileManager.compileReport(load);
+
+            Map<String, Object> parameters = new HashMap<>();
+
+            parameters.put("Oid", Oid);
+
+            JasperPrint jasperPrint =
+                    JasperFillManager.fillReport(
+                            jasperReport, //compiled report
+                            parameters,
+                            DbConnection.getInstance().getConnection() //database connection
+                    );
+
+            JasperViewer.viewReport(jasperPrint, false);
+        }else {
+            Image image = new Image("/Icon/icons8-cancel-50.png");
+            try {
+                Notifications notifications = Notifications.create();
+                notifications.graphic(new ImageView(image));
+                notifications.text("Payment not completed");
+                notifications.title("Error");
+                notifications.hideAfter(Duration.seconds(5));
+                notifications.position(Pos.TOP_RIGHT);
+                notifications.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -3,6 +3,8 @@ package lk.ijse.controller.Inventory;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -17,6 +19,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.dto.InventoryOrderViewDto;
 import lk.ijse.dto.OrderViewDto;
+import lk.ijse.dto.tm.CustomerTm;
+import lk.ijse.dto.tm.InventoryOrderItemTm;
 import lk.ijse.dto.tm.ViewInventoryOrderTm;
 import lk.ijse.dto.tm.ViewOrderTm;
 import lk.ijse.model.InventoryOrderViewModel;
@@ -39,6 +43,7 @@ public class ViewInventoryOrderDetailController {
     public TableColumn colMore;
     public JFXTextField txtSearchOrder;
     public AnchorPane viewInventoryRoot;
+    public JFXTextField txtSearchBar;
 
     private ObservableList<ViewInventoryOrderTm> obList;
 
@@ -47,6 +52,7 @@ public class ViewInventoryOrderDetailController {
     public void initialize(){
         setCellValues();
         getAllOrders();
+        searchTable();
     }
 
 
@@ -140,5 +146,27 @@ public class ViewInventoryOrderDetailController {
         Parent parent= FXMLLoader.load(getClass().getResource("/view/Inventory/ViewInventoryOrder.fxml"));
         viewInventoryRoot.getChildren().clear();
         viewInventoryRoot.getChildren().add(parent);
+    }
+
+    public void searchTable() {
+        FilteredList<ViewInventoryOrderTm> filteredData = new FilteredList<>(obList, b -> true);
+
+        txtSearchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(viewInventoryOrderTm -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                String cusId = String.valueOf(viewInventoryOrderTm.getId());
+                String name = viewInventoryOrderTm.getSupName().toLowerCase();
+
+                return cusId.contains(lowerCaseFilter) || name.contains(lowerCaseFilter);
+            });
+        });
+
+        SortedList<ViewInventoryOrderTm> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tblOrder.comparatorProperty());
+        tblOrder.setItems(sortedData);
     }
 }

@@ -36,7 +36,7 @@
             </TableView>
             <Pane layoutX="1040.0" layoutY="12.0" prefHeight="40.0" prefWidth="236.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 7;">
                <children>
-                  <JFXTextField fx:id="txtSearchOrder" focusColor="#0040ff" labelFloat="true" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Order Id or Supplier Name">
+                  <JFXTextField fx:id="txtSearchBar" focusColor="#0040ff" labelFloat="true" layoutX="35.0" layoutY="6.0" prefHeight="25.0" prefWidth="188.0" promptText="Search by Order Id or Supplier Name">
                      <font>
                         <Font size="10.0" />
                      </font>

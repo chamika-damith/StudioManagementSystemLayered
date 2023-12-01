@@ -2,6 +2,8 @@ package lk.ijse.controller.Inventory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -9,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import lk.ijse.dto.InventoryOrderItemDto;
 import lk.ijse.dto.OrderItemDetailFormDto;
+import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.InventoryOrderItemTm;
 import lk.ijse.dto.tm.OrderItemTm;
 import lk.ijse.model.InventoryOrderItemDetailModel;
