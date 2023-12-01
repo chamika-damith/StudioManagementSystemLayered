@@ -38,7 +38,9 @@ public class DashboardFormController {
     private Label lblUserName;
 
     public void initialize(){
-        lblUserId.setText("001");
+
+        int i = LoginFormController.returnUserId();
+        lblUserId.setText("U0"+i);
         DateTime();
         search();
         try {
@@ -46,6 +48,10 @@ public class DashboardFormController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void getUserId(String userid){
+
     }
 
     private void DateTime() {

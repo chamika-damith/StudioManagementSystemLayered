@@ -55,4 +55,17 @@ public class LoginClassModel {
         return hexString.toString();
     }
 
+    public int getUserId(String text) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="SELECT userId FROM user WHERE username=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        pstm.setString(1, text);
+        ResultSet resultSet = pstm.executeQuery();
+        if (resultSet.next()) {
+            int userId = resultSet.getInt("userId");
+            return userId;
+        }else {
+            return 0;
+        }
+    }
 }
