@@ -32,6 +32,7 @@ public class LoginFormController {
     public LoginClassModel model=new LoginClassModel();
 
     private static int userId;
+    private static String username;
 
     public void btnLoginOnAction(ActionEvent actionEvent) throws IOException, SQLException {
 
@@ -87,6 +88,7 @@ public class LoginFormController {
         boolean b = model.checkLogin(txtUserName.getText(), txtPassword.getText());
         if (b) {
             getUserId(txtUserName.getText());
+            username=txtUserName.getText();
             return true;
         }else {
             return false;
@@ -95,11 +97,13 @@ public class LoginFormController {
 
     private void getUserId(String text) throws SQLException {
         userId = model.getUserId(text);
-
     }
 
     public static int returnUserId(){
         return userId;
+    }
+    public static String returnUserName(){
+        return username;
     }
 
     public void txtUsernameOnAction(ActionEvent actionEvent) {

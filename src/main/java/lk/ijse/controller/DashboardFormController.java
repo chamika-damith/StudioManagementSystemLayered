@@ -34,12 +34,15 @@ public class DashboardFormController {
     public Label lblUserId;
     public TextField txtSearchBar;
     public Label lblDateTime;
-    @FXML
-    private Label lblUserName;
+    public Label lblUsername;
+    public Label lblUsernameP;
 
     public void initialize(){
 
         int i = LoginFormController.returnUserId();
+        lblUsername.setText(LoginFormController.returnUserName());
+        lblUsernameP.setText(LoginFormController.returnUserName());
+
         lblUserId.setText("U0"+i);
         DateTime();
         search();
@@ -48,10 +51,6 @@ public class DashboardFormController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void getUserId(String userid){
-
     }
 
     private void DateTime() {

@@ -2,6 +2,7 @@ package lk.ijse.model;
 
 import lk.ijse.db.DbConnection;
 
+import java.awt.*;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -12,8 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginClassModel {
-
     public boolean checkLogin(String userName, String Password) throws SQLException {
+
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="SELECT * FROM user WHERE userName=? AND password=? ";
         PreparedStatement pstm=connection.prepareStatement(sql);

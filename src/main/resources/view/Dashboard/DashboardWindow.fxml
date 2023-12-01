@@ -46,11 +46,12 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lblAllInventory" layoutX="112.0" layoutY="36.0" prefHeight="40.0" prefWidth="132.0">
+            <Label fx:id="lblAllInventory" layoutX="117.0" layoutY="41.0" prefHeight="40.0" prefWidth="132.0">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font name="System Bold" size="35.0" />
                </font>
             </Label>
+            <Label fx:id="lblAllInventory1" layoutX="99.0" layoutY="61.0" prefHeight="22.0" prefWidth="18.0" text="Rs" textAlignment="RIGHT" />
          </children>
       </Pane>
       <Pane layoutX="688.0" layoutY="15.0" prefHeight="126.0" prefWidth="256.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 15;">
@@ -93,7 +94,7 @@
       </Pane>
       <Pane layoutX="6.0" layoutY="157.0" prefHeight="238.0" prefWidth="1310.0" style="-fx-background-radius: 15; -fx-background-color: FFFFFF;">
          <children>
-            <Label layoutX="26.0" layoutY="7.0" opacity="0.87" text="Total sales">
+            <Label layoutX="26.0" layoutY="7.0" opacity="0.62" text="Total sales" textFill="#2fae9b">
                <font>
                   <Font name="Arial Rounded MT Bold" size="18.0" />
                </font>
@@ -110,7 +111,7 @@
       </Pane>
       <Pane layoutX="10.0" layoutY="410.0" prefHeight="276.0" prefWidth="1310.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 13;">
          <children>
-            <Label layoutX="27.0" layoutY="14.0" opacity="0.9" text="Today Booking" textFill="#22a390">
+            <Label layoutX="27.0" layoutY="14.0" opacity="0.63" text="Today Booking" textFill="#2fae9b">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
