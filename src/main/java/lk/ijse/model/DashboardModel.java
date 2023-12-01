@@ -1,6 +1,7 @@
 package lk.ijse.model;
 
 import lk.ijse.db.DbConnection;
+import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.DasboardDto;
 import lk.ijse.dto.EmployeeDto;
 
@@ -27,5 +28,35 @@ public class DashboardModel {
             ));
         }
         return dtoList;
+    }
+
+    public boolean saveUser(String userName, String password) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="INSERT INTO user(username, password) VALUES (?,?)";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        pstm.setString(1, userName);
+        pstm.setString(2, password);
+        return pstm.executeUpdate() > 0;
+    }
+
+    public boolean updateUser(String username,String newPassword) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="UPDATE user SET password=? where username=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setString(1,newPassword);
+        pstm.setString(2,username);
+
+        return pstm.executeUpdate() > 0;
+    }
+
+    public boolean deleteUser(String username,String password) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="DELETE FROM user WHERE username=? AND password=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setString(1, username);
+        pstm.setString(2, password);
+        return pstm.executeUpdate() > 0;
     }
 }

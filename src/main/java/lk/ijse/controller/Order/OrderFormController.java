@@ -372,7 +372,7 @@ public class OrderFormController {
                 int orderId = Integer.parseInt(lblOrderId.getText());
                 Oid= String.valueOf(orderId);
                 Date date = Date.valueOf(lblDate.getText());
-                int userId = 001;
+                int userId = 002;
                 String cusId = (String) cmbCustomerId.getValue();
                 int customerId = Integer.parseInt(cusId);
                 double total = Double.parseDouble(lblTotal.getText());

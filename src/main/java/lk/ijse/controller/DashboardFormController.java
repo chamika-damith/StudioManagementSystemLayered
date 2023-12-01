@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -182,8 +183,20 @@ public class DashboardFormController {
         SetUi("/view/Supplier/SupplierForm.fxml");
     }
 
-    public void btnArrowClickOnAction(ActionEvent actionEvent) {
+    public void btnArrowClickOnAction(ActionEvent actionEvent) throws IOException {
+        Parent parent=FXMLLoader.load(getClass().getResource("/view/RegisterUser.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(parent);
+        stage.setScene(scene);
+        stage.setTitle("Register User");
+        stage.centerOnScreen();
+        stage.show();
 
+        DashboardRoot.setEffect(new GaussianBlur());
+
+        stage.setOnCloseRequest(event -> {
+            DashboardRoot.setEffect(null);
+        });
     }
 
 }
