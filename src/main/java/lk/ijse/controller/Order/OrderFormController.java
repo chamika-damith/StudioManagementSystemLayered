@@ -421,7 +421,7 @@ public class OrderFormController {
                             text += "\nProduct: " + product.getName() +
                                     "\n   - Quantity: " + product.getQty() +
                                     "\n   - Description: " + product.getDescription() +
-                                    "\n   - Total: " + product.getPrice() + "\n";
+                                    "\n   - Total: " + product.getTotprice() + "\n";
 
                         }
 
