@@ -75,7 +75,39 @@
             <Image url="@../../image/ReportImage.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="839.0" layoutY="286.0" onAction="#btnOrdersReport" prefHeight="43.0" prefWidth="182.0" style="-fx-background-radius: 13;" text="Order Report" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="839.0" layoutY="277.0" onAction="#btnOrdersReport" prefHeight="43.0" prefWidth="182.0" style="-fx-background-radius: 13;" text="All Order Report" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <ripplerFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.1882352977991104" green="0.16862745583057404" blue="0.3803921639919281" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.16470588743686676" green="0.7803921699523926" blue="0.615686297416687" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </ripplerFill>
+         <stylesheets>
+            <URL value="@../../Style/Button.css" />
+            <URL value="@../../Style/Button.css" />
+         </stylesheets>
+         <styleClass>
+            <String fx:value="click-button" />
+            <String fx:value="reportBtn" />
+         </styleClass>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="839.0" layoutY="399.0" onAction="#btnItemOrderReport" prefHeight="43.0" prefWidth="182.0" style="-fx-background-radius: 13;" text="Item Order Report" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
