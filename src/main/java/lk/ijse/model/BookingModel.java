@@ -184,7 +184,7 @@ public class BookingModel {
     public static String returnLbBookingValue() throws SQLException {
         String BookCount;
         Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT COUNT(bookingId) FROM booking where status=true";
+        String sql = "SELECT COUNT(bookingId) FROM booking where status=false";
 
         PreparedStatement pstm=connection.prepareStatement(sql);
         ResultSet resultSet = pstm.executeQuery();
