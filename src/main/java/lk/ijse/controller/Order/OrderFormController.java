@@ -25,6 +25,7 @@ import javafx.util.Duration;
 import lk.ijse.controller.Customer.CustomerFormController;
 import lk.ijse.controller.DashboardFormController;
 import lk.ijse.controller.LoginFormController;
+import lk.ijse.controller.qr.QrReaderController;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
@@ -50,7 +51,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
-public class OrderFormController {
+import static lk.ijse.controller.Customer.CustomerFormController.id;
+
+public class OrderFormController{
     public JFXComboBox cmbCustomerId;
     public JFXComboBox<String> cmbItemId;
     public Label lblOrderId;
@@ -603,4 +606,5 @@ public class OrderFormController {
             }
         }
     }
+
 }
