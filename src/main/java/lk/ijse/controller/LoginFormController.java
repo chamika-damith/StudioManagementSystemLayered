@@ -31,6 +31,8 @@ public class LoginFormController {
 
     public LoginClassModel model=new LoginClassModel();
 
+    private String loginSuccess;
+
     private static int userId;
     private static String username;
 
@@ -113,4 +115,5 @@ public class LoginFormController {
     public void txtPasswordOnAction(ActionEvent actionEvent) throws SQLException, IOException {
         btnLoginOnAction(actionEvent);
     }
+
 }
