@@ -134,7 +134,7 @@ public class InventoryOrderDetailFormController {
             throw new IllegalStateException("Item is empty");
         }else {
             try {
-                ItemDto dto = itemDAO.searchItems(code);
+                ItemDto dto = itemDAO.searchItemName(code);
                 if (dto != null) {
                     lblDescription.setText(dto.getDescription());
                     lblUnitPrice.setText(String.valueOf(dto.getPrice()));

@@ -99,7 +99,7 @@ public class InventoryFormController {
         obList=FXCollections.observableArrayList();
 
         try {
-            List<ItemDto> allItems = itemDAO.getAllItems();
+            List<ItemDto> allItems = itemDAO.getAll();
 
             for (ItemDto dto : allItems){
                 Button button = createButton();
@@ -192,7 +192,7 @@ public class InventoryFormController {
 
 
                         try {
-                            boolean b = itemDAO.saveItem(itemDto);
+                            boolean b = itemDAO.save(itemDto);
 
                             if(b) {
                                 getAllItem();
@@ -277,7 +277,7 @@ public class InventoryFormController {
                 ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
 
                 try {
-                    boolean b = itemDAO.updateItem(itemDto);
+                    boolean b = itemDAO.update(itemDto);
                     if (b) {
                         getAllItem();
                         clearFeild();
@@ -322,10 +322,10 @@ public class InventoryFormController {
     }
 
     public void txtSearchOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
-        String id = txtid.getText();
+        int id = Integer.parseInt(txtid.getText());
 
         try {
-            ItemDto itemDto = itemDAO.searchItems(id);
+            ItemDto itemDto = itemDAO.search(id);
             if (itemDto != null) {
                 txtdescription.setText(itemDto.getDescription());
                 txtprice.setText(String.valueOf(itemDto.getPrice()));
@@ -394,7 +394,7 @@ public class InventoryFormController {
                 if (selectedItem != null) {
                     int itemId = selectedItem.getItemId();
                     try {
-                        boolean b = itemDAO.deleteItem(itemId);
+                        boolean b = itemDAO.delete(itemId);
                         if (b) {
                                 searchTable();
                                 Image image=new Image("/Icon/iconsDelete.png");

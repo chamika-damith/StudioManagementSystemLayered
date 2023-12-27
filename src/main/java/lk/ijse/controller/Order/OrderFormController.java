@@ -149,10 +149,10 @@ public class OrderFormController{
 
     @FXML
     void cmbItemOnAction(ActionEvent event) throws ClassNotFoundException {
-        String code = (String) cmbItemId.getValue();
+        int code = Integer.parseInt(cmbItemId.getValue());
 
         try {
-            ItemDto dto = itemDAO.searchItems(code);
+            ItemDto dto = itemDAO.search(code);
             if (dto != null) {
                 lblItemDesc.setText(dto.getDescription());
                 lblItemPrice.setText(String.valueOf(dto.getPrice()));
@@ -195,7 +195,7 @@ public class OrderFormController{
     private void loadItemId() throws ClassNotFoundException {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<ItemDto> itemDto = itemDAO.getAllItems();
+            List<ItemDto> itemDto = itemDAO.getAll();
 
             for (ItemDto dto : itemDto) {
                 obList.add(String.valueOf(dto.getItemId()));
