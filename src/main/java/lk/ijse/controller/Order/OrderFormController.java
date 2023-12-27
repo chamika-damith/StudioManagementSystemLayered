@@ -103,7 +103,7 @@ public class OrderFormController{
 
 
 
-    public void initialize(){
+    public void initialize() throws ClassNotFoundException {
         loadCustomerIds();
         loadItemId();
         generateNextOrderId();
@@ -126,7 +126,7 @@ public class OrderFormController{
     }
 
     @FXML
-    void cmbCustomerOnAction(ActionEvent event) {
+    void cmbCustomerOnAction(ActionEvent event) throws ClassNotFoundException {
         String id = (String) cmbCustomerId.getValue();
 
         if (id != null && !id.isEmpty()) {
@@ -174,7 +174,7 @@ public class OrderFormController{
         }
     }
 
-    private void loadCustomerIds() {
+    private void loadCustomerIds() throws ClassNotFoundException {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {

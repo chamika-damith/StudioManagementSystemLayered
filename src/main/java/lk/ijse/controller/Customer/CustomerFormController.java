@@ -71,7 +71,7 @@ public class CustomerFormController {
 
     }
 
-    private void getAllCustomer() {
+    private void getAllCustomer() throws ClassNotFoundException {
 
         obList= FXCollections.observableArrayList();
 
@@ -138,7 +138,7 @@ public class CustomerFormController {
                             getAllCustomer();
                             searchTable();
                         }
-                    } catch (SQLException ex) {
+                    } catch (SQLException | ClassNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
@@ -265,7 +265,7 @@ public class CustomerFormController {
         txtMobile.clear();
     }
 
-    public void btnUpdateOnAction(ActionEvent actionEvent) {
+    public void btnUpdateOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
 
         if (isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -335,7 +335,7 @@ public class CustomerFormController {
         }
     }
 
-    public void txtSearchOnAction(ActionEvent actionEvent) {
+    public void txtSearchOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
         int id = Integer.parseInt(txtId.getText());
 
         try {

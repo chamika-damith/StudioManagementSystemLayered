@@ -50,12 +50,9 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public List<CustomerDto> getAll() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql="SELECT * FROM customer";
-        PreparedStatement pstm=connection.prepareStatement(sql);
+    public List<CustomerDto> getAll() throws SQLException, ClassNotFoundException {
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLutil.execute("SELECT * FROM customer");
         ArrayList<CustomerDto> dtoList=new ArrayList<>();
 
         while (resultSet.next()){
@@ -71,38 +68,19 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public boolean update(CustomerDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql="UPDATE customer SET name = ? , mobile = ? , email=? , address=? WHERE cusId=?";
-        PreparedStatement pstm=connection.prepareStatement(sql);
-
-        pstm.setString(1,dto.getName());
-        pstm.setString(2,dto.getMobile());
-        pstm.setString(3,dto.getEmail());
-        pstm.setString(4,dto.getAddress());
-        pstm.setInt(5,dto.getCusId());
-
-        return pstm.executeUpdate() > 0;
+    public boolean update(CustomerDto dto) throws SQLException, ClassNotFoundException {
+        return SQLutil.execute("UPDATE customer SET name = ? , mobile = ? , email=? , address=? WHERE cusId=?",dto.getCusId(),dto.getName(),
+                dto.getMobile(),dto.getEmail(),dto.getAddress());
     }
 
     @Override
-    public boolean delete(int focusedIndex) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql="DELETE FROM customer WHERE cusId=?";
-        PreparedStatement pstm=connection.prepareStatement(sql);
-
-        pstm.setInt(1, focusedIndex);
-        return pstm.executeUpdate() > 0;
+    public boolean delete(int focusedIndex) throws SQLException, ClassNotFoundException {
+        return SQLutil.execute("DELETE FROM customer WHERE cusId=?",focusedIndex);
     }
 
     @Override
-    public boolean isExists(int id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql="SELECT cusId FROM customer WHERE cusId=?";
-        PreparedStatement pstm=connection.prepareStatement(sql);
-
-        pstm.setInt(1,id);
-        ResultSet resultSet = pstm.executeQuery();
+    public boolean isExists(int id) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = SQLutil.execute("SELECT cusId FROM customer WHERE cusId=?",id);
         while (resultSet.next()) {
             return true;
         }
@@ -110,13 +88,9 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public CustomerDto search(int id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql="select * from customer where cusId = ?";
-        PreparedStatement pstm=connection.prepareStatement(sql);
-        pstm.setInt(1, id);
+    public CustomerDto search(int id) throws SQLException, ClassNotFoundException {
 
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLutil.execute("select * from customer where cusId = ?",id);
 
         CustomerDto dto =null;
         while (resultSet.next()) {

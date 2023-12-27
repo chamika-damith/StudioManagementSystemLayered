@@ -90,7 +90,7 @@ public class BookingFormController {
     private CustomerDAO customerDAO=new CustomerDAOImpl();
 
 
-    public void initialize(){
+    public void initialize() throws ClassNotFoundException {
         cmbEventType.setItems(FXCollections.observableArrayList(PHOTOGRAPHY, VIDEOGRAPHY, AUDIO_PRODUCTION,EventType.TV_SHOWS));
         generateNextBookId();
         loadCustomerIds();
@@ -110,7 +110,7 @@ public class BookingFormController {
         Action.setCellValueFactory(new PropertyValueFactory<>("btn"));
     }
 
-    private void loadCustomerIds() {
+    private void loadCustomerIds() throws ClassNotFoundException {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
@@ -444,7 +444,7 @@ public class BookingFormController {
         }
     }
 
-    public void cmbCustomerIdOnAction(ActionEvent actionEvent) {
+    public void cmbCustomerIdOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
         String id = String.valueOf(cmbCustomerID.getValue());
         int cId=Integer.parseInt(id);
 

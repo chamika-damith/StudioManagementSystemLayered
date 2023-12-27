@@ -16,7 +16,7 @@ public class SQLutil {
             pstm.setObject((i+1), ob[i]);
         }
 
-        if (sql.startsWith("SELECT")){
+        if (sql.startsWith("SELECT") || sql.startsWith("select")){
             return (T) pstm.executeQuery();
         }else {
             return (T) (Boolean)(pstm.executeUpdate() > 0);
