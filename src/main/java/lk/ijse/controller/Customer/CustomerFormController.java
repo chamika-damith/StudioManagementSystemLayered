@@ -23,7 +23,6 @@ import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.regex.RegexPattern;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.tm.CustomerTm;
-import lk.ijse.model.CustomerModel;
 import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
@@ -48,7 +47,6 @@ public class CustomerFormController {
     public TableColumn colMobile;
     public TableColumn colAction;
     public JFXTextField txtCostSearchTable;
-    private CustomerModel model=new CustomerModel();
 
     private CustomerDAO customerDAO=new CustomerDAOImpl();
 
@@ -74,12 +72,11 @@ public class CustomerFormController {
     }
 
     private void getAllCustomer() {
-        var model=new CustomerModel();
 
         obList= FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> allCustomer = customerDAO.getAllCustomer();
+            List<CustomerDto> allCustomer = customerDAO.getAll();
 
             for (CustomerDto dto : allCustomer){
                 Button button = createButton();
@@ -124,7 +121,7 @@ public class CustomerFormController {
                 if (selectedCustomer != null) {
                     int cusId = selectedCustomer.getCusId();
                     try {
-                        boolean b = customerDAO.deleteCustomer(cusId);
+                        boolean b = customerDAO.delete(cusId);
                         if (b) {
 
                             Image image=new Image("/Icon/iconsDelete.png");
@@ -184,7 +181,7 @@ public class CustomerFormController {
             String address = txtAddress.getText();
 
             try {
-                if (model.isExists(id)) {
+                if (customerDAO.isExists(id)) {
                     clearField();
                     Image image=new Image("/Icon/icons8-cancel-50.png");
                     try {
@@ -207,7 +204,7 @@ public class CustomerFormController {
                         CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
 
                         try {
-                            boolean b = customerDAO.saveCustomer(dto);
+                            boolean b = customerDAO.save(dto);
                             if (b) {
 
                                 qrGenerate(txtName.getText(),txtMobile.getText(),txtEmail.getText(),txtAddress.getText());            //generate qr pass data
@@ -294,7 +291,7 @@ public class CustomerFormController {
                 CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
 
                 try {
-                    boolean b = customerDAO.updateCustomer(dto);
+                    boolean b = customerDAO.update(dto);
                     if (b) {
                         getAllCustomer();
                         searchTable();
@@ -342,7 +339,7 @@ public class CustomerFormController {
         int id = Integer.parseInt(txtId.getText());
 
         try {
-            CustomerDto dto = customerDAO.searchCustomer(id);
+            CustomerDto dto = customerDAO.search(id);
             if (dto != null){
                 txtName.setText(dto.getName());
                 txtMobile.setText(dto.getMobile());

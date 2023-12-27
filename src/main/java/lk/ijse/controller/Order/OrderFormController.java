@@ -87,7 +87,6 @@ public class OrderFormController{
     private int textItemId;
 
     private String emailAddress;
-    private CustomerModel customerModel = new CustomerModel();
 
     private ItemModel itemModel=new ItemModel();
 
@@ -132,7 +131,7 @@ public class OrderFormController{
 
         if (id != null && !id.isEmpty()) {
             try {
-                CustomerDto customerDto = customerDAO.searchCustomer(Integer.parseInt(id));
+                CustomerDto customerDto = customerDAO.search(Integer.parseInt(id));
                 lblCusName.setText(customerDto.getName());
                 cusName=customerDto.getName();
                 emailAddress=customerDto.getEmail();
@@ -179,7 +178,7 @@ public class OrderFormController{
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> idList = customerDAO.getAllCustomer();
+            List<CustomerDto> idList = customerDAO.getAll();
 
             for (CustomerDto dto : idList) {
                 obList.add(String.valueOf(dto.getCusId()));

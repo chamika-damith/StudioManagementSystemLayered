@@ -35,7 +35,22 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public boolean saveCustomer(CustomerDto dto) throws SQLException {
+    public String returnLbCuslValue() throws SQLException {
+        String cusCount;
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "SELECT COUNT(cusId) FROM customer";
+
+        PreparedStatement pstm=connection.prepareStatement(sql);
+        ResultSet resultSet = pstm.executeQuery();
+        while (resultSet.next()){
+            cusCount= String.valueOf(resultSet.getInt(1));
+            return cusCount;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean save(CustomerDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="INSERT INTO customer(cusId,name,mobile,email,address) VALUES(?,?,?,?,?)";
         PreparedStatement pstm=connection.prepareStatement(sql);
@@ -50,7 +65,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public List<CustomerDto> getAllCustomer() throws SQLException {
+    public List<CustomerDto> getAll() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="SELECT * FROM customer";
         PreparedStatement pstm=connection.prepareStatement(sql);
@@ -71,7 +86,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public boolean updateCustomer(CustomerDto dto) throws SQLException {
+    public boolean update(CustomerDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="UPDATE customer SET name = ? , mobile = ? , email=? , address=? WHERE cusId=?";
         PreparedStatement pstm=connection.prepareStatement(sql);
@@ -86,7 +101,31 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public CustomerDto searchCustomer(int id) throws SQLException {
+    public boolean delete(int focusedIndex) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="DELETE FROM customer WHERE cusId=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setInt(1, focusedIndex);
+        return pstm.executeUpdate() > 0;
+    }
+
+    @Override
+    public boolean isExists(int id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql="SELECT cusId FROM customer WHERE cusId=?";
+        PreparedStatement pstm=connection.prepareStatement(sql);
+
+        pstm.setInt(1,id);
+        ResultSet resultSet = pstm.executeQuery();
+        while (resultSet.next()) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public CustomerDto search(int id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="select * from customer where cusId = ?";
         PreparedStatement pstm=connection.prepareStatement(sql);
@@ -105,44 +144,5 @@ public class CustomerDAOImpl implements CustomerDAO {
             dto = new CustomerDto(textId,textName,textmobile,textEmail,textAddress);
         }
         return dto;
-    }
-
-    @Override
-    public boolean deleteCustomer(int focusedIndex) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql="DELETE FROM customer WHERE cusId=?";
-        PreparedStatement pstm=connection.prepareStatement(sql);
-
-        pstm.setInt(1, focusedIndex);
-        return pstm.executeUpdate() > 0;
-    }
-
-    @Override
-    public String returnLbCuslValue() throws SQLException {
-        String cusCount;
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT COUNT(cusId) FROM customer";
-
-        PreparedStatement pstm=connection.prepareStatement(sql);
-        ResultSet resultSet = pstm.executeQuery();
-        while (resultSet.next()){
-            cusCount= String.valueOf(resultSet.getInt(1));
-            return cusCount;
-        }
-        return null;
-    }
-
-    @Override
-    public boolean isExists(int id) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql="SELECT cusId FROM customer WHERE cusId=?";
-        PreparedStatement pstm=connection.prepareStatement(sql);
-
-        pstm.setInt(1,id);
-        ResultSet resultSet = pstm.executeQuery();
-        while (resultSet.next()) {
-            return true;
-        }
-        return false;
     }
 }

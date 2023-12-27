@@ -77,8 +77,6 @@ public class BookingFormController {
 
     private BookingModel bookingModel=new BookingModel();
 
-    private CustomerModel customerModel=new CustomerModel();
-
     private EmployeeModel employeeModel=new EmployeeModel();
 
     private ServiceModel serviceModel=new ServiceModel();
@@ -116,7 +114,7 @@ public class BookingFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> idList = customerDAO.getAllCustomer();
+            List<CustomerDto> idList = customerDAO.getAll();
 
             for (CustomerDto dto : idList) {
                 obList.add(String.valueOf(dto.getCusId()));
@@ -452,7 +450,7 @@ public class BookingFormController {
 
         if (id != null && !id.isEmpty()) {
             try {
-                CustomerDto customerDto = customerDAO.searchCustomer(cId);
+                CustomerDto customerDto = customerDAO.search(cId);
                 System.out.println(customerDto.getName());
                 lblCusName.setText(customerDto.getName());
                 cusEmail=customerDto.getEmail();

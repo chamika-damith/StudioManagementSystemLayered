@@ -22,7 +22,6 @@ import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.SupplierTm;
-import lk.ijse.model.CustomerModel;
 import lk.ijse.model.SupplierModel;
 import lk.ijse.regex.RegexPattern;
 import org.controlsfx.control.Notifications;
