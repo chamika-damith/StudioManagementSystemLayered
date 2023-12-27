@@ -7,6 +7,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface CustomerDAO extends CrudDAO<CustomerDto> {
-    int generateNextCusId() throws SQLException;
-    String returnLbCuslValue() throws SQLException;
+    int generateNextCusId() throws SQLException, ClassNotFoundException;
+    String returnLbCuslValue() throws SQLException, ClassNotFoundException;
 }

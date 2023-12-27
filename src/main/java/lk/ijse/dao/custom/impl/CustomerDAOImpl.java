@@ -1,5 +1,6 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.CustomerDto;
@@ -14,13 +15,9 @@ import java.util.List;
 public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
-    public int generateNextCusId() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
+    public int generateNextCusId() throws SQLException, ClassNotFoundException {
 
-        String sql = "SELECT cusId FROM customer ORDER BY cusId DESC LIMIT 1";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet=SQLutil.execute("SELECT cusId FROM customer ORDER BY cusId DESC LIMIT 1");
         if(resultSet.next()) {
             return splitCusId(resultSet.getInt(1));
         }
@@ -35,13 +32,9 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public String returnLbCuslValue() throws SQLException {
+    public String returnLbCuslValue() throws SQLException, ClassNotFoundException {
         String cusCount;
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT COUNT(cusId) FROM customer";
-
-        PreparedStatement pstm=connection.prepareStatement(sql);
-        ResultSet resultSet = pstm.executeQuery();
+        ResultSet resultSet = SQLutil.execute("SELECT COUNT(cusId) FROM customer");
         while (resultSet.next()){
             cusCount= String.valueOf(resultSet.getInt(1));
             return cusCount;
@@ -50,18 +43,10 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public boolean save(CustomerDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql="INSERT INTO customer(cusId,name,mobile,email,address) VALUES(?,?,?,?,?)";
-        PreparedStatement pstm=connection.prepareStatement(sql);
+    public boolean save(CustomerDto dto) throws SQLException, ClassNotFoundException {
 
-        pstm.setInt(1,dto.getCusId());
-        pstm.setString(2,dto.getName());
-        pstm.setString(3,dto.getMobile());
-        pstm.setString(4,dto.getEmail());
-        pstm.setString(5,dto.getAddress());
-
-        return pstm.executeUpdate() > 0;
+        return SQLutil.execute("INSERT INTO customer(cusId,name,mobile,email,address) VALUES(?,?,?,?,?)",dto.getCusId(),dto.getName(),
+                dto.getMobile(),dto.getEmail(),dto.getAddress());
     }
 
     @Override

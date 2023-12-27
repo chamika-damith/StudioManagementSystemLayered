@@ -75,7 +75,7 @@ public class DashboardWindwoCrontroller {
 
     private CustomerDAO customerDAO=new CustomerDAOImpl();
 
-    public void initialize(){
+    public void initialize() throws ClassNotFoundException {
         chart1();
         setLblValue();
         setCellValues();
@@ -169,7 +169,7 @@ public class DashboardWindwoCrontroller {
         return btn;
     }
 
-    public void setLblValue(){
+    public void setLblValue() throws ClassNotFoundException {
         try {
             lblAllCustomerd.setText(customerDAO.returnLbCuslValue());
             lblAllInventory.setText(OrderModel.returnlblTotalSale());

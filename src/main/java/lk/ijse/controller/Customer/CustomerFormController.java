@@ -54,7 +54,7 @@ public class CustomerFormController {
 
     public static int id;
 
-    public void initialize(){
+    public void initialize() throws ClassNotFoundException {
         generateNextCusId();
         setCellValue();
         getAllCustomer();
@@ -147,7 +147,7 @@ public class CustomerFormController {
     }
 
 
-    private void generateNextCusId() {
+    private void generateNextCusId() throws ClassNotFoundException {
         try {
             int cusid = customerDAO.generateNextCusId();
             cusId.setText(String.valueOf("00"+cusid));
@@ -157,7 +157,7 @@ public class CustomerFormController {
         }
     }
 
-    public void btnSaveOnAction(ActionEvent actionEvent) {
+    public void btnSaveOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
 
 
         if (isEmptyCheck()){
