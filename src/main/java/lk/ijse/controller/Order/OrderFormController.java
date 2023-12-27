@@ -26,6 +26,8 @@ import lk.ijse.controller.Customer.CustomerFormController;
 import lk.ijse.controller.DashboardFormController;
 import lk.ijse.controller.LoginFormController;
 import lk.ijse.controller.qr.QrReaderController;
+import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
@@ -98,6 +100,8 @@ public class OrderFormController{
 
     private String Oid;
 
+    private CustomerDAO customerDAO=new CustomerDAOImpl();
+
 
 
     public void initialize(){
@@ -128,7 +132,7 @@ public class OrderFormController{
 
         if (id != null && !id.isEmpty()) {
             try {
-                CustomerDto customerDto = customerModel.searchCustomer(Integer.parseInt(id));
+                CustomerDto customerDto = customerDAO.searchCustomer(Integer.parseInt(id));
                 lblCusName.setText(customerDto.getName());
                 cusName=customerDto.getName();
                 emailAddress=customerDto.getEmail();
@@ -175,7 +179,7 @@ public class OrderFormController{
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> idList = customerModel.getAllCustomer();
+            List<CustomerDto> idList = customerDAO.getAllCustomer();
 
             for (CustomerDto dto : idList) {
                 obList.add(String.valueOf(dto.getCusId()));

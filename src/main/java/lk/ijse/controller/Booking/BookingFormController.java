@@ -21,6 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.*;
 import lk.ijse.regex.RegexPattern;
@@ -87,6 +89,8 @@ public class BookingFormController {
 
     private boolean isTrue=false;
 
+    private CustomerDAO customerDAO=new CustomerDAOImpl();
+
 
     public void initialize(){
         cmbEventType.setItems(FXCollections.observableArrayList(PHOTOGRAPHY, VIDEOGRAPHY, AUDIO_PRODUCTION,EventType.TV_SHOWS));
@@ -112,7 +116,7 @@ public class BookingFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> idList = customerModel.getAllCustomer();
+            List<CustomerDto> idList = customerDAO.getAllCustomer();
 
             for (CustomerDto dto : idList) {
                 obList.add(String.valueOf(dto.getCusId()));
@@ -448,7 +452,7 @@ public class BookingFormController {
 
         if (id != null && !id.isEmpty()) {
             try {
-                CustomerDto customerDto = customerModel.searchCustomer(cId);
+                CustomerDto customerDto = customerDAO.searchCustomer(cId);
                 System.out.println(customerDto.getName());
                 lblCusName.setText(customerDto.getName());
                 cusEmail=customerDto.getEmail();

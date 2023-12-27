@@ -22,6 +22,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.controller.Order.OrderItemDetailFormController;
+import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dto.BookingDto;
 import lk.ijse.dto.DasboardDto;
 import lk.ijse.dto.OrderViewDto;
@@ -70,6 +72,8 @@ public class DashboardWindwoCrontroller {
     private BookingModel model=new BookingModel();
 
     private OrderItemDetailFormController OIDController=new OrderItemDetailFormController();
+
+    private CustomerDAO customerDAO=new CustomerDAOImpl();
 
     public void initialize(){
         chart1();
@@ -167,7 +171,7 @@ public class DashboardWindwoCrontroller {
 
     public void setLblValue(){
         try {
-            lblAllCustomerd.setText(CustomerModel.returnLbCuslValue());
+            lblAllCustomerd.setText(customerDAO.returnLbCuslValue());
             lblAllInventory.setText(OrderModel.returnlblTotalSale());
             lblOrders.setText(OrderModel.returnLbOrderlValue());
             lblEmpId.setText(BookingModel.returnLbBookingValue());
