@@ -1,5 +1,7 @@
 package lk.ijse.model;
 
+import lk.ijse.dao.custom.ItemDAO;
+import lk.ijse.dao.custom.impl.ItemDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.OrderDto;
 import lk.ijse.dto.tm.CartTm;
@@ -11,8 +13,9 @@ import java.sql.SQLException;
 public class PlaceOrderModel {
 
     private OrderModel orderModel=new OrderModel();
-    private ItemModel itemModel=new ItemModel();
     private OrderDetailsModel orderDetailsModel=new OrderDetailsModel();
+
+    private ItemDAO itemDAO=new ItemDAOImpl();
 
     public boolean placeOrder(OrderDto orderDto) throws SQLException {
 
@@ -34,7 +37,7 @@ public class PlaceOrderModel {
             boolean isOrderSave = orderModel.saveOrder(orderId, orderDate, returnDate, userId, cusId, total);
             if (isOrderSave) {
                 System.out.println("order saved");
-                boolean isItemSave = itemModel.updateItems(orderDto.getCartTmList(),qty);
+                boolean isItemSave = itemDAO.updateItems(orderDto.getCartTmList(),qty);
                 System.out.println("item saved");
                 if (isItemSave) {
                     boolean isOrderDetailSave = orderDetailsModel.saveOrderDetails(orderId, orderDto.getCartTmList());

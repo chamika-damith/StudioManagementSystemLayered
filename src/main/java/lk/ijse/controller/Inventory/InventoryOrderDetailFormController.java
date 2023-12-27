@@ -18,6 +18,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import lk.ijse.dao.custom.ItemDAO;
+import lk.ijse.dao.custom.impl.ItemDAOImpl;
 import lk.ijse.dto.InventoryOrderDto;
 import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.SupplierDto;
@@ -62,13 +64,13 @@ public class InventoryOrderDetailFormController {
 
     private InventoryOrderModel SupOrdermodel=new InventoryOrderModel();
 
-    private ItemModel itemModel=new ItemModel();
-
     private SupplierModel supplierModel=new SupplierModel();
 
     private PlaceInventoryOrderModel placeOrder=new PlaceInventoryOrderModel();
 
     private ObservableList<InventoryOrderTm> obList=FXCollections.observableArrayList();
+
+    private ItemDAO itemDAO=new ItemDAOImpl();
 
     public void initialize(){
         loadCategory();
@@ -91,10 +93,10 @@ public class InventoryOrderDetailFormController {
     }
 
 
-    private void loadItemName(String name) {
+    private void loadItemName(String name) throws ClassNotFoundException {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<ItemDto> itemDto = itemModel.getCategoryName(name);
+            List<ItemDto> itemDto = itemDAO.getCategoryName(name);
 
             for (ItemDto dto : itemDto) {
                 obList.add(dto.getName());
@@ -126,13 +128,13 @@ public class InventoryOrderDetailFormController {
     }
 
     @FXML
-    void cmbItemOnAction(ActionEvent event) {
+    void cmbItemOnAction(ActionEvent event) throws ClassNotFoundException {
         String code = (String) cmbItem.getValue();
         if (code==null || code.isEmpty()){
             throw new IllegalStateException("Item is empty");
         }else {
             try {
-                ItemDto dto = itemModel.searchItemName(code);
+                ItemDto dto = itemDAO.searchItems(code);
                 if (dto != null) {
                     lblDescription.setText(dto.getDescription());
                     lblUnitPrice.setText(String.valueOf(dto.getPrice()));
@@ -170,7 +172,7 @@ public class InventoryOrderDetailFormController {
     }
 
     @FXML
-    void CmbCategoryOnAction(ActionEvent event) {
+    void CmbCategoryOnAction(ActionEvent event) throws ClassNotFoundException {
         String code = (String) cmbCategoey.getValue();
         loadItemName(code);
         loadSupplier(code);

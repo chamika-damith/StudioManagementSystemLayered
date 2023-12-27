@@ -27,7 +27,9 @@ import lk.ijse.controller.DashboardFormController;
 import lk.ijse.controller.LoginFormController;
 import lk.ijse.controller.qr.QrReaderController;
 import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
+import lk.ijse.dao.custom.impl.ItemDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
@@ -88,8 +90,6 @@ public class OrderFormController{
 
     private String emailAddress;
 
-    private ItemModel itemModel=new ItemModel();
-
     private ObservableList<CartTm> obList=FXCollections.observableArrayList();
 
     private OrderModel orderModel=new OrderModel();
@@ -100,6 +100,8 @@ public class OrderFormController{
     private String Oid;
 
     private CustomerDAO customerDAO=new CustomerDAOImpl();
+
+    private ItemDAO itemDAO=new ItemDAOImpl();
 
 
 
@@ -146,11 +148,11 @@ public class OrderFormController{
     }
 
     @FXML
-    void cmbItemOnAction(ActionEvent event) {
+    void cmbItemOnAction(ActionEvent event) throws ClassNotFoundException {
         String code = (String) cmbItemId.getValue();
 
         try {
-            ItemDto dto = itemModel.searchItems(code);
+            ItemDto dto = itemDAO.searchItems(code);
             if (dto != null) {
                 lblItemDesc.setText(dto.getDescription());
                 lblItemPrice.setText(String.valueOf(dto.getPrice()));
@@ -190,10 +192,10 @@ public class OrderFormController{
         }
     }
 
-    private void loadItemId() {
+    private void loadItemId() throws ClassNotFoundException {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<ItemDto> itemDto = itemModel.getAllItems();
+            List<ItemDto> itemDto = itemDAO.getAllItems();
 
             for (ItemDto dto : itemDto) {
                 obList.add(String.valueOf(dto.getItemId()));

@@ -13,33 +13,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import lk.ijse.controller.qr.QrGenerator;
+import lk.ijse.dao.custom.ItemDAO;
+import lk.ijse.dao.custom.impl.ItemDAOImpl;
 import lk.ijse.dto.ItemDto;
-import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.ItemTm;
-import lk.ijse.model.ItemModel;
 import lk.ijse.regex.RegexPattern;
 import org.controlsfx.control.Notifications;
 
-import javax.swing.*;
-import javax.swing.plaf.PanelUI;
 import java.io.*;
-import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,12 +63,12 @@ public class InventoryFormController {
     public JFXTextField txtSearchTable;
     public AnchorPane InventoryRoot;
 
-    private ItemModel model=new ItemModel();
+    private ItemDAO itemDAO=new ItemDAOImpl();
 
     private ObservableList<ItemTm> obList;
 
 
-    public void initialize(){
+    public void initialize() throws ClassNotFoundException {
         txtcomboBox.setItems(FXCollections.observableArrayList("CAMERA", "LENS", "DRONE", "LIGHTS", "ACCESORIES"));
         getAllItem();
         setCellValue();
@@ -86,7 +78,7 @@ public class InventoryFormController {
 
     private void generateNextOrderId() {
         try {
-            int orderID = ItemModel.generateNextOrderId();
+            int orderID = itemDAO.generateNextOrderId();
             orderId.setText(String.valueOf("00"+orderID));
             txtid.setText(String.valueOf("00"+orderID));
         } catch (SQLException e) {
@@ -102,13 +94,12 @@ public class InventoryFormController {
         return btn;
     }
 
-    private void getAllItem() {
-        var model=new ItemModel();
+    private void getAllItem() throws ClassNotFoundException {
 
         obList=FXCollections.observableArrayList();
 
         try {
-            List<ItemDto> allItems = model.getAllItems();
+            List<ItemDto> allItems = itemDAO.getAllItems();
 
             for (ItemDto dto : allItems){
                 Button button = createButton();
@@ -155,7 +146,7 @@ public class InventoryFormController {
     }
 
 
-    public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException {
+    public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 
         if (isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -173,7 +164,7 @@ public class InventoryFormController {
         }else {
             int id = Integer.parseInt(txtid.getText());
 
-                if (model.isExists(id)){
+                if (itemDAO.isExists(id)){
                     Image image=new Image("/Icon/icons8-cancel-50.png");
                     try {
                         Notifications notifications=Notifications.create();
@@ -195,13 +186,13 @@ public class InventoryFormController {
                         String description = txtdescription.getText();
                         String category = (String) txtcomboBox.getValue();
                         Image imgId = img.getImage();
-                        byte[] blob = model.imagenToByte(imgId);
+                        byte[] blob = itemDAO.imagenToByte(imgId);
 
                         ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
 
 
                         try {
-                            boolean b = model.saveItem(itemDto);
+                            boolean b = itemDAO.saveItem(itemDto);
 
                             if(b) {
                                 getAllItem();
@@ -255,7 +246,7 @@ public class InventoryFormController {
         }
     }
 
-    public void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException {
+    public void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 
         if (isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -281,12 +272,12 @@ public class InventoryFormController {
                 String description = txtdescription.getText();
                 String category = (String) txtcomboBox.getValue();
                 Image imgId = img.getImage();
-                byte[] blob = model.imagenToByte(imgId);
+                byte[] blob = itemDAO.imagenToByte(imgId);
 
                 ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
 
                 try {
-                    boolean b = model.updateItem(itemDto);
+                    boolean b = itemDAO.updateItem(itemDto);
                     if (b) {
                         getAllItem();
                         clearFeild();
@@ -330,11 +321,11 @@ public class InventoryFormController {
         }
     }
 
-    public void txtSearchOnAction(ActionEvent actionEvent) {
+    public void txtSearchOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
         String id = txtid.getText();
 
         try {
-            ItemDto itemDto = model.searchItems(id);
+            ItemDto itemDto = itemDAO.searchItems(id);
             if (itemDto != null) {
                 txtdescription.setText(itemDto.getDescription());
                 txtprice.setText(String.valueOf(itemDto.getPrice()));
@@ -403,7 +394,7 @@ public class InventoryFormController {
                 if (selectedItem != null) {
                     int itemId = selectedItem.getItemId();
                     try {
-                        boolean b = model.deleteItem(itemId);
+                        boolean b = itemDAO.deleteItem(itemId);
                         if (b) {
                                 searchTable();
                                 Image image=new Image("/Icon/iconsDelete.png");
@@ -419,7 +410,7 @@ public class InventoryFormController {
                             obList.remove(focusedIndex);
                             getAllItem();
                         }
-                    } catch (SQLException ex) {
+                    } catch (SQLException | ClassNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
