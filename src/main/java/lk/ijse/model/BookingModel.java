@@ -29,22 +29,6 @@ public class BookingModel {
         return ++id;
     }
 
-
-    public boolean saveBookingDto(BookingDto dto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql="INSERT INTO booking(bookingId, eventType, date, location, empId, packageId, custId) VALUES (?,?,?,?,?,?,?)";
-        PreparedStatement pstm=connection.prepareStatement(sql);
-        pstm.setInt(1,dto.getBookingId());
-        pstm.setString(2,dto.getEventType());
-        pstm.setDate(3, (Date) dto.getDate());
-        pstm.setString(4,dto.getLocation());
-        pstm.setInt(5,dto.getEmpId());
-        pstm.setInt(6,dto.getPackageId());
-        pstm.setInt(7,dto.getCusId());
-
-        return pstm.executeUpdate() > 0;
-    }
-
     public List<ServiceDto> getAllPackage() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql="SELECT * FROM packages";

@@ -15,7 +15,6 @@ public interface ItemDAO extends CrudDAO<ItemDto> {
     boolean updateItems(List<CartTm> cartTmList, int qty) throws SQLException;
     boolean updateInventoryOrderItem(List<InventoryOrderTm> cartTmList, int qty) throws SQLException;
     String returnLbItemlValue() throws SQLException, ClassNotFoundException;
-    boolean isExists(int id) throws SQLException, ClassNotFoundException;
     ItemDto searchItemName(String id) throws SQLException, ClassNotFoundException;
     List<ItemDto> getCategoryName(String category) throws SQLException, ClassNotFoundException;
 }

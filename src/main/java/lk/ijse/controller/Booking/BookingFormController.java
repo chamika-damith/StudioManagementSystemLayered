@@ -21,7 +21,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.impl.BookingDAOImpl;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.*;
@@ -89,6 +91,8 @@ public class BookingFormController {
 
     private CustomerDAO customerDAO=new CustomerDAOImpl();
 
+    private BookingDAO bookingDAO=new BookingDAOImpl();
+
 
     public void initialize() throws ClassNotFoundException {
         cmbEventType.setItems(FXCollections.observableArrayList(PHOTOGRAPHY, VIDEOGRAPHY, AUDIO_PRODUCTION,EventType.TV_SHOWS));
@@ -126,7 +130,7 @@ public class BookingFormController {
         }
     }
 
-    public void btnSaveOnAction(ActionEvent actionEvent) {
+    public void btnSaveOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
 
         if (BookingPaymentFormController.getValidPayment()){
 
@@ -171,7 +175,7 @@ public class BookingFormController {
                         var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
 
                         try {
-                            boolean b = bookingModel.saveBookingDto(dto);
+                            boolean b = bookingDAO.save(dto);
                             if (b){
 
                                 loadReport();
