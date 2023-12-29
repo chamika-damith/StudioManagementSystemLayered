@@ -15,11 +15,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import lk.ijse.dao.custom.EmployeeDAO;
+import lk.ijse.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.EmployeeTm;
-import lk.ijse.model.EmployeeModel;
 import lk.ijse.regex.RegexPattern;
 import org.controlsfx.control.Notifications;
 
@@ -45,11 +46,11 @@ public class EmployeeFormController {
     public AnchorPane EmployeeRoot;
     public Label lblempId;
 
-    private EmployeeModel model=new EmployeeModel();
+    private EmployeeDAO employeeDAO=new EmployeeDAOImpl();
 
     private ObservableList<EmployeeTm> obList;
 
-    public void initialize(){
+    public void initialize() throws ClassNotFoundException {
         comboBox.setItems(FXCollections.observableArrayList("Admin","cashier","Manager","worker"));
         generateNextEmpId();
         setCellValue();
@@ -67,13 +68,12 @@ public class EmployeeFormController {
         Action.setCellValueFactory(new PropertyValueFactory<>("btn"));
     }
 
-    private void getAllEmployee() {
-        var model=new EmployeeModel();
+    private void getAllEmployee() throws ClassNotFoundException {
 
         obList= FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> allEmployee = model.getAllEmployee();
+            List<EmployeeDto> allEmployee = employeeDAO.getAll();
 
             for (EmployeeDto dto : allEmployee){
                 Button button = createButton();
@@ -119,7 +119,7 @@ public class EmployeeFormController {
                 if (selectedEmployee != null) {
                     int cusId = selectedEmployee.getEmpId();
                     try {
-                        boolean b = model.deleteEmployee(cusId);
+                        boolean b = employeeDAO.delete(cusId);
                         if (b) {
 
                             Image image=new Image("/Icon/iconsDelete.png");
@@ -134,7 +134,7 @@ public class EmployeeFormController {
                             System.out.println("delete selected");
                             obList.remove(focusedIndex);
                         }
-                    } catch (SQLException ex) {
+                    } catch (SQLException | ClassNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
@@ -142,7 +142,7 @@ public class EmployeeFormController {
         });
     }
 
-    public void btnSaveOnAction(ActionEvent actionEvent) {
+    public void btnSaveOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
 
         if (isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -169,7 +169,7 @@ public class EmployeeFormController {
                 var dto=new EmployeeDto(empId,name,salary,email,type,address);
 
                 try {
-                    if (model.isExists(empId)) {
+                    if (employeeDAO.isExists(empId)) {
                         txtEmpId.requestFocus();
                         Image image=new Image("/Icon/icons8-cancel-50.png");
                         try {
@@ -187,7 +187,7 @@ public class EmployeeFormController {
                     }else {
 
                         if (checkValidate()){
-                            boolean b = model.saveEmployee(dto);
+                            boolean b = employeeDAO.save(dto);
                             if (b) {
                                 getAllEmployee();
                                 nullTextFieldColor();
@@ -225,9 +225,9 @@ public class EmployeeFormController {
         }
     }
 
-    private void generateNextEmpId() {
+    private void generateNextEmpId() throws ClassNotFoundException {
         try {
-            int empid = model.generateNextEmpId();
+            int empid = employeeDAO.generateNextEmpId();
             txtEmpId.setText(String.valueOf("00"+empid));
             lblempId.setText("00"+empid);
         } catch (SQLException e) {
@@ -235,7 +235,7 @@ public class EmployeeFormController {
         }
     }
 
-    public void btnEmpUpadateOnAction(ActionEvent actionEvent) {
+    public void btnEmpUpadateOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
 
         if (isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -262,7 +262,7 @@ public class EmployeeFormController {
                 var dto=new EmployeeDto(empId,name,salary,email,type,address);
 
                 try {
-                    boolean b = model.updateEmployee(dto);
+                    boolean b = employeeDAO.update(dto);
                     if (b) {
                         getAllEmployee();
                         nullTextFieldColor();
@@ -300,11 +300,11 @@ public class EmployeeFormController {
         }
     }
 
-    public void lblSearchOnAction(ActionEvent actionEvent) {
+    public void lblSearchOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
         int empId = Integer.parseInt(txtEmpId.getText());
 
         try {
-            EmployeeDto dto = model.searchEmployee(empId);
+            EmployeeDto dto = employeeDAO.search(empId);
             if (dto != null){
                 txtName.setText(dto.getName());
                 txtSalary.setText(String.valueOf(dto.getSalary()));

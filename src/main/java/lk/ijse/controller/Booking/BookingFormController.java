@@ -23,8 +23,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.EmployeeDAO;
 import lk.ijse.dao.custom.impl.BookingDAOImpl;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
+import lk.ijse.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.*;
 import lk.ijse.regex.RegexPattern;
@@ -76,8 +78,6 @@ public class BookingFormController {
 
     private ObservableList<BookingCartTm> obList=FXCollections.observableArrayList();
 
-    private EmployeeModel employeeModel=new EmployeeModel();
-
     private ServiceModel serviceModel=new ServiceModel();
 
     private InventoryOrderItemDetailModel inventoryOrderItemDetailModel=new InventoryOrderItemDetailModel();
@@ -89,6 +89,8 @@ public class BookingFormController {
     private CustomerDAO customerDAO=new CustomerDAOImpl();
 
     private BookingDAO bookingDAO=new BookingDAOImpl();
+
+    private EmployeeDAO employeeDAO=new EmployeeDAOImpl();
 
 
     public void initialize() throws ClassNotFoundException {
@@ -581,10 +583,10 @@ public class BookingFormController {
         return btn;
     }
 
-    public void getEmpName() throws SQLException {
+    public void getEmpName() throws SQLException, ClassNotFoundException {
         String empid = String.valueOf(cmbEmpId.getValue());
         int employeeId = Integer.valueOf(empid);
-        EmployeeDto employeeDto = employeeModel.searchEmployee(employeeId);
+        EmployeeDto employeeDto = employeeDAO.search(employeeId);
         if (employeeDto != null){
             lblEmpName.setText(employeeDto.getName());
         }
@@ -606,7 +608,7 @@ public class BookingFormController {
         BookinRoot.getChildren().add(parent);
     }
 
-    public void cmbEmpIdOnAction(ActionEvent actionEvent) throws SQLException {
+    public void cmbEmpIdOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         getEmpName();
     }
 
