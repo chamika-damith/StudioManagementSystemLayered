@@ -141,4 +141,20 @@ public class BookingDAOImpl implements BookingDAO {
         System.out.println(dto.getBookingId());
         return dto;
     }
+
+    @Override
+    public boolean updateBookingStatus(int id) throws SQLException, ClassNotFoundException {
+        return SQLutil.execute("UPDATE booking SET status=true WHERE bookingId=?",id);
+    }
+
+    @Override
+    public String returnLbBookingValue() throws SQLException, ClassNotFoundException {
+        String BookCount;
+        ResultSet resultSet = SQLutil.execute("SELECT COUNT(bookingId) FROM booking where status=false");
+        while (resultSet.next()){
+            BookCount= String.valueOf(resultSet.getInt(1));
+            return BookCount;
+        }
+        return null;
+    }
 }

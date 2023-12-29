@@ -76,9 +76,6 @@ public class BookingFormController {
 
     private ObservableList<BookingCartTm> obList=FXCollections.observableArrayList();
 
-
-    private BookingModel bookingModel=new BookingModel();
-
     private EmployeeModel employeeModel=new EmployeeModel();
 
     private ServiceModel serviceModel=new ServiceModel();

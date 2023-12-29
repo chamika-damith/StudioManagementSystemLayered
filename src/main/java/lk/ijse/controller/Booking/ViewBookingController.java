@@ -28,7 +28,6 @@ import lk.ijse.dto.ViewBookingDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.ViewBookingTm;
 import lk.ijse.dto.tm.ViewOrderTm;
-import lk.ijse.model.BookingModel;
 import lk.ijse.model.viewBookingModel;
 import org.controlsfx.control.Notifications;
 
@@ -52,8 +51,6 @@ public class ViewBookingController {
     public TableColumn colStatus;
 
     private ObservableList<ViewBookingTm> obList;
-
-    private BookingModel model=new BookingModel();
 
     private BookingDAO bookingDAO=new BookingDAOImpl();
 
@@ -179,7 +176,7 @@ public class ViewBookingController {
 
             if (selectId !=0) {
                 try {
-                    boolean b = model.updateBookingStatus(selectId);
+                    boolean b = bookingDAO.updateBookingStatus(selectId);
                     if (b) {
 
                         Image image=new Image("/Icon/iconsOk.png");
@@ -196,7 +193,7 @@ public class ViewBookingController {
                         getAllAppointment();
                         searchTable();
                     }
-                } catch (SQLException ex) {
+                } catch (SQLException | ClassNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
             }

@@ -24,8 +24,10 @@ import javafx.util.Duration;
 import lk.ijse.controller.Order.OrderItemDetailFormController;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
+import lk.ijse.dao.custom.DashboardDAO;
 import lk.ijse.dao.custom.impl.BookingDAOImpl;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
+import lk.ijse.dao.custom.impl.DashboardDAOImpl;
 import lk.ijse.dto.BookingDto;
 import lk.ijse.dto.DasboardDto;
 import lk.ijse.dto.OrderViewDto;
@@ -66,18 +68,13 @@ public class DashboardWindwoCrontroller {
 
     private boolean completeBooking=false;
     private boolean cancelBooking=false;
-
-    private DashboardModel Dashboardmodel=new DashboardModel();
-
     private ObservableList<ViewBookingTm> obList;
-
-    private BookingModel model=new BookingModel();
-
-    private OrderItemDetailFormController OIDController=new OrderItemDetailFormController();
 
     private CustomerDAO customerDAO=new CustomerDAOImpl();
 
     private BookingDAO bookingDAO=new BookingDAOImpl();
+
+    private DashboardDAO dashboardDAO=new DashboardDAOImpl();
 
     public void initialize() throws ClassNotFoundException {
         chart1();
@@ -178,15 +175,15 @@ public class DashboardWindwoCrontroller {
             lblAllCustomerd.setText(customerDAO.returnLbCuslValue());
             lblAllInventory.setText(OrderModel.returnlblTotalSale());
             lblOrders.setText(OrderModel.returnLbOrderlValue());
-            lblEmpId.setText(BookingModel.returnLbBookingValue());
+            lblEmpId.setText(bookingDAO.returnLbBookingValue());
         } catch (SQLException e) {
             e.getMessage();
         }
     }
 
-    private void chart1() {
+    private void chart1() throws ClassNotFoundException {
         try {
-            List<DasboardDto> dataFromDatabase = Dashboardmodel.getChartData();
+            List<DasboardDto> dataFromDatabase = dashboardDAO.getChartData();
 
             dataFromDatabase.sort(Comparator.comparingInt(month -> {
                 Map<String, Integer> monthOrder = new HashMap<>();
@@ -275,7 +272,7 @@ public class DashboardWindwoCrontroller {
 
             if (selectId !=0) {
                 try {
-                    boolean b = model.updateBookingStatus(selectId);
+                    boolean b = bookingDAO.updateBookingStatus(selectId);
                     if (b) {
 
                         completeBooking=true;
@@ -294,7 +291,7 @@ public class DashboardWindwoCrontroller {
                         getAllBooking();
                         searchTable();
                     }
-                } catch (SQLException ex) {
+                } catch (SQLException | ClassNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
             }

@@ -7,8 +7,9 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import lk.ijse.dao.custom.DashboardDAO;
+import lk.ijse.dao.custom.impl.DashboardDAOImpl;
 import lk.ijse.db.DbConnection;
-import lk.ijse.model.DashboardModel;
 import org.controlsfx.control.Notifications;
 
 import java.sql.Connection;
@@ -19,9 +20,10 @@ public class RegisterUserController {
 
     public JFXTextField txtUsername;
     public JFXPasswordField txtPassword;
-    private DashboardModel model=new DashboardModel();
-    public void btnDeleteOnAction(ActionEvent actionEvent) throws SQLException {
-        boolean b = model.deleteUser(txtUsername.getText(), txtPassword.getText());
+    private DashboardDAO dashboardDAO=new DashboardDAOImpl();
+
+    public void btnDeleteOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        boolean b = dashboardDAO.deleteUser(txtUsername.getText(), txtPassword.getText());
 
         if (b){
             Image image=new Image("/Icon/iconsOk.png");
@@ -52,8 +54,8 @@ public class RegisterUserController {
         }
     }
 
-    public void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException {
-        boolean b = model.updateUser(txtUsername.getText(), txtPassword.getText());
+    public void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        boolean b = dashboardDAO.updateUser(txtUsername.getText(), txtPassword.getText());
 
         if (b){
             Image image=new Image("/Icon/iconsOk.png");
@@ -84,9 +86,9 @@ public class RegisterUserController {
         }
     }
 
-    public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException {
+    public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 
-        boolean b = model.saveUser(txtUsername.getText(), txtPassword.getText());
+        boolean b = dashboardDAO.saveUser(txtUsername.getText(), txtPassword.getText());
         if (b){
             Image image=new Image("/Icon/iconsOk.png");
             try {

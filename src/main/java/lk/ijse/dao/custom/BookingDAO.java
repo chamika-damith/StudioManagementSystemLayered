@@ -14,5 +14,7 @@ public interface BookingDAO extends CrudDAO<BookingDto> {
     int generateNextBookId() throws SQLException, ClassNotFoundException;
     List<EmployeeDto> getAllEmployee() throws SQLException, ClassNotFoundException;
     BookingReportDto getReportDetail(int id) throws SQLException, ClassNotFoundException;
+    boolean updateBookingStatus(int id) throws SQLException, ClassNotFoundException;
+    String returnLbBookingValue() throws SQLException, ClassNotFoundException;
 
 }
