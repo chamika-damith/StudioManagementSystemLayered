@@ -21,6 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.dao.custom.BookingDAO;
+import lk.ijse.dao.custom.impl.BookingDAOImpl;
 import lk.ijse.dto.OrderViewDto;
 import lk.ijse.dto.ViewBookingDto;
 import lk.ijse.dto.tm.CustomerTm;
@@ -52,6 +54,8 @@ public class ViewBookingController {
     private ObservableList<ViewBookingTm> obList;
 
     private BookingModel model=new BookingModel();
+
+    private BookingDAO bookingDAO=new BookingDAOImpl();
 
     public void initialize(){
         setCellValues();
@@ -229,7 +233,7 @@ public class ViewBookingController {
                 if (selected != null) {
                     int BookId = selected.getBookingId();
                     try {
-                        boolean b = model.deleteBooking(BookId);
+                        boolean b = bookingDAO.delete(BookId);
                         if (b) {
 
                             Image image=new Image("/Icon/iconsDelete.png");
@@ -246,7 +250,7 @@ public class ViewBookingController {
                             getAllAppointment();
                             searchTable();
                         }
-                    } catch (SQLException ex) {
+                    } catch (SQLException | ClassNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
                 }

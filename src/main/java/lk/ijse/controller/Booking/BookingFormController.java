@@ -158,7 +158,7 @@ public class BookingFormController {
 
                 try {
 
-                    if (bookingModel.isExists(bId)) {
+                    if (bookingDAO.isExists(bId)) {
                         Image image=new Image("/Icon/icons8-cancel-50.png");
                         try {
                             Notifications notifications=Notifications.create();
@@ -273,10 +273,10 @@ public class BookingFormController {
 
     }
 
-    private void generateNextBookId() {
+    private void generateNextBookId() throws ClassNotFoundException {
 
         try {
-            int bookingId = bookingModel.generateNextBookId();
+            int bookingId = bookingDAO.generateNextBookId();
             bookId.setText(String.valueOf("00"+bookingId));
             txtAppid.setText("00"+bookingId);
         } catch (SQLException e) {
@@ -294,7 +294,7 @@ public class BookingFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<ServiceDto> idList = bookingModel.getAllPackage();
+            List<ServiceDto> idList = bookingDAO.getAllPackage();
 
             for (ServiceDto dto : idList) {
                 obList.add(String.valueOf(dto.getPkgId()));
@@ -306,11 +306,11 @@ public class BookingFormController {
         }
     }
 
-    private void loadEmpIds() {
+    private void loadEmpIds() throws ClassNotFoundException {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> idList = bookingModel.getAllEmployee();
+            List<EmployeeDto> idList = bookingDAO.getAllEmployee();
 
             for (EmployeeDto dto : idList) {
                 obList.add(String.valueOf(dto.getEmpId()));
@@ -326,11 +326,11 @@ public class BookingFormController {
         getPkgName();
     }
 
-    public void txtSearchOnAction(ActionEvent actionEvent) {
+    public void txtSearchOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
         int id = Integer.parseInt(txtAppid.getText());
 
         try {
-            BookingDto dto = bookingModel.searchBooking(id);
+            BookingDto dto = bookingDAO.search(id);
             if (dto != null){
                 txtAddress.setText(dto.getLocation());
                 cmbEmpId.setValue(String.valueOf(dto.getEmpId()));
@@ -400,7 +400,7 @@ public class BookingFormController {
         BookinRoot.getChildren().add(parent);
     }
 
-    public void btnUpdateOnAction(ActionEvent actionEvent) {
+    public void btnUpdateOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
 
         if(isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -427,7 +427,7 @@ public class BookingFormController {
             var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
 
             try {
-                boolean b = bookingModel.updateBooking(dto);
+                boolean b = bookingDAO.update(dto);
                 if (b) {
                     Image image=new Image("/Icon/iconsOk.png");
                     try {
@@ -467,7 +467,7 @@ public class BookingFormController {
         }
     }
 
-    public void btnAddToCart(ActionEvent actionEvent) throws SQLException {
+    public void btnAddToCart(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 
         if(isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -501,7 +501,7 @@ public class BookingFormController {
 
                 txtAddress.setFocusColor(Color.web("#0040ff"));
 
-                if (bookingModel.isExists(id)){
+                if (bookingDAO.isExists(id)){
                     Image image=new Image("/Icon/icons8-cancel-50.png");
                     try {
                         Notifications notifications=Notifications.create();
