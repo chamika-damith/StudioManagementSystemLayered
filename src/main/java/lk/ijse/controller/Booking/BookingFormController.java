@@ -221,7 +221,7 @@ public class BookingFormController {
 
     }
 
-    private void loadReport() throws JRException, SQLException {
+    private void loadReport() throws JRException, SQLException, ClassNotFoundException {
 
         InputStream resourceAsStream = getClass().getResourceAsStream("/ReportForm/BookRecipt.jrxml");
         JasperDesign load = JRXmlLoader.load(resourceAsStream);
@@ -229,7 +229,7 @@ public class BookingFormController {
 
         Map<String, Object> parameters = new HashMap<>();
 
-        BookingReportDto reportDetail = bookingModel.getReportDetail(Integer.parseInt(txtAppid.getText()));
+        BookingReportDto reportDetail = bookingDAO.getReportDetail(Integer.parseInt(txtAppid.getText()));
         String bookingId = String.valueOf(reportDetail.getBookingId());
         filePath="D:\\email";
         String subject="Thank You for Booking with FOCUS Studio";
@@ -652,14 +652,14 @@ public class BookingFormController {
         return textTotal;
     }
 
-    public void btnVievReport(ActionEvent actionEvent) throws JRException, SQLException {
+    public void btnVievReport(ActionEvent actionEvent) throws JRException, SQLException, ClassNotFoundException {
         InputStream resourceAsStream = getClass().getResourceAsStream("/ReportForm/BookRecipt.jrxml");
         JasperDesign load = JRXmlLoader.load(resourceAsStream);
         JasperReport jasperReport = JasperCompileManager.compileReport(load);
 
         Map<String, Object> parameters = new HashMap<>();
 
-        BookingReportDto reportDetail = bookingModel.getReportDetail(Integer.parseInt(txtAppid.getText()));
+        BookingReportDto reportDetail = bookingDAO.getReportDetail(Integer.parseInt(txtAppid.getText()));
         String bookingId = String.valueOf(reportDetail.getBookingId());
 
         if (!(reportDetail==null)) {

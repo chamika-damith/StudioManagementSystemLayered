@@ -2,6 +2,7 @@ package lk.ijse.dao.custom;
 
 import lk.ijse.dao.CrudDAO;
 import lk.ijse.dto.BookingDto;
+import lk.ijse.dto.BookingReportDto;
 import lk.ijse.dto.EmployeeDto;
 import lk.ijse.dto.ServiceDto;
 
@@ -12,5 +13,6 @@ public interface BookingDAO extends CrudDAO<BookingDto> {
     List<ServiceDto> getAllPackage() throws SQLException;
     int generateNextBookId() throws SQLException, ClassNotFoundException;
     List<EmployeeDto> getAllEmployee() throws SQLException, ClassNotFoundException;
+    BookingReportDto getReportDetail(int id) throws SQLException, ClassNotFoundException;
 
 }
