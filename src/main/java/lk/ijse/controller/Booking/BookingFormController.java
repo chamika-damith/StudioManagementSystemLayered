@@ -24,9 +24,11 @@ import javafx.util.Duration;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.EmployeeDAO;
+import lk.ijse.dao.custom.PackageDAO;
 import lk.ijse.dao.custom.impl.BookingDAOImpl;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dao.custom.impl.EmployeeDAOImpl;
+import lk.ijse.dao.custom.impl.PackageDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.*;
 import lk.ijse.regex.RegexPattern;
@@ -78,8 +80,6 @@ public class BookingFormController {
 
     private ObservableList<BookingCartTm> obList=FXCollections.observableArrayList();
 
-    private ServiceModel serviceModel=new ServiceModel();
-
     private InventoryOrderItemDetailModel inventoryOrderItemDetailModel=new InventoryOrderItemDetailModel();
 
     private List<Integer> listPrice=new ArrayList<>();
@@ -91,6 +91,8 @@ public class BookingFormController {
     private BookingDAO bookingDAO=new BookingDAOImpl();
 
     private EmployeeDAO employeeDAO=new EmployeeDAOImpl();
+
+    private PackageDAO packageDAO=new PackageDAOImpl();
 
 
     public void initialize() throws ClassNotFoundException {
@@ -321,7 +323,7 @@ public class BookingFormController {
         }
     }
 
-    public void cmbPackageOnAction(ActionEvent actionEvent) throws SQLException {
+    public void cmbPackageOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         getPkgName();
     }
 
@@ -592,10 +594,10 @@ public class BookingFormController {
         }
     }
 
-    public void getPkgName() throws SQLException {
+    public void getPkgName() throws SQLException, ClassNotFoundException {
         String pkgid= String.valueOf(cmbPackage.getValue());
         int pakageId= Integer.parseInt(pkgid);
-        ServiceDto serviceDto = serviceModel.searchService(pakageId);
+        ServiceDto serviceDto = packageDAO.search(pakageId);
         if (serviceDto != null){
             lblpkgName.setText(serviceDto.getName());
             listPrice.add((int) serviceDto.getPrice());

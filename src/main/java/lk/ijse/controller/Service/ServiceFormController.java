@@ -23,7 +23,6 @@ import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.ServiceDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.ServiceTm;
-import lk.ijse.model.ServiceModel;
 import lk.ijse.regex.RegexPattern;
 import org.controlsfx.control.Notifications;
 
@@ -46,14 +45,13 @@ public class ServiceFormController {
     public JFXTextField txtCostSearchTable;
     public Label lblService;
     public AnchorPane ServiceRoot;
-    private ServiceModel Model=new ServiceModel();
 
     private ObservableList<ServiceTm> obList;
 
     private PackageDAO packageDAO=new PackageDAOImpl();
 
 
-    public void initialize(){
+    public void initialize() throws ClassNotFoundException {
         cmbType.setItems(FXCollections.observableArrayList("PHOTOGRAPHY", "VIDEOGRAPHY", "AUDIO_PRODUCTION", "TV_SHOWS"));
         txtId.requestFocus();
         generateNextPkgId();
@@ -95,7 +93,7 @@ public class ServiceFormController {
                 String name = txtName.getText();
 
                 try {
-                    if (Model.isExists(serviceId)) {
+                    if (packageDAO.isExists(serviceId)) {
                         Image image = new Image("/Icon/icons8-cancel-50.png");
                         try {
                             Notifications notifications = Notifications.create();
@@ -150,9 +148,9 @@ public class ServiceFormController {
         }
     }
 
-    private void generateNextPkgId() {
+    private void generateNextPkgId() throws ClassNotFoundException {
         try {
-            int pkgid = Model.generateNextPkgId();
+            int pkgid = packageDAO.generateNextPkgId();
             txtId.setText(String.valueOf("00"+pkgid));
             lblServiceId.setText("00"+pkgid);
         } catch (SQLException e) {
@@ -160,11 +158,11 @@ public class ServiceFormController {
         }
     }
 
-    public void txtSearchOnAction(ActionEvent actionEvent) {
+    public void txtSearchOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
         int id = Integer.parseInt(txtId.getText());
 
         try {
-            ServiceDto dto = Model.searchService(id);
+            ServiceDto dto = packageDAO.search(id);
             if (dto != null){
                 txtName.setText(dto.getName());
                 txtName.setText(dto.getName());
@@ -201,13 +199,12 @@ public class ServiceFormController {
         }
     }
 
-    private void getAllService() {
-        var model=new ServiceModel();
+    private void getAllService() throws ClassNotFoundException {
 
         obList= FXCollections.observableArrayList();
 
         try {
-            List<ServiceDto> allService = model.getAllService();
+            List<ServiceDto> allService = packageDAO.getAll();
 
             for (ServiceDto dto : allService){
                 Button button = createButton();
@@ -251,7 +248,7 @@ public class ServiceFormController {
                 if (selected != null) {
                     int id = selected.getId();
                     try {
-                        boolean b = Model.deleteService(id);
+                        boolean b = packageDAO.delete(id);
                         if (b) {
                             clearField();
                             generateNextPkgId();
@@ -269,7 +266,7 @@ public class ServiceFormController {
                             getAllService();
                             searchTable();
                         }
-                    } catch (SQLException ex) {
+                    } catch (SQLException | ClassNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
@@ -277,7 +274,7 @@ public class ServiceFormController {
         });
     }
 
-    public void btnUpdateOnAction(ActionEvent actionEvent) {
+    public void btnUpdateOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
 
         if (isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -303,7 +300,7 @@ public class ServiceFormController {
                 ServiceDto dto = new ServiceDto(id, name, price, type);
 
                 try {
-                    boolean b = Model.updateService(dto);
+                    boolean b = packageDAO.update(dto);
                     if (b) {
                         getAllService();
                         searchTable();
