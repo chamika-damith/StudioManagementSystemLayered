@@ -17,6 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import lk.ijse.dao.custom.PackageDAO;
+import lk.ijse.dao.custom.impl.PackageDAOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.ServiceDto;
 import lk.ijse.dto.tm.CustomerTm;
@@ -48,6 +50,8 @@ public class ServiceFormController {
 
     private ObservableList<ServiceTm> obList;
 
+    private PackageDAO packageDAO=new PackageDAOImpl();
+
 
     public void initialize(){
         cmbType.setItems(FXCollections.observableArrayList("PHOTOGRAPHY", "VIDEOGRAPHY", "AUDIO_PRODUCTION", "TV_SHOWS"));
@@ -67,7 +71,7 @@ public class ServiceFormController {
 
     }
 
-    public void btnSaveOnAction(ActionEvent actionEvent) {
+    public void btnSaveOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
 
         if (isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -106,7 +110,7 @@ public class ServiceFormController {
                         }
                     } else {
                         var dto = new ServiceDto(serviceId, name, price, type);
-                        boolean b = Model.savePackageDto(dto);
+                        boolean b = packageDAO.save(dto);
                         if (b) {
                             clearField();
                             getAllService();
