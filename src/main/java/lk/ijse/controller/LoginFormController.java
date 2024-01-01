@@ -14,7 +14,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.CubicCurve;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import lk.ijse.model.LoginClassModel;
+import lk.ijse.dao.custom.LoginDAO;
+import lk.ijse.dao.custom.impl.LoginDAOImpl;
 import org.controlsfx.control.Notifications;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -29,14 +30,12 @@ public class LoginFormController {
     public MFXTextField txtUserName;
     public MFXPasswordField txtPassword;
 
-    public LoginClassModel model=new LoginClassModel();
-
-    private String loginSuccess;
+    private LoginDAO loginDAO=new LoginDAOImpl();
 
     private static int userId;
     private static String username;
 
-    public void btnLoginOnAction(ActionEvent actionEvent) throws IOException, SQLException {
+    public void btnLoginOnAction(ActionEvent actionEvent) throws IOException, SQLException, ClassNotFoundException {
 
         if (checkLogin()){
             Parent parent= FXMLLoader.load(this.getClass().getResource("/view/DashboardForm.fxml"));
@@ -86,8 +85,8 @@ public class LoginFormController {
         curve.setControlX2(mouseEvent.getX());
     }
 
-    public boolean checkLogin() throws SQLException {
-        boolean b = model.checkLogin(txtUserName.getText(), txtPassword.getText());
+    public boolean checkLogin() throws SQLException, ClassNotFoundException {
+        boolean b = loginDAO.checkLogin(txtUserName.getText(), txtPassword.getText());
         if (b) {
             getUserId(txtUserName.getText());
             username=txtUserName.getText();
@@ -97,8 +96,8 @@ public class LoginFormController {
         }
     }
 
-    private void getUserId(String text) throws SQLException {
-        userId = model.getUserId(text);
+    private void getUserId(String text) throws SQLException, ClassNotFoundException {
+        userId = loginDAO.getUserId(text);
     }
 
     public static int returnUserId(){
@@ -112,7 +111,7 @@ public class LoginFormController {
         txtPassword.requestFocus();
     }
 
-    public void txtPasswordOnAction(ActionEvent actionEvent) throws SQLException, IOException {
+    public void txtPasswordOnAction(ActionEvent actionEvent) throws SQLException, IOException, ClassNotFoundException {
         btnLoginOnAction(actionEvent);
     }
 

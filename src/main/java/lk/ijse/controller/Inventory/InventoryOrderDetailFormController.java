@@ -28,7 +28,6 @@ import lk.ijse.dto.InventoryOrderDto;
 import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.InventoryOrderTm;
-import lk.ijse.model.*;
 import lk.ijse.regex.RegexPattern;
 import org.controlsfx.control.Notifications;
 

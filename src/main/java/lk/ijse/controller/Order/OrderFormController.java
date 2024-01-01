@@ -3,7 +3,6 @@ package lk.ijse.controller.Order;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,10 +21,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import lk.ijse.controller.Customer.CustomerFormController;
-import lk.ijse.controller.DashboardFormController;
-import lk.ijse.controller.LoginFormController;
-import lk.ijse.controller.qr.QrReaderController;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.OrderDAO;
@@ -37,29 +32,20 @@ import lk.ijse.dao.custom.impl.OrderDetailDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
-import lk.ijse.dto.tm.ItemTm;
-import lk.ijse.dto.tm.OrderItemTm;
-import lk.ijse.model.*;
 import lk.ijse.regex.RegexPattern;
 import lk.ijse.smtp.MailSend;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import org.bouncycastle.crypto.io.SignerOutputStream;
 import org.controlsfx.control.Notifications;
 
-import javax.naming.ldap.PagedResultsControl;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
-
-import static lk.ijse.controller.Customer.CustomerFormController.id;
 
 public class OrderFormController{
     public JFXComboBox cmbCustomerId;
