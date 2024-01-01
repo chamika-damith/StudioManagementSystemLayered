@@ -80,8 +80,6 @@ public class BookingFormController {
 
     private ObservableList<BookingCartTm> obList=FXCollections.observableArrayList();
 
-    private InventoryOrderItemDetailModel inventoryOrderItemDetailModel=new InventoryOrderItemDetailModel();
-
     private List<Integer> listPrice=new ArrayList<>();
 
     private boolean isTrue=false;

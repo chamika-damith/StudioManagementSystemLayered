@@ -9,12 +9,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.dao.custom.InventoryOrderDetailDAO;
+import lk.ijse.dao.custom.impl.InventoryOrderDetailDAOImpl;
 import lk.ijse.dto.InventoryOrderItemDto;
 import lk.ijse.dto.OrderItemDetailFormDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.InventoryOrderItemTm;
 import lk.ijse.dto.tm.OrderItemTm;
-import lk.ijse.model.InventoryOrderItemDetailModel;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -37,20 +38,21 @@ public class InventoryOrderItemDetailsController {
 
     ObservableList<InventoryOrderItemTm> obList;
 
-    public void initialize(){
+    private InventoryOrderDetailDAO inventoryOrderDetailDAO=new InventoryOrderDetailDAOImpl();
+
+    public void initialize() throws ClassNotFoundException {
         setCellValueFactory();
         getAllValues();
     }
 
 
-    private void getAllValues() {
-        var model=new InventoryOrderItemDetailModel();
+    private void getAllValues() throws ClassNotFoundException {
 
         obList= FXCollections.observableArrayList();
 
 
         try {
-            List<InventoryOrderItemDto> dto=model.getAllValues(focusedIndex);
+            List<InventoryOrderItemDto> dto=inventoryOrderDetailDAO.getAllValues(focusedIndex);
 
             for (InventoryOrderItemDto oDto : dto) {
                 lblOrderId.setText(String.valueOf(oDto.getSupOrderId()));

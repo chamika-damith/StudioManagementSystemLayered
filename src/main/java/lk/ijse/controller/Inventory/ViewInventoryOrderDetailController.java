@@ -17,13 +17,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.dao.custom.InventoryOrderDetailDAO;
+import lk.ijse.dao.custom.impl.InventoryOrderDetailDAOImpl;
 import lk.ijse.dto.InventoryOrderViewDto;
 import lk.ijse.dto.OrderViewDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.InventoryOrderItemTm;
 import lk.ijse.dto.tm.ViewInventoryOrderTm;
 import lk.ijse.dto.tm.ViewOrderTm;
-import lk.ijse.model.InventoryOrderViewModel;
 import javax.naming.ldap.PagedResultsControl;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -47,7 +48,9 @@ public class ViewInventoryOrderDetailController {
 
     private InventoryOrderItemDetailsController controller=new InventoryOrderItemDetailsController();
 
-    public void initialize(){
+    private InventoryOrderDetailDAO inventoryOrderDetailDAO=new InventoryOrderDetailDAOImpl();
+
+    public void initialize() throws ClassNotFoundException {
         setCellValues();
         getAllOrders();
         searchTable();
@@ -63,13 +66,12 @@ public class ViewInventoryOrderDetailController {
         colMore.setCellValueFactory(new PropertyValueFactory<>("btn"));
     }
 
-    private void getAllOrders() {
-        var model=new InventoryOrderViewModel();
+    private void getAllOrders() throws ClassNotFoundException {
 
         obList= FXCollections.observableArrayList();
 
         try {
-            List<InventoryOrderViewDto> allItems = model.getAllItemsOrder();
+            List<InventoryOrderViewDto> allItems = inventoryOrderDetailDAO.getAllItemsOrder();
 
             for (InventoryOrderViewDto dto : allItems){
                 Button button = createButton();

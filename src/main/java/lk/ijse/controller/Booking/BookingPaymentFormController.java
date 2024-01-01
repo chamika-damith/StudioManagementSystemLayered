@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import lk.ijse.model.InventoryOrderItemDetailModel;
 import org.controlsfx.control.Notifications;
 
 public class BookingPaymentFormController {
