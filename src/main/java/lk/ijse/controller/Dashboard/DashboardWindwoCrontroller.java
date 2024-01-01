@@ -122,15 +122,13 @@ public class DashboardWindwoCrontroller {
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
-    private void getAllBooking() {
-        var model=new viewBookingModel();
-
+    private void getAllBooking() throws ClassNotFoundException {
         String date= String.valueOf(LocalDate.now());
 
         obList= FXCollections.observableArrayList();
 
         try {
-            List<ViewBookingDto> allItems = model.getTodayBooking(Date.valueOf(date));
+            List<ViewBookingDto> allItems = bookingDAO.getTodayBooking(Date.valueOf(date));
 
             for (ViewBookingDto dto : allItems){
                 Button morebtn = createMoreButton();

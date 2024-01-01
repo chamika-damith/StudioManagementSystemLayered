@@ -29,9 +29,11 @@ import lk.ijse.controller.qr.QrReaderController;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.OrderDAO;
+import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dao.custom.impl.ItemDAOImpl;
 import lk.ijse.dao.custom.impl.OrderDAOImpl;
+import lk.ijse.dao.custom.impl.OrderDetailDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
@@ -95,8 +97,6 @@ public class OrderFormController{
     private ObservableList<CartTm> obList=FXCollections.observableArrayList();
 
 
-    private OrderItemDetailFormModel orderItemDetailFormModel=new OrderItemDetailFormModel();
-
     private String Oid;
 
     private CustomerDAO customerDAO=new CustomerDAOImpl();
@@ -104,6 +104,8 @@ public class OrderFormController{
     private ItemDAO itemDAO=new ItemDAOImpl();
 
     private OrderDAO orderDAO=new OrderDAOImpl();
+
+    private OrderDetailDAO orderDetailDAO=new OrderDetailDAOImpl();
 
     public void initialize() throws ClassNotFoundException {
         loadCustomerIds();
@@ -413,7 +415,7 @@ public class OrderFormController{
                     if (b) {
                         tblCart.getItems().clear();
 
-                        List<OrderItemDetailFormDto> allValues = orderItemDetailFormModel.getAllValues(orderId);
+                        List<OrderItemDetailFormDto> allValues = orderDetailDAO.getAllValues(orderId);
 
 
                         String subject = "Your Purchase Order Confirmation - Order #00[" + orderId + "]";

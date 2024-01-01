@@ -28,7 +28,6 @@ import lk.ijse.dto.ViewBookingDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.ViewBookingTm;
 import lk.ijse.dto.tm.ViewOrderTm;
-import lk.ijse.model.viewBookingModel;
 import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
@@ -61,12 +60,10 @@ public class ViewBookingController {
     }
 
     private void getAllAppointment() {
-        var viewBookingModel = new viewBookingModel();
-
         obList= FXCollections.observableArrayList();
 
         try {
-            List<ViewBookingDto> allItems = viewBookingModel.getAllBooking();
+            List<ViewBookingDto> allItems = bookingDAO.getAllBooking();
 
             for (ViewBookingDto dto : allItems){
                 Button morebtn = createMoreButton();
@@ -88,7 +85,7 @@ public class ViewBookingController {
 
             }
             tblAppointment.setItems(obList);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

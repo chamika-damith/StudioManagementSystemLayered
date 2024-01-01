@@ -24,8 +24,6 @@ import lk.ijse.dto.tm.InventoryOrderItemTm;
 import lk.ijse.dto.tm.ViewInventoryOrderTm;
 import lk.ijse.dto.tm.ViewOrderTm;
 import lk.ijse.model.InventoryOrderViewModel;
-import lk.ijse.model.OrderDetailViewModel;
-
 import javax.naming.ldap.PagedResultsControl;
 import java.io.IOException;
 import java.sql.SQLException;

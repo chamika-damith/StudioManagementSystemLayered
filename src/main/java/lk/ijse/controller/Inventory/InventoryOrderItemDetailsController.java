@@ -15,7 +15,6 @@ import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.InventoryOrderItemTm;
 import lk.ijse.dto.tm.OrderItemTm;
 import lk.ijse.model.InventoryOrderItemDetailModel;
-import lk.ijse.model.OrderItemDetailFormModel;
 
 import java.sql.SQLException;
 import java.util.List;

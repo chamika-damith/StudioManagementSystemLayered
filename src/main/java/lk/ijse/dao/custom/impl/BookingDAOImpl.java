@@ -3,10 +3,7 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.BookingDto;
-import lk.ijse.dto.BookingReportDto;
-import lk.ijse.dto.EmployeeDto;
-import lk.ijse.dto.ServiceDto;
+import lk.ijse.dto.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -156,5 +153,43 @@ public class BookingDAOImpl implements BookingDAO {
             return BookCount;
         }
         return null;
+    }
+
+    @Override
+    public List<ViewBookingDto> getAllBooking() throws SQLException, ClassNotFoundException {
+        ResultSet resultSet =SQLutil.execute("SELECT b.bookingId,b.status,c.name,b.location,c.email,c.mobile FROM booking b JOIN customer c ON b.custId = c.cusId");
+
+        ArrayList<ViewBookingDto> dto=new ArrayList<>();
+
+        while (resultSet.next()) {
+            dto.add(new ViewBookingDto(
+                    resultSet.getInt("bookingId"),
+                    resultSet.getString("name"),
+                    resultSet.getString("location"),
+                    resultSet.getString("email"),
+                    resultSet.getString("mobile"),
+                    resultSet.getBoolean("status")
+            ));
+        }
+        return dto;
+    }
+
+    @Override
+    public List<ViewBookingDto> getTodayBooking(Date date) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = SQLutil.execute("SELECT b.bookingId,b.status,c.name,b.location,c.email,c.mobile FROM booking b JOIN customer c ON b.custId = c.cusId WHERE date=?",date);
+
+        ArrayList<ViewBookingDto> dto=new ArrayList<>();
+
+        while (resultSet.next()) {
+            dto.add(new ViewBookingDto(
+                    resultSet.getInt("bookingId"),
+                    resultSet.getString("name"),
+                    resultSet.getString("location"),
+                    resultSet.getString("email"),
+                    resultSet.getString("mobile"),
+                    resultSet.getBoolean("status")
+            ));
+        }
+        return dto;
     }
 }
