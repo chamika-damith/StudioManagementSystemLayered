@@ -18,8 +18,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import lk.ijse.dao.custom.InventoryOrderDAO;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.SupplierDAO;
+import lk.ijse.dao.custom.impl.InventoryOrderDAOImpl;
 import lk.ijse.dao.custom.impl.ItemDAOImpl;
 import lk.ijse.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.dto.InventoryOrderDto;
@@ -64,9 +66,6 @@ public class InventoryOrderDetailFormController {
 
     private int allQty;
 
-    private InventoryOrderModel SupOrdermodel=new InventoryOrderModel();
-
-    private PlaceInventoryOrderModel placeOrder=new PlaceInventoryOrderModel();
 
     private ObservableList<InventoryOrderTm> obList=FXCollections.observableArrayList();
 
@@ -74,7 +73,9 @@ public class InventoryOrderDetailFormController {
 
     private SupplierDAO supplierDAO=new SupplierDAOImpl();
 
-    public void initialize(){
+    private InventoryOrderDAO inventoryOrderDAO=new InventoryOrderDAOImpl();
+
+    public void initialize() throws ClassNotFoundException {
         loadCategory();
         setDate();
         setCellValueFactory();
@@ -185,7 +186,7 @@ public class InventoryOrderDetailFormController {
         btnAddToCart(actionEvent);
     }
 
-    public void btnPlaceOrderOnAction(ActionEvent actionEvent) throws SQLException {
+    public void btnPlaceOrderOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 
         if (tblCart.getItems().isEmpty()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -211,7 +212,7 @@ public class InventoryOrderDetailFormController {
             int supId = Integer.parseInt(supplierId);
             int txtqty = qty+allQty;
 
-            if (SupOrdermodel.isExists(id)){
+            if (inventoryOrderDAO.isExists(id)){
                 Image image=new Image("/Icon/icons8-cancel-50.png");
                 try {
                     Notifications notifications=Notifications.create();
@@ -232,7 +233,7 @@ public class InventoryOrderDetailFormController {
                 }
 
                 var dto=new InventoryOrderDto(id,description,orderDate, null,category,supId,cartTmList,txtqty,qty);
-                boolean isPlaceOrder = placeOrder.placeOrder(dto);
+                boolean isPlaceOrder = inventoryOrderDAO.placeOrder(dto);
                 if (isPlaceOrder){
                     tblCart.getItems().clear();
                     generateNextOrderId();
@@ -415,9 +416,9 @@ public class InventoryOrderDetailFormController {
         InventoryRoot.getChildren().add(parent);
     }
 
-    private void generateNextOrderId() {
+    private void generateNextOrderId() throws ClassNotFoundException {
         try {
-            int orderID = InventoryOrderModel.generateNextOrderId();
+            int orderID = inventoryOrderDAO.generateNextOrderId();
             lblOrderId.setText(String.valueOf("00"+orderID));
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
