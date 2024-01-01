@@ -28,8 +28,10 @@ import lk.ijse.controller.LoginFormController;
 import lk.ijse.controller.qr.QrReaderController;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.ItemDAO;
+import lk.ijse.dao.custom.OrderDAO;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dao.custom.impl.ItemDAOImpl;
+import lk.ijse.dao.custom.impl.OrderDAOImpl;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
 import lk.ijse.dto.tm.CartTm;
@@ -92,8 +94,6 @@ public class OrderFormController{
 
     private ObservableList<CartTm> obList=FXCollections.observableArrayList();
 
-    private OrderModel orderModel=new OrderModel();
-    private PlaceOrderModel placeOrderModel=new PlaceOrderModel();
 
     private OrderItemDetailFormModel orderItemDetailFormModel=new OrderItemDetailFormModel();
 
@@ -103,7 +103,7 @@ public class OrderFormController{
 
     private ItemDAO itemDAO=new ItemDAOImpl();
 
-
+    private OrderDAO orderDAO=new OrderDAOImpl();
 
     public void initialize() throws ClassNotFoundException {
         loadCustomerIds();
@@ -167,9 +167,9 @@ public class OrderFormController{
         }
     }
 
-    private void generateNextOrderId() {
+    private void generateNextOrderId() throws ClassNotFoundException {
         try {
-            int orderID = OrderModel.generateNextOrderId();
+            int orderID = orderDAO.generateNextOrderId();
             lblOrderId.setText(String.valueOf("00"+orderID));
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -359,7 +359,7 @@ public class OrderFormController{
         btnAddToCart(actionEvent);
     }
 
-    public void btnPlaceOrderOnAction(ActionEvent actionEvent) throws SQLException {
+    public void btnPlaceOrderOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 
         if(orderPaymentController.getValidPayment()) {
             if (tblCart.getItems().isEmpty()) {
@@ -386,7 +386,7 @@ public class OrderFormController{
                 double total = Double.parseDouble(lblTotal.getText());
                 Date returnDate = null;
 
-                if (orderModel.isExists(orderId)) {
+                if (orderDAO.isExists(orderId)) {
                     Image image = new Image("/Icon/icons8-cancel-50.png");
                     try {
                         Notifications notifications = Notifications.create();
@@ -409,7 +409,7 @@ public class OrderFormController{
 
 
                     var orderDto = new OrderDto(orderId, date, returnDate, userId, customerId, total, saveQty, qty, cartTmList);
-                    boolean b = placeOrderModel.placeOrder(orderDto);
+                    boolean b = orderDAO.placeOrder(orderDto);
                     if (b) {
                         tblCart.getItems().clear();
 

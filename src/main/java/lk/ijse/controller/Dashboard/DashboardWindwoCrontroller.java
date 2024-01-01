@@ -25,9 +25,11 @@ import lk.ijse.controller.Order.OrderItemDetailFormController;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.DashboardDAO;
+import lk.ijse.dao.custom.OrderDAO;
 import lk.ijse.dao.custom.impl.BookingDAOImpl;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
 import lk.ijse.dao.custom.impl.DashboardDAOImpl;
+import lk.ijse.dao.custom.impl.OrderDAOImpl;
 import lk.ijse.dto.BookingDto;
 import lk.ijse.dto.DasboardDto;
 import lk.ijse.dto.OrderViewDto;
@@ -75,6 +77,8 @@ public class DashboardWindwoCrontroller {
     private BookingDAO bookingDAO=new BookingDAOImpl();
 
     private DashboardDAO dashboardDAO=new DashboardDAOImpl();
+
+    private OrderDAO orderDAO=new OrderDAOImpl();
 
     public void initialize() throws ClassNotFoundException {
         chart1();
@@ -173,8 +177,8 @@ public class DashboardWindwoCrontroller {
     public void setLblValue() throws ClassNotFoundException {
         try {
             lblAllCustomerd.setText(customerDAO.returnLbCuslValue());
-            lblAllInventory.setText(OrderModel.returnlblTotalSale());
-            lblOrders.setText(OrderModel.returnLbOrderlValue());
+            lblAllInventory.setText(orderDAO.returnlblTotalSale());
+            lblOrders.setText(orderDAO.returnLbOrderlValue());
             lblEmpId.setText(bookingDAO.returnLbBookingValue());
         } catch (SQLException e) {
             e.getMessage();

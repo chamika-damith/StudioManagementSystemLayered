@@ -26,7 +26,6 @@ import lk.ijse.dto.tm.ItemTm;
 import lk.ijse.dto.tm.ViewOrderTm;
 import lk.ijse.model.OrderDetailViewModel;
 import lk.ijse.model.OrderItemDetailFormModel;
-import lk.ijse.model.OrderModel;
 import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
