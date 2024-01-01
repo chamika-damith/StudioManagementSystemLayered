@@ -19,7 +19,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import lk.ijse.dao.custom.ItemDAO;
+import lk.ijse.dao.custom.SupplierDAO;
 import lk.ijse.dao.custom.impl.ItemDAOImpl;
+import lk.ijse.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.dto.InventoryOrderDto;
 import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.SupplierDto;
@@ -64,13 +66,13 @@ public class InventoryOrderDetailFormController {
 
     private InventoryOrderModel SupOrdermodel=new InventoryOrderModel();
 
-    private SupplierModel supplierModel=new SupplierModel();
-
     private PlaceInventoryOrderModel placeOrder=new PlaceInventoryOrderModel();
 
     private ObservableList<InventoryOrderTm> obList=FXCollections.observableArrayList();
 
     private ItemDAO itemDAO=new ItemDAOImpl();
+
+    private SupplierDAO supplierDAO=new SupplierDAOImpl();
 
     public void initialize(){
         loadCategory();
@@ -107,10 +109,10 @@ public class InventoryOrderDetailFormController {
         }
     }
 
-    private void loadSupplier(String code) {
+    private void loadSupplier(String code) throws ClassNotFoundException {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<SupplierDto> supDto = supplierModel.getItemSupplier(code);
+            List<SupplierDto> supDto = supplierDAO.getItemSupplier(code);
 
             for (SupplierDto dto : supDto) {
                 obList.add(String.valueOf(dto.getId()));
@@ -151,14 +153,14 @@ public class InventoryOrderDetailFormController {
     }
 
     @FXML
-    void cmbSuplierOnAction(ActionEvent event) {
+    void cmbSuplierOnAction(ActionEvent event) throws ClassNotFoundException {
         String code = String.valueOf(cmbSupplierId.getValue());
         if (code==null || code.isEmpty()){
             throw new IllegalStateException("Supplier is empty");
         }else {
             int id= Integer.parseInt(code);
             try {
-                SupplierDto dto = supplierModel.searchSupplier(id);
+                SupplierDto dto = supplierDAO.search(id);
                 if (dto != null) {
                     lblSupplierName.setText(dto.getName());
                     txtQty.requestFocus();

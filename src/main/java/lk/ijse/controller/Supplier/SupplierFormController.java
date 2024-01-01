@@ -18,11 +18,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import lk.ijse.controller.Customer.CustomerFormController;
+import lk.ijse.dao.custom.SupplierDAO;
+import lk.ijse.dao.custom.impl.SupplierDAOImpl;
 import lk.ijse.dto.CustomerDto;
 import lk.ijse.dto.SupplierDto;
 import lk.ijse.dto.tm.CustomerTm;
 import lk.ijse.dto.tm.SupplierTm;
-import lk.ijse.model.SupplierModel;
 import lk.ijse.regex.RegexPattern;
 import org.controlsfx.control.Notifications;
 
@@ -50,11 +51,11 @@ public class SupplierFormController {
     public TableColumn colCategory;
     public TableColumn Action;
 
-    private SupplierModel model=new SupplierModel();
-
     private ObservableList<SupplierTm> obList;
 
-    public void initialize(){
+    private SupplierDAO supplierDAO=new SupplierDAOImpl();
+
+    public void initialize() throws ClassNotFoundException {
         cmbCategory.setItems(FXCollections.observableArrayList("CAMERA", "LENS", "DRONE", "LIGHTS", "ACCESORIES"));
         generateNextSupId();
         setCellValue();
@@ -72,11 +73,11 @@ public class SupplierFormController {
 
     }
 
-    public void txtIdOnAction(ActionEvent actionEvent) {
+    public void txtIdOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
         int id = Integer.parseInt(txtId.getText());
 
         try {
-            SupplierDto dto = model.searchSupplier(id);
+            SupplierDto dto = supplierDAO.search(id);
             if (dto != null){
                 txtName.setText(dto.getName());
                 txtMobile.setText(dto.getContact());
@@ -114,7 +115,7 @@ public class SupplierFormController {
         }
     }
 
-    public void btnSaveOnAction(ActionEvent actionEvent) {
+    public void btnSaveOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
 
         if (isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -139,7 +140,7 @@ public class SupplierFormController {
                 String category = (String) cmbCategory.getValue();
 
                 try {
-                    if (model.isExists(id)) {
+                    if (supplierDAO.isExists(id)) {
                         clearField();
                         Image image = new Image("/Icon/icons8-cancel-50.png");
                         try {
@@ -158,7 +159,7 @@ public class SupplierFormController {
                         var dto = new SupplierDto(id, name, mobile, address, category);
 
                         try {
-                            boolean b = model.saveSupplier(dto);
+                            boolean b = supplierDAO.save(dto);
                             if (b) {
                                 clearField();
                                 generateNextSupId();
@@ -202,7 +203,7 @@ public class SupplierFormController {
         }
     }
 
-    public void btnUpdateOnAction(ActionEvent actionEvent) {
+    public void btnUpdateOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
 
         if (isEmptyCheck()){
             Image image=new Image("/Icon/icons8-cancel-50.png");
@@ -231,7 +232,7 @@ public class SupplierFormController {
 
 
                 try {
-                    boolean b = model.updateSupplier(dto);
+                    boolean b = supplierDAO.update(dto);
                     if (b) {
                         getAllSupplier();
                         searchTable();
@@ -268,13 +269,11 @@ public class SupplierFormController {
         }
     }
 
-    private void getAllSupplier() {
-        var model=new SupplierModel();
-
+    private void getAllSupplier() throws ClassNotFoundException {
         obList= FXCollections.observableArrayList();
 
         try {
-            List<SupplierDto> allCustomer = model.getAllSupplier();
+            List<SupplierDto> allCustomer = supplierDAO.getAll();
 
             for (SupplierDto dto : allCustomer){
                 Button button = createButton();
@@ -319,7 +318,7 @@ public class SupplierFormController {
                 if (selected != null) {
                     int supId = selected.getId();
                     try {
-                        boolean b = model.deleteSupplier(supId);
+                        boolean b = supplierDAO.delete(supId);
                         if (b) {
                             generateNextSupId();
                             Image image=new Image("/Icon/iconsDelete.png");
@@ -336,7 +335,7 @@ public class SupplierFormController {
                             getAllSupplier();
                             searchTable();
                         }
-                    } catch (SQLException ex) {
+                    } catch (SQLException | ClassNotFoundException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
@@ -352,9 +351,9 @@ public class SupplierFormController {
         cmbCategory.getSelectionModel().clearSelection();
     }
 
-    private void generateNextSupId() {
+    private void generateNextSupId() throws ClassNotFoundException {
         try {
-            int supid = model.generateNextSupId();
+            int supid = supplierDAO.generateNextSupId();
             txtId.setText(String.valueOf("00"+supid));
             lblSupId.setText(String.valueOf("00"+supid));
         } catch (SQLException e) {
