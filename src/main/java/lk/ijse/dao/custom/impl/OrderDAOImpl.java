@@ -3,16 +3,17 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.OrderDAO;
+import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.OrderDto;
-import lk.ijse.model.OrderDetailsModel;
 
 import java.sql.*;
 
 public class OrderDAOImpl implements OrderDAO {
 
-    private OrderDetailsModel orderDetailsModel=new OrderDetailsModel();
     private ItemDAO itemDAO=new ItemDAOImpl();
+
+    private OrderDetailDAO orderDetailDAO=new OrderDetailDAOImpl();
 
 
     @Override
@@ -92,7 +93,7 @@ public class OrderDAOImpl implements OrderDAO {
                 boolean isItemSave = itemDAO.updateItems(orderDto.getCartTmList(),qty);
                 System.out.println("item saved");
                 if (isItemSave) {
-                    boolean isOrderDetailSave = orderDetailsModel.saveOrderDetails(orderId, orderDto.getCartTmList());
+                    boolean isOrderDetailSave = orderDetailDAO.saveOrderDetails(orderId, orderDto.getCartTmList());
                     if (isOrderDetailSave){
                         System.out.println("Order details saved");
                         connection.commit();
