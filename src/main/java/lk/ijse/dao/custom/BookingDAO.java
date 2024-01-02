@@ -8,9 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface BookingDAO extends CrudDAO<BookingDto> {
-    List<ServiceDto> getAllPackage() throws SQLException;
     int generateNextBookId() throws SQLException, ClassNotFoundException;
-    List<EmployeeDto> getAllEmployee() throws SQLException, ClassNotFoundException;
     BookingReportDto getReportDetail(int id) throws SQLException, ClassNotFoundException;
     boolean updateBookingStatus(int id) throws SQLException, ClassNotFoundException;
     String returnLbBookingValue() throws SQLException, ClassNotFoundException;

@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.BookingBO;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
@@ -63,13 +64,13 @@ public class DashboardWindwoCrontroller {
     private boolean cancelBooking=false;
     private ObservableList<ViewBookingTm> obList;
 
-    private BookingDAO bookingDAO=new BookingDAOImpl();
-
     private DashboardDAO dashboardDAO=new DashboardDAOImpl();
 
     private OrderDAO orderDAO=new OrderDAOImpl();
 
     private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
+
+    private BookingBO bookingBO= (BookingBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.BOOKING);
 
     public void initialize() throws ClassNotFoundException {
         chart1();
@@ -119,7 +120,7 @@ public class DashboardWindwoCrontroller {
         obList= FXCollections.observableArrayList();
 
         try {
-            List<ViewBookingDto> allItems = bookingDAO.getTodayBooking(Date.valueOf(date));
+            List<ViewBookingDto> allItems = bookingBO.getTodayBooking(Date.valueOf(date));
 
             for (ViewBookingDto dto : allItems){
                 Button morebtn = createMoreButton();
@@ -168,7 +169,7 @@ public class DashboardWindwoCrontroller {
             lblAllCustomerd.setText(customerBO.returnLbCuslValue());
             lblAllInventory.setText(orderDAO.returnlblTotalSale());
             lblOrders.setText(orderDAO.returnLbOrderlValue());
-            lblEmpId.setText(bookingDAO.returnLbBookingValue());
+            lblEmpId.setText(bookingBO.returnLbBookingValue());
         } catch (SQLException e) {
             e.getMessage();
         }
@@ -265,7 +266,7 @@ public class DashboardWindwoCrontroller {
 
             if (selectId !=0) {
                 try {
-                    boolean b = bookingDAO.updateBookingStatus(selectId);
+                    boolean b = bookingBO.updateBookingStatus(selectId);
                     if (b) {
 
                         completeBooking=true;
@@ -321,7 +322,7 @@ public class DashboardWindwoCrontroller {
                 if (selected != null) {
                     int BookId = selected.getBookingId();
                     try {
-                        boolean b = bookingDAO.delete(BookId);
+                        boolean b = bookingBO.deleteBooking(BookId);
                         if (b) {
 
                             cancelBooking=true;

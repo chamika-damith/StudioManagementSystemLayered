@@ -23,27 +23,6 @@ public class BookingDAOImpl implements BookingDAO {
     }
 
     @Override
-    public List<ServiceDto> getAllPackage() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql="SELECT * FROM packages";
-        PreparedStatement pstm=connection.prepareStatement(sql);
-
-        ResultSet resultSet = pstm.executeQuery();
-        ArrayList<ServiceDto> dtoList=new ArrayList<>();
-
-        while (resultSet.next()){
-            dtoList.add(new ServiceDto(
-                    resultSet.getInt(1),
-                    resultSet.getString(2),
-                    resultSet.getDouble(3),
-                    resultSet.getString(4)
-            ));
-        }
-        return dtoList;
-
-    }
-
-    @Override
     public boolean update(BookingDto dto) throws SQLException, ClassNotFoundException {
         return SQLutil.execute("UPDATE booking SET eventType = ? , date = ? , location=? , empId=?, packageId=? , custId=? WHERE bookingId=?",
                 dto.getEventType(), (Date) dto.getDate(),dto.getLocation(),dto.getEmpId(),dto.getPackageId(),dto.getCusId(),dto.getBookingId());
@@ -98,26 +77,6 @@ public class BookingDAOImpl implements BookingDAO {
             return 1;
         }
         return ++id;
-    }
-
-    @Override
-    public List<EmployeeDto> getAllEmployee() throws SQLException, ClassNotFoundException {
-
-        ResultSet resultSet = SQLutil.execute("SELECT * FROM employee");
-        ArrayList<EmployeeDto> dtoList=new ArrayList<>();
-
-        while (resultSet.next()){
-            dtoList.add(new EmployeeDto(
-                    resultSet.getInt("empId"),
-                    resultSet.getString("name"),
-                    resultSet.getDouble("salary"),
-                    resultSet.getString("email"),
-                    resultSet.getString("type"),
-                    resultSet.getString("address")
-            ));
-        }
-        return dtoList;
-
     }
 
     @Override

@@ -21,6 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.BookingBO;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.impl.BookingDAOImpl;
 import lk.ijse.dto.OrderViewDto;
@@ -51,7 +53,7 @@ public class ViewBookingController {
 
     private ObservableList<ViewBookingTm> obList;
 
-    private BookingDAO bookingDAO=new BookingDAOImpl();
+    private BookingBO bookingBO= (BookingBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.BOOKING);
 
     public void initialize(){
         setCellValues();
@@ -63,7 +65,7 @@ public class ViewBookingController {
         obList= FXCollections.observableArrayList();
 
         try {
-            List<ViewBookingDto> allItems = bookingDAO.getAllBooking();
+            List<ViewBookingDto> allItems = bookingBO.ViewAllBooking();
 
             for (ViewBookingDto dto : allItems){
                 Button morebtn = createMoreButton();
@@ -173,7 +175,7 @@ public class ViewBookingController {
 
             if (selectId !=0) {
                 try {
-                    boolean b = bookingDAO.updateBookingStatus(selectId);
+                    boolean b = bookingBO.updateBookingStatus(selectId);
                     if (b) {
 
                         Image image=new Image("/Icon/iconsOk.png");
@@ -227,7 +229,7 @@ public class ViewBookingController {
                 if (selected != null) {
                     int BookId = selected.getBookingId();
                     try {
-                        boolean b = bookingDAO.delete(BookId);
+                        boolean b = bookingBO.deleteBooking(BookId);
                         if (b) {
 
                             Image image=new Image("/Icon/iconsDelete.png");

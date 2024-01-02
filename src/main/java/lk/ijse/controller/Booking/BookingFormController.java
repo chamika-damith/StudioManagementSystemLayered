@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.BookingBO;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
@@ -84,13 +85,13 @@ public class BookingFormController {
 
     private boolean isTrue=false;
 
-    private BookingDAO bookingDAO=new BookingDAOImpl();
-
     private EmployeeDAO employeeDAO=new EmployeeDAOImpl();
 
     private PackageDAO packageDAO=new PackageDAOImpl();
 
     private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
+
+    private BookingBO bookingBO= (BookingBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.BOOKING);
 
 
     public void initialize() throws ClassNotFoundException {
@@ -157,7 +158,7 @@ public class BookingFormController {
 
                 try {
 
-                    if (bookingDAO.isExists(bId)) {
+                    if (bookingBO.isExistsBooking(bId)) {
                         Image image=new Image("/Icon/icons8-cancel-50.png");
                         try {
                             Notifications notifications=Notifications.create();
@@ -174,7 +175,7 @@ public class BookingFormController {
                         var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
 
                         try {
-                            boolean b = bookingDAO.save(dto);
+                            boolean b = bookingBO.saveBooking(dto);
                             if (b){
 
                                 loadReport();
@@ -228,7 +229,7 @@ public class BookingFormController {
 
         Map<String, Object> parameters = new HashMap<>();
 
-        BookingReportDto reportDetail = bookingDAO.getReportDetail(Integer.parseInt(txtAppid.getText()));
+        BookingReportDto reportDetail = bookingBO.getReportDetail(Integer.parseInt(txtAppid.getText()));
         String bookingId = String.valueOf(reportDetail.getBookingId());
         filePath="D:\\email";
         String subject="Thank You for Booking with FOCUS Studio";
@@ -275,7 +276,7 @@ public class BookingFormController {
     private void generateNextBookId() throws ClassNotFoundException {
 
         try {
-            int bookingId = bookingDAO.generateNextBookId();
+            int bookingId = bookingBO.generateNextBookId();
             bookId.setText(String.valueOf("00"+bookingId));
             txtAppid.setText("00"+bookingId);
         } catch (SQLException e) {
@@ -289,11 +290,11 @@ public class BookingFormController {
         BookinRoot.getChildren().add(parent);
     }
 
-    private void loadPackageIds() {
+    private void loadPackageIds() throws ClassNotFoundException {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<ServiceDto> idList = bookingDAO.getAllPackage();
+            List<ServiceDto> idList = packageDAO.getAll();
 
             for (ServiceDto dto : idList) {
                 obList.add(String.valueOf(dto.getPkgId()));
@@ -309,7 +310,7 @@ public class BookingFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> idList = bookingDAO.getAllEmployee();
+            List<EmployeeDto> idList = employeeDAO.getAll();
 
             for (EmployeeDto dto : idList) {
                 obList.add(String.valueOf(dto.getEmpId()));
@@ -329,7 +330,7 @@ public class BookingFormController {
         int id = Integer.parseInt(txtAppid.getText());
 
         try {
-            BookingDto dto = bookingDAO.search(id);
+            BookingDto dto = bookingBO.searchBooking(id);
             if (dto != null){
                 txtAddress.setText(dto.getLocation());
                 cmbEmpId.setValue(String.valueOf(dto.getEmpId()));
@@ -426,7 +427,7 @@ public class BookingFormController {
             var dto=new BookingDto(bId,evenType,date,address,empId,cusId,pkg);
 
             try {
-                boolean b = bookingDAO.update(dto);
+                boolean b = bookingBO.updateBooking(dto);
                 if (b) {
                     Image image=new Image("/Icon/iconsOk.png");
                     try {
@@ -500,7 +501,7 @@ public class BookingFormController {
 
                 txtAddress.setFocusColor(Color.web("#0040ff"));
 
-                if (bookingDAO.isExists(id)){
+                if (bookingBO.isExistsBooking(id)){
                     Image image=new Image("/Icon/icons8-cancel-50.png");
                     try {
                         Notifications notifications=Notifications.create();
@@ -658,7 +659,7 @@ public class BookingFormController {
 
         Map<String, Object> parameters = new HashMap<>();
 
-        BookingReportDto reportDetail = bookingDAO.getReportDetail(Integer.parseInt(txtAppid.getText()));
+        BookingReportDto reportDetail = bookingBO.getReportDetail(Integer.parseInt(txtAppid.getText()));
         String bookingId = String.valueOf(reportDetail.getBookingId());
 
         if (!(reportDetail==null)) {
