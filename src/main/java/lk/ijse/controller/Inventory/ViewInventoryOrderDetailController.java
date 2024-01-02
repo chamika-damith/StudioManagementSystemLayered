@@ -17,6 +17,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.InventoryOrderDetailBO;
 import lk.ijse.dao.custom.InventoryOrderDetailDAO;
 import lk.ijse.dao.custom.impl.InventoryOrderDetailDAOImpl;
 import lk.ijse.dto.InventoryOrderViewDto;
@@ -48,7 +50,7 @@ public class ViewInventoryOrderDetailController {
 
     private InventoryOrderItemDetailsController controller=new InventoryOrderItemDetailsController();
 
-    private InventoryOrderDetailDAO inventoryOrderDetailDAO=new InventoryOrderDetailDAOImpl();
+    private InventoryOrderDetailBO inventoryOrderDetailBO= (InventoryOrderDetailBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.INVENTORYORDER);
 
     public void initialize() throws ClassNotFoundException {
         setCellValues();
@@ -71,7 +73,7 @@ public class ViewInventoryOrderDetailController {
         obList= FXCollections.observableArrayList();
 
         try {
-            List<InventoryOrderViewDto> allItems = inventoryOrderDetailDAO.getAllItemsOrder();
+            List<InventoryOrderViewDto> allItems = inventoryOrderDetailBO.getAllItemsOrder();
 
             for (InventoryOrderViewDto dto : allItems){
                 Button button = createButton();

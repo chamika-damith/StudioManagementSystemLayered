@@ -1,5 +1,8 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.InventoryOrderBO;
+import lk.ijse.bo.custom.InventoryOrderDetailBO;
 import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.InventoryOrderDAO;
 import lk.ijse.dao.custom.InventoryOrderDetailDAO;
@@ -10,7 +13,7 @@ import java.sql.*;
 
 public class InventoryOrderDAOImpl implements InventoryOrderDAO {
 
-    private InventoryOrderDetailDAO inventoryOrderDetailDAO=new InventoryOrderDetailDAOImpl();
+    private InventoryOrderDetailBO inventoryOrderDetailBO= (InventoryOrderDetailBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.INVENTORYORDER);
 
     private ItemDAO itemDAO=new ItemDAOImpl();
 
@@ -60,7 +63,7 @@ public class InventoryOrderDAOImpl implements InventoryOrderDAO {
                 boolean isItemUpdate = itemDAO.updateInventoryOrderItem(dto.getCartTmList(), dto.getTxtqty());
                 if (isItemUpdate) {
                     System.out.println("item updated successfully");
-                    boolean isOrderDetailSave = inventoryOrderDetailDAO.saveOrderDetails(dto.getCartTmList(), dto.getSupOrderId(), dto.getQty());
+                    boolean isOrderDetailSave = inventoryOrderDetailBO.saveOrderDetails(dto.getCartTmList(), dto.getSupOrderId(), dto.getQty());
                     if (isOrderDetailSave) {
                         System.out.println("order detail saved successfully");
                         connection.commit();

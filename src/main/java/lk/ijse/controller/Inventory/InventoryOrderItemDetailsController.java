@@ -9,6 +9,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.InventoryOrderDetailBO;
 import lk.ijse.dao.custom.InventoryOrderDetailDAO;
 import lk.ijse.dao.custom.impl.InventoryOrderDetailDAOImpl;
 import lk.ijse.dto.InventoryOrderItemDto;
@@ -38,7 +40,7 @@ public class InventoryOrderItemDetailsController {
 
     ObservableList<InventoryOrderItemTm> obList;
 
-    private InventoryOrderDetailDAO inventoryOrderDetailDAO=new InventoryOrderDetailDAOImpl();
+    private InventoryOrderDetailBO inventoryOrderDetailBO= (InventoryOrderDetailBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.INVENTORYORDER);
 
     public void initialize() throws ClassNotFoundException {
         setCellValueFactory();
@@ -52,7 +54,7 @@ public class InventoryOrderItemDetailsController {
 
 
         try {
-            List<InventoryOrderItemDto> dto=inventoryOrderDetailDAO.getAllValues(focusedIndex);
+            List<InventoryOrderItemDto> dto= inventoryOrderDetailBO.getAllValues(focusedIndex);
 
             for (InventoryOrderItemDto oDto : dto) {
                 lblOrderId.setText(String.valueOf(oDto.getSupOrderId()));
