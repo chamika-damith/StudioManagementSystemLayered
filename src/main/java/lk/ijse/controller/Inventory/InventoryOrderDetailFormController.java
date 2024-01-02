@@ -18,6 +18,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.InventoryOrderBO;
 import lk.ijse.dao.custom.InventoryOrderDAO;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.SupplierDAO;
@@ -72,7 +74,7 @@ public class InventoryOrderDetailFormController {
 
     private SupplierDAO supplierDAO=new SupplierDAOImpl();
 
-    private InventoryOrderDAO inventoryOrderDAO=new InventoryOrderDAOImpl();
+    private InventoryOrderBO inventoryOrderBO= (InventoryOrderBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.INVENTORY);
 
     public void initialize() throws ClassNotFoundException {
         loadCategory();
@@ -211,7 +213,7 @@ public class InventoryOrderDetailFormController {
             int supId = Integer.parseInt(supplierId);
             int txtqty = qty+allQty;
 
-            if (inventoryOrderDAO.isExists(id)){
+            if (inventoryOrderBO.isExists(id)){
                 Image image=new Image("/Icon/icons8-cancel-50.png");
                 try {
                     Notifications notifications=Notifications.create();
@@ -232,7 +234,7 @@ public class InventoryOrderDetailFormController {
                 }
 
                 var dto=new InventoryOrderDto(id,description,orderDate, null,category,supId,cartTmList,txtqty,qty);
-                boolean isPlaceOrder = inventoryOrderDAO.placeOrder(dto);
+                boolean isPlaceOrder = inventoryOrderBO.placeOrder(dto);
                 if (isPlaceOrder){
                     tblCart.getItems().clear();
                     generateNextOrderId();
@@ -417,7 +419,7 @@ public class InventoryOrderDetailFormController {
 
     private void generateNextOrderId() throws ClassNotFoundException {
         try {
-            int orderID = inventoryOrderDAO.generateNextOrderId();
+            int orderID = inventoryOrderBO.generateNextOrderId();
             lblOrderId.setText(String.valueOf("00"+orderID));
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
