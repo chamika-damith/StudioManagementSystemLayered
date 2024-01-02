@@ -17,6 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.controller.qr.QrGenerator;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.impl.CustomerDAOImpl;
@@ -48,7 +50,7 @@ public class CustomerFormController {
     public TableColumn colAction;
     public JFXTextField txtCostSearchTable;
 
-    private CustomerDAO customerDAO=new CustomerDAOImpl();
+    private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     private ObservableList<CustomerTm> obList;
 
@@ -76,7 +78,7 @@ public class CustomerFormController {
         obList= FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> allCustomer = customerDAO.getAll();
+            List<CustomerDto> allCustomer = customerBO.getAllCustomer();
 
             for (CustomerDto dto : allCustomer){
                 Button button = createButton();
@@ -121,7 +123,7 @@ public class CustomerFormController {
                 if (selectedCustomer != null) {
                     int cusId = selectedCustomer.getCusId();
                     try {
-                        boolean b = customerDAO.delete(cusId);
+                        boolean b = customerBO.deleteCustomer(cusId);
                         if (b) {
 
                             Image image=new Image("/Icon/iconsDelete.png");
@@ -149,7 +151,7 @@ public class CustomerFormController {
 
     private void generateNextCusId() throws ClassNotFoundException {
         try {
-            int cusid = customerDAO.generateNextCusId();
+            int cusid = customerBO.generateNextCusId();
             cusId.setText(String.valueOf("00"+cusid));
             txtId.setText("00"+cusid);
         } catch (SQLException e) {
@@ -181,7 +183,7 @@ public class CustomerFormController {
             String address = txtAddress.getText();
 
             try {
-                if (customerDAO.isExists(id)) {
+                if (customerBO.isExistsCustomer(id)) {
                     clearField();
                     Image image=new Image("/Icon/icons8-cancel-50.png");
                     try {
@@ -204,7 +206,7 @@ public class CustomerFormController {
                         CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
 
                         try {
-                            boolean b = customerDAO.save(dto);
+                            boolean b = customerBO.saveCustomer(dto);
                             if (b) {
 
                                 qrGenerate(txtName.getText(),txtMobile.getText(),txtEmail.getText(),txtAddress.getText());            //generate qr pass data
@@ -291,7 +293,7 @@ public class CustomerFormController {
                 CustomerDto dto=new CustomerDto(id,name,mobile,email,address);
 
                 try {
-                    boolean b = customerDAO.update(dto);
+                    boolean b = customerBO.updateCustomer(dto);
                     if (b) {
                         getAllCustomer();
                         searchTable();
@@ -339,7 +341,7 @@ public class CustomerFormController {
         int id = Integer.parseInt(txtId.getText());
 
         try {
-            CustomerDto dto = customerDAO.search(id);
+            CustomerDto dto = customerBO.searchCustomer(id);
             if (dto != null){
                 txtName.setText(dto.getName());
                 txtMobile.setText(dto.getMobile());

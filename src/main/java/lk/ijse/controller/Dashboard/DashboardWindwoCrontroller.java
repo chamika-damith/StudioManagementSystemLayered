@@ -17,6 +17,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.DashboardDAO;
@@ -61,13 +63,13 @@ public class DashboardWindwoCrontroller {
     private boolean cancelBooking=false;
     private ObservableList<ViewBookingTm> obList;
 
-    private CustomerDAO customerDAO=new CustomerDAOImpl();
-
     private BookingDAO bookingDAO=new BookingDAOImpl();
 
     private DashboardDAO dashboardDAO=new DashboardDAOImpl();
 
     private OrderDAO orderDAO=new OrderDAOImpl();
+
+    private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     public void initialize() throws ClassNotFoundException {
         chart1();
@@ -163,7 +165,7 @@ public class DashboardWindwoCrontroller {
 
     public void setLblValue() throws ClassNotFoundException {
         try {
-            lblAllCustomerd.setText(customerDAO.returnLbCuslValue());
+            lblAllCustomerd.setText(customerBO.returnLbCuslValue());
             lblAllInventory.setText(orderDAO.returnlblTotalSale());
             lblOrders.setText(orderDAO.returnLbOrderlValue());
             lblEmpId.setText(bookingDAO.returnLbBookingValue());

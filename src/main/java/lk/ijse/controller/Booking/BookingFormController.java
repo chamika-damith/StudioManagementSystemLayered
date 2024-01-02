@@ -21,6 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.EmployeeDAO;
@@ -82,13 +84,13 @@ public class BookingFormController {
 
     private boolean isTrue=false;
 
-    private CustomerDAO customerDAO=new CustomerDAOImpl();
-
     private BookingDAO bookingDAO=new BookingDAOImpl();
 
     private EmployeeDAO employeeDAO=new EmployeeDAOImpl();
 
     private PackageDAO packageDAO=new PackageDAOImpl();
+
+    private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
 
     public void initialize() throws ClassNotFoundException {
@@ -115,7 +117,7 @@ public class BookingFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> idList = customerDAO.getAll();
+            List<CustomerDto> idList = customerBO.getAllCustomer();
 
             for (CustomerDto dto : idList) {
                 obList.add(String.valueOf(dto.getCusId()));
@@ -451,7 +453,7 @@ public class BookingFormController {
 
         if (id != null && !id.isEmpty()) {
             try {
-                CustomerDto customerDto = customerDAO.search(cId);
+                CustomerDto customerDto = customerBO.searchCustomer(cId);
                 System.out.println(customerDto.getName());
                 lblCusName.setText(customerDto.getName());
                 cusEmail=customerDto.getEmail();

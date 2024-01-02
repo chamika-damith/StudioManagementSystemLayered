@@ -21,6 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.OrderDAO;
@@ -85,13 +87,13 @@ public class OrderFormController{
 
     private String Oid;
 
-    private CustomerDAO customerDAO=new CustomerDAOImpl();
-
     private ItemDAO itemDAO=new ItemDAOImpl();
 
     private OrderDAO orderDAO=new OrderDAOImpl();
 
     private OrderDetailDAO orderDetailDAO=new OrderDetailDAOImpl();
+
+    private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     public void initialize() throws ClassNotFoundException {
         loadCustomerIds();
@@ -121,7 +123,7 @@ public class OrderFormController{
 
         if (id != null && !id.isEmpty()) {
             try {
-                CustomerDto customerDto = customerDAO.search(Integer.parseInt(id));
+                CustomerDto customerDto = customerBO.searchCustomer(Integer.parseInt(id));
                 lblCusName.setText(customerDto.getName());
                 cusName=customerDto.getName();
                 emailAddress=customerDto.getEmail();
@@ -168,7 +170,7 @@ public class OrderFormController{
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> idList = customerDAO.getAll();
+            List<CustomerDto> idList = customerBO.getAllCustomer();
 
             for (CustomerDto dto : idList) {
                 obList.add(String.valueOf(dto.getCusId()));
