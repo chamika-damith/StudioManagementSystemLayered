@@ -24,6 +24,7 @@ import javafx.util.Duration;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.BookingBO;
 import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.bo.custom.EmployeeBO;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.EmployeeDAO;
@@ -85,13 +86,13 @@ public class BookingFormController {
 
     private boolean isTrue=false;
 
-    private EmployeeDAO employeeDAO=new EmployeeDAOImpl();
-
     private PackageDAO packageDAO=new PackageDAOImpl();
 
     private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     private BookingBO bookingBO= (BookingBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.BOOKING);
+
+    private EmployeeBO employeeBO= (EmployeeBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.EMPLOYEE);
 
 
     public void initialize() throws ClassNotFoundException {
@@ -310,7 +311,7 @@ public class BookingFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> idList = employeeDAO.getAll();
+            List<EmployeeDto> idList = employeeBO.getAllEmployee();
 
             for (EmployeeDto dto : idList) {
                 obList.add(String.valueOf(dto.getEmpId()));
@@ -587,7 +588,7 @@ public class BookingFormController {
     public void getEmpName() throws SQLException, ClassNotFoundException {
         String empid = String.valueOf(cmbEmpId.getValue());
         int employeeId = Integer.valueOf(empid);
-        EmployeeDto employeeDto = employeeDAO.search(employeeId);
+        EmployeeDto employeeDto = employeeBO.searchEmployee(employeeId);
         if (employeeDto != null){
             lblEmpName.setText(employeeDto.getName());
         }

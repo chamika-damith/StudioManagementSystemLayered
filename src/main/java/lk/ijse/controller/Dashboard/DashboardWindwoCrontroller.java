@@ -65,8 +65,6 @@ public class DashboardWindwoCrontroller {
     private boolean cancelBooking=false;
     private ObservableList<ViewBookingTm> obList;
 
-    private DashboardDAO dashboardDAO=new DashboardDAOImpl();
-
     private OrderDAO orderDAO=new OrderDAOImpl();
 
     private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);

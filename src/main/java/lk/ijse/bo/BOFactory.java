@@ -3,6 +3,7 @@ package lk.ijse.bo;
 import lk.ijse.bo.custom.impl.BookingBOImpl;
 import lk.ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.bo.custom.impl.DashboardBOImpl;
+import lk.ijse.bo.custom.impl.EmployeeBOImpl;
 
 public class BOFactory {
     public static BOFactory boFactory;
@@ -14,7 +15,7 @@ public class BOFactory {
     }
 
     public enum BOTypes{
-        CUSTOMER,BOOKING,DASHBOARD;
+        CUSTOMER,BOOKING,DASHBOARD,EMPLOYEE;
     }
 
     public SuperBO getBO(BOTypes boFactory) {
@@ -25,6 +26,8 @@ public class BOFactory {
                 return new BookingBOImpl();
             case DASHBOARD:
                 return new DashboardBOImpl();
+            case EMPLOYEE:
+                return new EmployeeBOImpl();
             default:
                 return null;
         }

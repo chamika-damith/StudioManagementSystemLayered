@@ -15,6 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.EmployeeBO;
 import lk.ijse.dao.custom.EmployeeDAO;
 import lk.ijse.dao.custom.impl.EmployeeDAOImpl;
 import lk.ijse.dto.CustomerDto;
@@ -46,7 +48,7 @@ public class EmployeeFormController {
     public AnchorPane EmployeeRoot;
     public Label lblempId;
 
-    private EmployeeDAO employeeDAO=new EmployeeDAOImpl();
+    private EmployeeBO employeeBO= (EmployeeBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.EMPLOYEE);
 
     private ObservableList<EmployeeTm> obList;
 
@@ -73,7 +75,7 @@ public class EmployeeFormController {
         obList= FXCollections.observableArrayList();
 
         try {
-            List<EmployeeDto> allEmployee = employeeDAO.getAll();
+            List<EmployeeDto> allEmployee = employeeBO.getAllEmployee();
 
             for (EmployeeDto dto : allEmployee){
                 Button button = createButton();
@@ -119,7 +121,7 @@ public class EmployeeFormController {
                 if (selectedEmployee != null) {
                     int cusId = selectedEmployee.getEmpId();
                     try {
-                        boolean b = employeeDAO.delete(cusId);
+                        boolean b = employeeBO.deleteEmployee(cusId);
                         if (b) {
 
                             Image image=new Image("/Icon/iconsDelete.png");
@@ -169,7 +171,7 @@ public class EmployeeFormController {
                 var dto=new EmployeeDto(empId,name,salary,email,type,address);
 
                 try {
-                    if (employeeDAO.isExists(empId)) {
+                    if (employeeBO.isExistsEmployee(empId)) {
                         txtEmpId.requestFocus();
                         Image image=new Image("/Icon/icons8-cancel-50.png");
                         try {
@@ -187,7 +189,7 @@ public class EmployeeFormController {
                     }else {
 
                         if (checkValidate()){
-                            boolean b = employeeDAO.save(dto);
+                            boolean b = employeeBO.saveEmployee(dto);
                             if (b) {
                                 getAllEmployee();
                                 nullTextFieldColor();
@@ -227,7 +229,7 @@ public class EmployeeFormController {
 
     private void generateNextEmpId() throws ClassNotFoundException {
         try {
-            int empid = employeeDAO.generateNextEmpId();
+            int empid = employeeBO.generateNextEmpId();
             txtEmpId.setText(String.valueOf("00"+empid));
             lblempId.setText("00"+empid);
         } catch (SQLException e) {
@@ -262,7 +264,7 @@ public class EmployeeFormController {
                 var dto=new EmployeeDto(empId,name,salary,email,type,address);
 
                 try {
-                    boolean b = employeeDAO.update(dto);
+                    boolean b = employeeBO.updateEmployee(dto);
                     if (b) {
                         getAllEmployee();
                         nullTextFieldColor();
@@ -304,7 +306,7 @@ public class EmployeeFormController {
         int empId = Integer.parseInt(txtEmpId.getText());
 
         try {
-            EmployeeDto dto = employeeDAO.search(empId);
+            EmployeeDto dto = employeeBO.searchEmployee(empId);
             if (dto != null){
                 txtName.setText(dto.getName());
                 txtSalary.setText(String.valueOf(dto.getSalary()));

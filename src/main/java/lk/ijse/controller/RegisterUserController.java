@@ -22,8 +22,6 @@ public class RegisterUserController {
 
     public JFXTextField txtUsername;
     public JFXPasswordField txtPassword;
-    private DashboardDAO dashboardDAO=new DashboardDAOImpl();
-
     private DashboardBO dashboardBO= (DashboardBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.DASHBOARD);
 
     public void btnDeleteOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
