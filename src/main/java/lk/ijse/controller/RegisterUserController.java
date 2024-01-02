@@ -7,6 +7,8 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.DashboardBO;
 import lk.ijse.dao.custom.DashboardDAO;
 import lk.ijse.dao.custom.impl.DashboardDAOImpl;
 import lk.ijse.db.DbConnection;
@@ -22,8 +24,10 @@ public class RegisterUserController {
     public JFXPasswordField txtPassword;
     private DashboardDAO dashboardDAO=new DashboardDAOImpl();
 
+    private DashboardBO dashboardBO= (DashboardBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.DASHBOARD);
+
     public void btnDeleteOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        boolean b = dashboardDAO.deleteUser(txtUsername.getText(), txtPassword.getText());
+        boolean b = dashboardBO.deleteUser(txtUsername.getText(), txtPassword.getText());
 
         if (b){
             Image image=new Image("/Icon/iconsOk.png");
@@ -55,7 +59,7 @@ public class RegisterUserController {
     }
 
     public void btnUpdateOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
-        boolean b = dashboardDAO.updateUser(txtUsername.getText(), txtPassword.getText());
+        boolean b = dashboardBO.updateUser(txtUsername.getText(), txtPassword.getText());
 
         if (b){
             Image image=new Image("/Icon/iconsOk.png");
@@ -88,7 +92,7 @@ public class RegisterUserController {
 
     public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
 
-        boolean b = dashboardDAO.saveUser(txtUsername.getText(), txtPassword.getText());
+        boolean b = dashboardBO.saveUser(txtUsername.getText(), txtPassword.getText());
         if (b){
             Image image=new Image("/Icon/iconsOk.png");
             try {

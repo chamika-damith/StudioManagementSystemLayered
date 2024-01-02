@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.BookingBO;
 import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.bo.custom.DashboardBO;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.DashboardDAO;
@@ -71,6 +72,8 @@ public class DashboardWindwoCrontroller {
     private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     private BookingBO bookingBO= (BookingBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.BOOKING);
+
+    private DashboardBO dashboardBO= (DashboardBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.DASHBOARD);
 
     public void initialize() throws ClassNotFoundException {
         chart1();
@@ -177,7 +180,7 @@ public class DashboardWindwoCrontroller {
 
     private void chart1() throws ClassNotFoundException {
         try {
-            List<DasboardDto> dataFromDatabase = dashboardDAO.getChartData();
+            List<DasboardDto> dataFromDatabase = dashboardBO.getChartData();
 
             dataFromDatabase.sort(Comparator.comparingInt(month -> {
                 Map<String, Integer> monthOrder = new HashMap<>();

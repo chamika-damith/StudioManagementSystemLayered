@@ -14,7 +14,7 @@ public class DAOFactory {
     }
 
     public enum DADTypes{
-        CUSTOMER,ITEM,ORDER,ORDERDETAIL,BOOKING,INVENTORY,INVENTORYDETAIL,EMPLOYEE,LOGIN,PACKAGE,SUPPLIER;
+        CUSTOMER,ITEM,ORDER,ORDERDETAIL,BOOKING,INVENTORY,INVENTORYDETAIL,EMPLOYEE,LOGIN,PACKAGE,SUPPLIER,DASHBOARD;
     }
     public SuperDAO getDao(DADTypes daoType) {
         switch (daoType) {
@@ -40,6 +40,8 @@ public class DAOFactory {
                 return new PackageDAOImpl();
             case SUPPLIER:
                 return new SupplierDAOImpl();
+            case DASHBOARD:
+                return new DashboardDAOImpl();
             default:
                 return null;
         }
