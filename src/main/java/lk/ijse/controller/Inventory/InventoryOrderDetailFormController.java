@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.InventoryOrderBO;
+import lk.ijse.bo.custom.ItemBO;
 import lk.ijse.dao.custom.InventoryOrderDAO;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.SupplierDAO;
@@ -70,11 +71,11 @@ public class InventoryOrderDetailFormController {
 
     private ObservableList<InventoryOrderTm> obList=FXCollections.observableArrayList();
 
-    private ItemDAO itemDAO=new ItemDAOImpl();
-
     private SupplierDAO supplierDAO=new SupplierDAOImpl();
 
     private InventoryOrderBO inventoryOrderBO= (InventoryOrderBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.INVENTORY);
+
+    private ItemBO itemBO= (ItemBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ITEM);
 
     public void initialize() throws ClassNotFoundException {
         loadCategory();
@@ -100,7 +101,7 @@ public class InventoryOrderDetailFormController {
     private void loadItemName(String name) throws ClassNotFoundException {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<ItemDto> itemDto = itemDAO.getCategoryName(name);
+            List<ItemDto> itemDto = itemBO.getCategoryName(name);
 
             for (ItemDto dto : itemDto) {
                 obList.add(dto.getName());
@@ -138,7 +139,7 @@ public class InventoryOrderDetailFormController {
             throw new IllegalStateException("Item is empty");
         }else {
             try {
-                ItemDto dto = itemDAO.searchItemName(code);
+                ItemDto dto = itemBO.searchItemName(code);
                 if (dto != null) {
                     lblDescription.setText(dto.getDescription());
                     lblUnitPrice.setText(String.valueOf(dto.getPrice()));

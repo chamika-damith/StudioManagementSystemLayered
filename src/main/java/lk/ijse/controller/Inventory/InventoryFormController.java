@@ -22,6 +22,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.ItemBO;
 import lk.ijse.controller.qr.QrGenerator;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.impl.ItemDAOImpl;
@@ -63,7 +65,7 @@ public class InventoryFormController {
     public JFXTextField txtSearchTable;
     public AnchorPane InventoryRoot;
 
-    private ItemDAO itemDAO=new ItemDAOImpl();
+    private ItemBO itemBO= (ItemBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ITEM);
 
     private ObservableList<ItemTm> obList;
 
@@ -78,7 +80,7 @@ public class InventoryFormController {
 
     private void generateNextOrderId() {
         try {
-            int orderID = itemDAO.generateNextOrderId();
+            int orderID = itemBO.generateNextOrderId();
             orderId.setText(String.valueOf("00"+orderID));
             txtid.setText(String.valueOf("00"+orderID));
         } catch (SQLException e) {
@@ -99,7 +101,7 @@ public class InventoryFormController {
         obList=FXCollections.observableArrayList();
 
         try {
-            List<ItemDto> allItems = itemDAO.getAll();
+            List<ItemDto> allItems = itemBO.getAll();
 
             for (ItemDto dto : allItems){
                 Button button = createButton();
@@ -164,7 +166,7 @@ public class InventoryFormController {
         }else {
             int id = Integer.parseInt(txtid.getText());
 
-                if (itemDAO.isExists(id)){
+                if (itemBO.isExists(id)){
                     Image image=new Image("/Icon/icons8-cancel-50.png");
                     try {
                         Notifications notifications=Notifications.create();
@@ -186,13 +188,13 @@ public class InventoryFormController {
                         String description = txtdescription.getText();
                         String category = (String) txtcomboBox.getValue();
                         Image imgId = img.getImage();
-                        byte[] blob = itemDAO.imagenToByte(imgId);
+                        byte[] blob = itemBO.imagenToByte(imgId);
 
                         ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
 
 
                         try {
-                            boolean b = itemDAO.save(itemDto);
+                            boolean b = itemBO.save(itemDto);
 
                             if(b) {
                                 getAllItem();
@@ -272,12 +274,12 @@ public class InventoryFormController {
                 String description = txtdescription.getText();
                 String category = (String) txtcomboBox.getValue();
                 Image imgId = img.getImage();
-                byte[] blob = itemDAO.imagenToByte(imgId);
+                byte[] blob = itemBO.imagenToByte(imgId);
 
                 ItemDto itemDto = new ItemDto(id, description, qty, name, price, blob, category);
 
                 try {
-                    boolean b = itemDAO.update(itemDto);
+                    boolean b = itemBO.update(itemDto);
                     if (b) {
                         getAllItem();
                         clearFeild();
@@ -325,7 +327,7 @@ public class InventoryFormController {
         int id = Integer.parseInt(txtid.getText());
 
         try {
-            ItemDto itemDto = itemDAO.search(id);
+            ItemDto itemDto = itemBO.search(id);
             if (itemDto != null) {
                 txtdescription.setText(itemDto.getDescription());
                 txtprice.setText(String.valueOf(itemDto.getPrice()));
@@ -394,7 +396,7 @@ public class InventoryFormController {
                 if (selectedItem != null) {
                     int itemId = selectedItem.getItemId();
                     try {
-                        boolean b = itemDAO.delete(itemId);
+                        boolean b = itemBO.delete(itemId);
                         if (b) {
                                 searchTable();
                                 Image image=new Image("/Icon/iconsDelete.png");

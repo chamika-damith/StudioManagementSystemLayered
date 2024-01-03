@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CustomerBO;
+import lk.ijse.bo.custom.ItemBO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.OrderDAO;
@@ -87,13 +88,13 @@ public class OrderFormController{
 
     private String Oid;
 
-    private ItemDAO itemDAO=new ItemDAOImpl();
-
     private OrderDAO orderDAO=new OrderDAOImpl();
 
     private OrderDetailDAO orderDetailDAO=new OrderDetailDAOImpl();
 
     private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
+
+    private ItemBO itemBO= (ItemBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ITEM);
 
     public void initialize() throws ClassNotFoundException {
         loadCustomerIds();
@@ -142,7 +143,7 @@ public class OrderFormController{
         int code = Integer.parseInt(cmbItemId.getValue());
 
         try {
-            ItemDto dto = itemDAO.search(code);
+            ItemDto dto = itemBO.search(code);
             if (dto != null) {
                 lblItemDesc.setText(dto.getDescription());
                 lblItemPrice.setText(String.valueOf(dto.getPrice()));
@@ -185,7 +186,7 @@ public class OrderFormController{
     private void loadItemId() throws ClassNotFoundException {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<ItemDto> itemDto = itemDAO.getAll();
+            List<ItemDto> itemDto = itemBO.getAll();
 
             for (ItemDto dto : itemDto) {
                 obList.add(String.valueOf(dto.getItemId()));

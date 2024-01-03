@@ -3,6 +3,7 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.InventoryOrderBO;
 import lk.ijse.bo.custom.InventoryOrderDetailBO;
+import lk.ijse.bo.custom.ItemBO;
 import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.InventoryOrderDAO;
 import lk.ijse.dao.custom.InventoryOrderDetailDAO;
@@ -15,7 +16,7 @@ public class InventoryOrderDAOImpl implements InventoryOrderDAO {
 
     private InventoryOrderDetailBO inventoryOrderDetailBO= (InventoryOrderDetailBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.INVENTORYORDER);
 
-    private ItemDAO itemDAO=new ItemDAOImpl();
+    private ItemBO itemBO= (ItemBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ITEM);
 
     @Override
     public int generateNextOrderId() throws SQLException, ClassNotFoundException {
@@ -60,7 +61,7 @@ public class InventoryOrderDAOImpl implements InventoryOrderDAO {
             boolean isOrderSave = saveOrder(dto.getSupOrderId(), dto.getDescription(), dto.getOrderDate(), dto.getReturnDate(), dto.getCategory(), dto.getSupId());
             if (isOrderSave) {
                 System.out.println("Inventory Order saved successfully");
-                boolean isItemUpdate = itemDAO.updateInventoryOrderItem(dto.getCartTmList(), dto.getTxtqty());
+                boolean isItemUpdate = itemBO.updateInventoryOrderItem(dto.getCartTmList(), dto.getTxtqty());
                 if (isItemUpdate) {
                     System.out.println("item updated successfully");
                     boolean isOrderDetailSave = inventoryOrderDetailBO.saveOrderDetails(dto.getCartTmList(), dto.getSupOrderId(), dto.getQty());
