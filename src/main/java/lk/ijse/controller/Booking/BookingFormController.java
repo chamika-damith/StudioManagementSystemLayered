@@ -25,6 +25,7 @@ import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.BookingBO;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.bo.custom.EmployeeBO;
+import lk.ijse.bo.custom.PackageBO;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.EmployeeDAO;
@@ -86,13 +87,14 @@ public class BookingFormController {
 
     private boolean isTrue=false;
 
-    private PackageDAO packageDAO=new PackageDAOImpl();
-
     private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     private BookingBO bookingBO= (BookingBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.BOOKING);
 
     private EmployeeBO employeeBO= (EmployeeBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.EMPLOYEE);
+
+    private PackageBO packageBO= (PackageBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.PACKAGE);
+
 
 
     public void initialize() throws ClassNotFoundException {
@@ -295,7 +297,7 @@ public class BookingFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<ServiceDto> idList = packageDAO.getAll();
+            List<ServiceDto> idList = packageBO.getAllPackage();
 
             for (ServiceDto dto : idList) {
                 obList.add(String.valueOf(dto.getPkgId()));
@@ -597,7 +599,7 @@ public class BookingFormController {
     public void getPkgName() throws SQLException, ClassNotFoundException {
         String pkgid= String.valueOf(cmbPackage.getValue());
         int pakageId= Integer.parseInt(pkgid);
-        ServiceDto serviceDto = packageDAO.search(pakageId);
+        ServiceDto serviceDto = packageBO.searchPackage(pakageId);
         if (serviceDto != null){
             lblpkgName.setText(serviceDto.getName());
             listPrice.add((int) serviceDto.getPrice());

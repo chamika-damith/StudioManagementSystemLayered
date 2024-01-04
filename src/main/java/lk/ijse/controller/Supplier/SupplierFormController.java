@@ -53,6 +53,8 @@ public class SupplierFormController {
 
     private ObservableList<SupplierTm> obList;
 
+
+
     private SupplierDAO supplierDAO=new SupplierDAOImpl();
 
     public void initialize() throws ClassNotFoundException {

@@ -17,6 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.PackageBO;
 import lk.ijse.dao.custom.PackageDAO;
 import lk.ijse.dao.custom.impl.PackageDAOImpl;
 import lk.ijse.dto.CustomerDto;
@@ -48,7 +50,7 @@ public class ServiceFormController {
 
     private ObservableList<ServiceTm> obList;
 
-    private PackageDAO packageDAO=new PackageDAOImpl();
+    private PackageBO packageBO= (PackageBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.PACKAGE);
 
 
     public void initialize() throws ClassNotFoundException {
@@ -93,7 +95,7 @@ public class ServiceFormController {
                 String name = txtName.getText();
 
                 try {
-                    if (packageDAO.isExists(serviceId)) {
+                    if (packageBO.isExistsPackage(serviceId)) {
                         Image image = new Image("/Icon/icons8-cancel-50.png");
                         try {
                             Notifications notifications = Notifications.create();
@@ -108,7 +110,7 @@ public class ServiceFormController {
                         }
                     } else {
                         var dto = new ServiceDto(serviceId, name, price, type);
-                        boolean b = packageDAO.save(dto);
+                        boolean b = packageBO.savePackage(dto);
                         if (b) {
                             clearField();
                             getAllService();
@@ -150,7 +152,7 @@ public class ServiceFormController {
 
     private void generateNextPkgId() throws ClassNotFoundException {
         try {
-            int pkgid = packageDAO.generateNextPkgId();
+            int pkgid = packageBO.generateNextPkgId();
             txtId.setText(String.valueOf("00"+pkgid));
             lblServiceId.setText("00"+pkgid);
         } catch (SQLException e) {
@@ -162,7 +164,7 @@ public class ServiceFormController {
         int id = Integer.parseInt(txtId.getText());
 
         try {
-            ServiceDto dto = packageDAO.search(id);
+            ServiceDto dto = packageBO.searchPackage(id);
             if (dto != null){
                 txtName.setText(dto.getName());
                 txtName.setText(dto.getName());
@@ -204,7 +206,7 @@ public class ServiceFormController {
         obList= FXCollections.observableArrayList();
 
         try {
-            List<ServiceDto> allService = packageDAO.getAll();
+            List<ServiceDto> allService = packageBO.getAllPackage();
 
             for (ServiceDto dto : allService){
                 Button button = createButton();
@@ -248,7 +250,7 @@ public class ServiceFormController {
                 if (selected != null) {
                     int id = selected.getId();
                     try {
-                        boolean b = packageDAO.delete(id);
+                        boolean b = packageBO.deletePackage(id);
                         if (b) {
                             clearField();
                             generateNextPkgId();
@@ -300,7 +302,7 @@ public class ServiceFormController {
                 ServiceDto dto = new ServiceDto(id, name, price, type);
 
                 try {
-                    boolean b = packageDAO.update(dto);
+                    boolean b = packageBO.updatePackage(dto);
                     if (b) {
                         getAllService();
                         searchTable();
