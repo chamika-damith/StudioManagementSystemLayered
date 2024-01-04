@@ -21,6 +21,7 @@ import javafx.util.Duration;
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.InventoryOrderBO;
 import lk.ijse.bo.custom.ItemBO;
+import lk.ijse.bo.custom.SupplierBO;
 import lk.ijse.dao.custom.InventoryOrderDAO;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.SupplierDAO;
@@ -71,11 +72,12 @@ public class InventoryOrderDetailFormController {
 
     private ObservableList<InventoryOrderTm> obList=FXCollections.observableArrayList();
 
-    private SupplierDAO supplierDAO=new SupplierDAOImpl();
-
     private InventoryOrderBO inventoryOrderBO= (InventoryOrderBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.INVENTORY);
 
     private ItemBO itemBO= (ItemBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ITEM);
+
+    private SupplierBO supplierBO= (SupplierBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.SUPPLIER);
+
 
     public void initialize() throws ClassNotFoundException {
         loadCategory();
@@ -115,7 +117,7 @@ public class InventoryOrderDetailFormController {
     private void loadSupplier(String code) throws ClassNotFoundException {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<SupplierDto> supDto = supplierDAO.getItemSupplier(code);
+            List<SupplierDto> supDto = supplierBO.getItemSupplier(code);
 
             for (SupplierDto dto : supDto) {
                 obList.add(String.valueOf(dto.getId()));
@@ -163,7 +165,7 @@ public class InventoryOrderDetailFormController {
         }else {
             int id= Integer.parseInt(code);
             try {
-                SupplierDto dto = supplierDAO.search(id);
+                SupplierDto dto = supplierBO.searchSupplier(id);
                 if (dto != null) {
                     lblSupplierName.setText(dto.getName());
                     txtQty.requestFocus();
