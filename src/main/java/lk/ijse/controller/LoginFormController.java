@@ -14,6 +14,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.CubicCurve;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.LoginBO;
 import lk.ijse.dao.custom.LoginDAO;
 import lk.ijse.dao.custom.impl.LoginDAOImpl;
 import org.controlsfx.control.Notifications;
@@ -30,7 +32,7 @@ public class LoginFormController {
     public MFXTextField txtUserName;
     public MFXPasswordField txtPassword;
 
-    private LoginDAO loginDAO=new LoginDAOImpl();
+    private LoginBO loginBO= (LoginBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.LOGIN);
 
     private static int userId;
     private static String username;
@@ -86,7 +88,7 @@ public class LoginFormController {
     }
 
     public boolean checkLogin() throws SQLException, ClassNotFoundException {
-        boolean b = loginDAO.checkLogin(txtUserName.getText(), txtPassword.getText());
+        boolean b = loginBO.checkLogin(txtUserName.getText(), txtPassword.getText());
         if (b) {
             getUserId(txtUserName.getText());
             username=txtUserName.getText();
@@ -97,7 +99,7 @@ public class LoginFormController {
     }
 
     private void getUserId(String text) throws SQLException, ClassNotFoundException {
-        userId = loginDAO.getUserId(text);
+        userId = loginBO.getUserId(text);
     }
 
     public static int returnUserId(){

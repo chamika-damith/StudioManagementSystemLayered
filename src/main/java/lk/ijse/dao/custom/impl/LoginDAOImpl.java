@@ -21,6 +21,7 @@ public class LoginDAOImpl implements LoginDAO {
         return false;
     }
 
+    @Override
     public int getUserId(String text) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLutil.execute("SELECT userId FROM user WHERE username=?",text);
         if (resultSet.next()) {
