@@ -20,6 +20,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.OrderDetailBO;
 import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.dao.custom.impl.OrderDetailDAOImpl;
 import lk.ijse.dto.OrderViewDto;
@@ -47,7 +49,8 @@ public class ViewTableFormController {
     private ObservableList<ViewOrderTm> obList;
     private OrderItemDetailFormController OIDController=new OrderItemDetailFormController();
 
-    private OrderDetailDAO orderDetailDAO=new OrderDetailDAOImpl();
+    private OrderDetailBO orderDetailBO= (OrderDetailBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ORDERDETAIL);
+
 
     public void initialize() throws ClassNotFoundException {
         setCellValues();
@@ -59,7 +62,7 @@ public class ViewTableFormController {
         obList= FXCollections.observableArrayList();
 
         try {
-            List<OrderViewDto> allItems = orderDetailDAO.getAllItems();
+            List<OrderViewDto> allItems = orderDetailBO.getAllItems();
 
             for (OrderViewDto dto : allItems){
                 Button button = createButton();

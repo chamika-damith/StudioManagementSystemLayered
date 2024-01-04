@@ -25,6 +25,7 @@ import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.bo.custom.ItemBO;
 import lk.ijse.bo.custom.OrderBO;
+import lk.ijse.bo.custom.OrderDetailBO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.OrderDAO;
@@ -89,13 +90,14 @@ public class OrderFormController{
 
     private String Oid;
 
-    private OrderDetailDAO orderDetailDAO=new OrderDetailDAOImpl();
-
     private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     private ItemBO itemBO= (ItemBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ITEM);
 
     private OrderBO orderBO= (OrderBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ORDER);
+
+    private OrderDetailBO orderDetailBO= (OrderDetailBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ORDERDETAIL);
+
 
     public void initialize() throws ClassNotFoundException {
         loadCustomerIds();
@@ -405,7 +407,7 @@ public class OrderFormController{
                     if (b) {
                         tblCart.getItems().clear();
 
-                        List<OrderItemDetailFormDto> allValues = orderDetailDAO.getAllValues(orderId);
+                        List<OrderItemDetailFormDto> allValues = orderDetailBO.getAllValues(orderId);
 
 
                         String subject = "Your Purchase Order Confirmation - Order #00[" + orderId + "]";

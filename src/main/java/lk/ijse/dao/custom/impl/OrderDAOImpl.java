@@ -2,6 +2,8 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.ItemBO;
+import lk.ijse.bo.custom.OrderBO;
+import lk.ijse.bo.custom.OrderDetailBO;
 import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.OrderDAO;
@@ -13,9 +15,9 @@ import java.sql.*;
 
 public class OrderDAOImpl implements OrderDAO {
 
-    private OrderDetailDAO orderDetailDAO=new OrderDetailDAOImpl();
-
     private ItemBO itemBO= (ItemBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ITEM);
+
+    private OrderDetailBO orderDetailBO= (OrderDetailBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ORDERDETAIL);
 
 
     @Override
@@ -95,7 +97,7 @@ public class OrderDAOImpl implements OrderDAO {
                 boolean isItemSave = itemBO.updateItems(orderDto.getCartTmList(),qty);
                 System.out.println("item saved");
                 if (isItemSave) {
-                    boolean isOrderDetailSave = orderDetailDAO.saveOrderDetails(orderId, orderDto.getCartTmList());
+                    boolean isOrderDetailSave = orderDetailBO.saveOrderDetails(orderId, orderDto.getCartTmList());
                     if (isOrderDetailSave){
                         System.out.println("Order details saved");
                         connection.commit();

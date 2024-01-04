@@ -7,6 +7,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.bo.BOFactory;
+import lk.ijse.bo.custom.OrderDetailBO;
 import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.dao.custom.impl.OrderDetailDAOImpl;
 import lk.ijse.dto.OrderItemDetailFormDto;
@@ -33,7 +35,9 @@ public class OrderItemDetailFormController {
     ObservableList<OrderItemTm> obList;
 
     private static int focusedIndex;
-    private OrderDetailDAO orderDetailDAO=new OrderDetailDAOImpl();
+
+    private OrderDetailBO orderDetailBO= (OrderDetailBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ORDERDETAIL);
+
 
     public void initialize() throws ClassNotFoundException {
         setCellValueFactory();
@@ -47,7 +51,7 @@ public class OrderItemDetailFormController {
 
 
         try {
-            List<OrderItemDetailFormDto> dto= orderDetailDAO.getAllValues(focusedIndex);
+            List<OrderItemDetailFormDto> dto= orderDetailBO.getAllValues(focusedIndex);
 
             for (OrderItemDetailFormDto oDto : dto) {
                 lblOrderDate.setText(String.valueOf(oDto.getOrderDate()));
