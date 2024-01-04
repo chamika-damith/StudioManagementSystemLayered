@@ -21,6 +21,7 @@ import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.BookingBO;
 import lk.ijse.bo.custom.CustomerBO;
 import lk.ijse.bo.custom.DashboardBO;
+import lk.ijse.bo.custom.OrderBO;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.dao.custom.DashboardDAO;
@@ -65,13 +66,14 @@ public class DashboardWindwoCrontroller {
     private boolean cancelBooking=false;
     private ObservableList<ViewBookingTm> obList;
 
-    private OrderDAO orderDAO=new OrderDAOImpl();
-
     private CustomerBO customerBO= (CustomerBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.CUSTOMER);
 
     private BookingBO bookingBO= (BookingBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.BOOKING);
 
     private DashboardBO dashboardBO= (DashboardBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.DASHBOARD);
+
+    private OrderBO orderBO= (OrderBO) BOFactory.getFactory().getBO(BOFactory.BOTypes.ORDER);
+
 
     public void initialize() throws ClassNotFoundException {
         chart1();
@@ -168,8 +170,8 @@ public class DashboardWindwoCrontroller {
     public void setLblValue() throws ClassNotFoundException {
         try {
             lblAllCustomerd.setText(customerBO.returnLbCuslValue());
-            lblAllInventory.setText(orderDAO.returnlblTotalSale());
-            lblOrders.setText(orderDAO.returnLbOrderlValue());
+            lblAllInventory.setText(orderBO.returnlblTotalSale());
+            lblOrders.setText(orderBO.returnLbOrderlValue());
             lblEmpId.setText(bookingBO.returnLbBookingValue());
         } catch (SQLException e) {
             e.getMessage();
