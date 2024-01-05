@@ -4,6 +4,7 @@ import lk.ijse.bo.custom.InventoryOrderBO;
 import lk.ijse.dao.DAOFactory;
 import lk.ijse.dao.custom.InventoryOrderDAO;
 import lk.ijse.dto.InventoryOrderDto;
+import lk.ijse.entity.InventoryOrder;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -24,6 +25,7 @@ public class InventoryOrderBOImpl implements InventoryOrderBO {
 
     @Override
     public boolean placeOrder(InventoryOrderDto dto) throws SQLException, ClassNotFoundException {
-        return inventoryOrderDAO.placeOrder(dto);
+        return inventoryOrderDAO.placeOrder(new InventoryOrder(dto.getSupOrderId(),dto.getDescription(),dto.getOrderDate(),dto.getReturnDate(),
+                dto.getCategory(),dto.getSupId(),dto.getCartTmList(),dto.getTxtqty(),dto.getQty()));
     }
 }

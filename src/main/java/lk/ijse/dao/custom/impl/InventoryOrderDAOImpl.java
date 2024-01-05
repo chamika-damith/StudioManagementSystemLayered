@@ -1,15 +1,13 @@
 package lk.ijse.dao.custom.impl;
 
 import lk.ijse.bo.BOFactory;
-import lk.ijse.bo.custom.InventoryOrderBO;
 import lk.ijse.bo.custom.InventoryOrderDetailBO;
 import lk.ijse.bo.custom.ItemBO;
 import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.InventoryOrderDAO;
-import lk.ijse.dao.custom.InventoryOrderDetailDAO;
-import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.InventoryOrderDto;
+import lk.ijse.entity.InventoryOrder;
+
 import java.sql.*;
 
 public class InventoryOrderDAOImpl implements InventoryOrderDAO {
@@ -50,7 +48,7 @@ public class InventoryOrderDAOImpl implements InventoryOrderDAO {
     }
 
     @Override
-    public boolean placeOrder(InventoryOrderDto dto) throws SQLException, ClassNotFoundException {
+    public boolean placeOrder(InventoryOrder entity) throws SQLException, ClassNotFoundException {
         Connection connection=null;
 
         try {
@@ -58,13 +56,13 @@ public class InventoryOrderDAOImpl implements InventoryOrderDAO {
             connection = DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
-            boolean isOrderSave = saveOrder(dto.getSupOrderId(), dto.getDescription(), dto.getOrderDate(), dto.getReturnDate(), dto.getCategory(), dto.getSupId());
+            boolean isOrderSave = saveOrder(entity.getSupOrderId(), entity.getDescription(), entity.getOrderDate(), entity.getReturnDate(), entity.getCategory(), entity.getSupId());
             if (isOrderSave) {
                 System.out.println("Inventory Order saved successfully");
-                boolean isItemUpdate = itemBO.updateInventoryOrderItem(dto.getCartTmList(), dto.getTxtqty());
+                boolean isItemUpdate = itemBO.updateInventoryOrderItem(entity.getCartTmList(), entity.getTxtqty());
                 if (isItemUpdate) {
                     System.out.println("item updated successfully");
-                    boolean isOrderDetailSave = inventoryOrderDetailBO.saveOrderDetails(dto.getCartTmList(), dto.getSupOrderId(), dto.getQty());
+                    boolean isOrderDetailSave = inventoryOrderDetailBO.saveOrderDetails(entity.getCartTmList(), entity.getSupOrderId(), entity.getQty());
                     if (isOrderDetailSave) {
                         System.out.println("order detail saved successfully");
                         connection.commit();
