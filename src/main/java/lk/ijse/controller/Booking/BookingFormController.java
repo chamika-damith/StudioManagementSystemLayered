@@ -123,6 +123,7 @@ public class BookingFormController {
         try {
             List<CustomerDto> idList = customerBO.getAllCustomer();
 
+
             for (CustomerDto dto : idList) {
                 obList.add(String.valueOf(dto.getCusId()));
             }

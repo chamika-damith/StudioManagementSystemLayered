@@ -4,6 +4,7 @@ import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.CustomerDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.CustomerDto;
+import lk.ijse.entity.Customer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -43,20 +44,20 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public boolean save(CustomerDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Customer entity) throws SQLException, ClassNotFoundException {
 
-        return SQLutil.execute("INSERT INTO customer(cusId,name,mobile,email,address) VALUES(?,?,?,?,?)",dto.getCusId(),dto.getName(),
-                dto.getMobile(),dto.getEmail(),dto.getAddress());
+        return SQLutil.execute("INSERT INTO customer(cusId,name,mobile,email,address) VALUES(?,?,?,?,?)",entity.getCusId(),entity.getName(),
+                entity.getMobile(),entity.getEmail(),entity.getAddress());
     }
 
     @Override
-    public List<CustomerDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Customer> getAll() throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLutil.execute("SELECT * FROM customer");
-        ArrayList<CustomerDto> dtoList=new ArrayList<>();
+        ArrayList<Customer> dtoList=new ArrayList<>();
 
         while (resultSet.next()){
-            dtoList.add(new CustomerDto(
+            dtoList.add(new Customer(
                     resultSet.getInt(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -68,9 +69,9 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public boolean update(CustomerDto dto) throws SQLException, ClassNotFoundException {
-        return SQLutil.execute("UPDATE customer SET name = ? , mobile = ? , email=? , address=? WHERE cusId=?",dto.getName(),
-                dto.getMobile(),dto.getEmail(),dto.getAddress(),dto.getCusId());
+    public boolean update(Customer entity) throws SQLException, ClassNotFoundException {
+        return SQLutil.execute("UPDATE customer SET name = ? , mobile = ? , email=? , address=? WHERE cusId=?",entity.getCusId(),entity.getName(),
+                entity.getMobile(),entity.getEmail(),entity.getAddress());
     }
 
     @Override
@@ -88,11 +89,11 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public CustomerDto search(int id) throws SQLException, ClassNotFoundException {
+    public Customer search(int id) throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLutil.execute("select * from customer where cusId = ?",id);
 
-        CustomerDto dto =null;
+        Customer dto =null;
         while (resultSet.next()) {
             int textId = resultSet.getInt(1);
             String textName = resultSet.getString(2);
@@ -100,7 +101,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             String textEmail = resultSet.getString(4);
             String textAddress = resultSet.getString(5);
 
-            dto = new CustomerDto(textId,textName,textmobile,textEmail,textAddress);
+            dto = new Customer(textId,textName,textmobile,textEmail,textAddress);
         }
         return dto;
     }
