@@ -3,7 +3,7 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.EmployeeDAO;
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.EmployeeDto;
+import lk.ijse.entity.Employee;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,19 +14,19 @@ import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
-    public boolean save(EmployeeDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Employee entity) throws SQLException, ClassNotFoundException {
         return SQLutil.execute("INSERT INTO employee (empId,name,salary,email,type,address) VALUES (?,?,?,?,?,?)",
-                dto.getEmpId(),dto.getName(),dto.getSalary(),dto.getEmail(),dto.getType(),dto.getAddress());
+                entity.getEmpId(),entity.getName(),entity.getSalary(),entity.getEmail(),entity.getType(),entity.getAddress());
     }
 
     @Override
-    public List<EmployeeDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Employee> getAll() throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLutil.execute("SELECT * FROM employee");
-        ArrayList<EmployeeDto> dtoList=new ArrayList<>();
+        ArrayList<Employee> dtoList=new ArrayList<>();
 
         while (resultSet.next()){
-            dtoList.add(new EmployeeDto(
+            dtoList.add(new Employee(
                     resultSet.getInt("empId"),
                     resultSet.getString("name"),
                     resultSet.getDouble("salary"),
@@ -39,9 +39,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public boolean update(EmployeeDto dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Employee entity) throws SQLException, ClassNotFoundException {
         return SQLutil.execute("UPDATE employee SET name = ? , salary=? , email=? , type=?,address =?  WHERE empId=?",
-                dto.getName(),dto.getSalary(),dto.getEmail(),dto.getType(),dto.getAddress(),dto.getEmpId());
+                entity.getName(),entity.getSalary(),entity.getEmail(),entity.getType(),entity.getAddress(),entity.getEmpId());
     }
 
     @Override
@@ -59,11 +59,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public EmployeeDto search(int id) throws SQLException, ClassNotFoundException {
+    public Employee search(int id) throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLutil.execute("select * from employee where empId = ?",id);
 
-        EmployeeDto dto =null;
+        Employee dto =null;
         while (resultSet.next()) {
             int textId = resultSet.getInt(1);
             String textName = resultSet.getString(2);
@@ -72,7 +72,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             String textType = resultSet.getString(5);
             String address = resultSet.getString(6);
 
-            dto = new EmployeeDto(textId,textName,textSalary,textEmail,textType,address);
+            dto = new Employee(textId,textName,textSalary,textEmail,textType,address);
         }
         return dto;
     }
