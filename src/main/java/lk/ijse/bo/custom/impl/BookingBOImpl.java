@@ -7,6 +7,7 @@ import lk.ijse.dto.BookingDto;
 import lk.ijse.dto.BookingReportDto;
 import lk.ijse.dto.ServiceDto;
 import lk.ijse.dto.ViewBookingDto;
+import lk.ijse.entity.Booking;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -18,17 +19,30 @@ public class BookingBOImpl implements BookingBO {
 
     @Override
     public boolean saveBooking(BookingDto dto) throws SQLException, ClassNotFoundException {
-        return bookingDAO.save(dto);
+        return bookingDAO.save(new Booking(dto.getBookingId(),dto.getEventType(),dto.getDate(),dto.getLocation(),
+                dto.getEmpId(),dto.getCusId(),dto.getPackageId()));
     }
 
     @Override
     public List<BookingDto> getAllBooking() throws SQLException, ClassNotFoundException {
-        return bookingDAO.getAll();
+        List<Booking> all = bookingDAO.getAll();
+        List<BookingDto> bookingDto = null;
+        for (Booking book : all) {
+            bookingDto.add(new BookingDto(book.getBookingId(),
+                    book.getEventType(),
+                    book.getDate(),
+                    book.getLocation(),
+                    book.getEmpId(),
+                    book.getCusId(),
+                    book.getPackageId()));
+        }
+        return bookingDto;
     }
 
     @Override
     public boolean updateBooking(BookingDto dto) throws SQLException, ClassNotFoundException {
-        return bookingDAO.update(dto);
+        return bookingDAO.update(new Booking(dto.getBookingId(),dto.getEventType(),dto.getDate(),dto.getLocation(),
+                dto.getEmpId(),dto.getCusId(),dto.getPackageId()));
     }
 
     @Override
@@ -43,7 +57,11 @@ public class BookingBOImpl implements BookingBO {
 
     @Override
     public BookingDto searchBooking(int id) throws SQLException, ClassNotFoundException {
-        return bookingDAO.search(id);
+        Booking search = bookingDAO.search(id);
+        BookingDto bookingDto=new BookingDto(search.getBookingId(),search.getEventType(),search.getDate(),search.getLocation(),
+                search.getEmpId(),search.getCusId(),search.getPackageId());
+
+        return bookingDto;
     }
 
     @Override

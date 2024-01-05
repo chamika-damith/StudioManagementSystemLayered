@@ -4,6 +4,7 @@ import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.BookingDAO;
 import lk.ijse.db.DbConnection;
 import lk.ijse.dto.*;
+import lk.ijse.entity.Booking;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,20 +13,20 @@ import java.util.List;
 public class BookingDAOImpl implements BookingDAO {
 
     @Override
-    public boolean save(BookingDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Booking entity) throws SQLException, ClassNotFoundException {
         return SQLutil.execute("INSERT INTO booking(bookingId, eventType, date, location, empId, packageId, custId) VALUES (?,?,?,?,?,?,?)",
-                dto.getBookingId(),dto.getEventType(),(Date) dto.getDate(),dto.getLocation(),dto.getEmpId(),dto.getPackageId(),dto.getCusId());
+                entity.getBookingId(),entity.getEventType(),(Date) entity.getDate(),entity.getLocation(),entity.getEmpId(),entity.getPackageId(),entity.getCusId());
     }
 
     @Override
-    public List<BookingDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Booking> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean update(BookingDto dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Booking entity) throws SQLException, ClassNotFoundException {
         return SQLutil.execute("UPDATE booking SET eventType = ? , date = ? , location=? , empId=?, packageId=? , custId=? WHERE bookingId=?",
-                dto.getEventType(), (Date) dto.getDate(),dto.getLocation(),dto.getEmpId(),dto.getPackageId(),dto.getCusId(),dto.getBookingId());
+                entity.getEventType(), (Date) entity.getDate(),entity.getLocation(),entity.getEmpId(),entity.getPackageId(),entity.getCusId(),entity.getBookingId());
     }
 
     @Override
@@ -43,11 +44,11 @@ public class BookingDAOImpl implements BookingDAO {
     }
 
     @Override
-    public BookingDto search(int id) throws SQLException, ClassNotFoundException {
+    public Booking search(int id) throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLutil.execute("select * from booking where bookingId = ?",id);
 
-        BookingDto dto =null;
+        Booking entity =null;
         while (resultSet.next()) {
             int bookingId = resultSet.getInt(1);
             String eventType = resultSet.getString(2);
@@ -57,9 +58,9 @@ public class BookingDAOImpl implements BookingDAO {
             int cusId=resultSet.getInt(6);
             int pkgId=resultSet.getInt(7);
 
-            dto = new BookingDto(bookingId,eventType,date,location,empId,cusId,pkgId);
+            entity = new Booking(bookingId,eventType,date,location,empId,cusId,pkgId);
         }
-        return dto;
+        return entity;
     }
 
     @Override
