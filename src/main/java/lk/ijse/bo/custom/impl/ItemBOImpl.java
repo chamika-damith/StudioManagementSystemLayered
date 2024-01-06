@@ -7,8 +7,10 @@ import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.tm.CartTm;
 import lk.ijse.dto.tm.InventoryOrderTm;
+import lk.ijse.entity.Item;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemBOImpl implements ItemBO {
@@ -42,17 +44,30 @@ public class ItemBOImpl implements ItemBO {
 
     @Override
     public boolean save(ItemDto dto) throws SQLException, ClassNotFoundException {
-        return itemDAO.save(dto);
+        return itemDAO.save(new Item(dto.getItemId(),dto.getDescription(),dto.getQty(),dto.getName(),dto.getPrice(),dto.getImg(),
+                dto.getCategory()));
     }
 
     @Override
     public List<ItemDto> getAll() throws SQLException, ClassNotFoundException {
-        return itemDAO.getAll();
+        List<Item> all = itemDAO.getAll();
+        ArrayList<ItemDto> dtoList = new ArrayList<>();
+        for (Item item: all) {
+            dtoList.add(new ItemDto(item.getItemId(),
+                    item.getDescription(),
+                    item.getQty(),
+                    item.getName(),
+                    item.getPrice(),
+                    item.getImg(),
+                    item.getCategory()));
+        }
+        return dtoList;
     }
 
     @Override
     public boolean update(ItemDto dto) throws SQLException, ClassNotFoundException {
-        return itemDAO.update(dto);
+        return itemDAO.update(new Item(dto.getItemId(),dto.getDescription(),dto.getQty(),dto.getName(),dto.getPrice(),dto.getImg(),
+                dto.getCategory()));
     }
 
     @Override
@@ -67,16 +82,27 @@ public class ItemBOImpl implements ItemBO {
 
     @Override
     public ItemDto search(int id) throws SQLException, ClassNotFoundException {
-        return itemDAO.search(id);
+        Item search = itemDAO.search(id);
+        ItemDto itemDto = new ItemDto(search.getItemId(),search.getDescription(),search.getQty(),search.getName(),
+                search.getPrice(),search.getImg(),search.getCategory());
+        return itemDto;
     }
 
     @Override
     public ItemDto searchItemName(String id) throws SQLException, ClassNotFoundException {
-        return itemDAO.searchItemName(id);
+        Item item = itemDAO.searchItemName(id);
+        ItemDto itemDto = new ItemDto(item.getItemId(),item.getDescription(),item.getQty(),item.getName(),item.getPrice(),item.getImg(),item.getCategory());
+        return itemDto;
     }
 
     @Override
     public List<ItemDto> getCategoryName(String category) throws SQLException, ClassNotFoundException {
-        return itemDAO.getCategoryName(category);
+        List<Item> categoryName = itemDAO.getCategoryName(category);
+        ArrayList<ItemDto> categoryList = new ArrayList<>();
+        for (Item item: categoryName) {
+            categoryList.add(new ItemDto(item.getItemId(),item.getDescription(),item.getQty(),item.getName(),item.getPrice(),
+                    item.getImg(),item.getCategory()));
+        }
+        return categoryList;
     }
 }

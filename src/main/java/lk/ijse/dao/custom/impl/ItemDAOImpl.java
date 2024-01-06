@@ -5,10 +5,9 @@ import javafx.scene.image.Image;
 import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.CustomerDto;
-import lk.ijse.dto.ItemDto;
 import lk.ijse.dto.tm.CartTm;
 import lk.ijse.dto.tm.InventoryOrderTm;
+import lk.ijse.entity.Item;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -97,21 +96,21 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean save(ItemDto dto) throws SQLException, ClassNotFoundException {
-        Blob imgBlob = new javax.sql.rowset.serial.SerialBlob(dto.getImg());
+    public boolean save(Item entity) throws SQLException, ClassNotFoundException {
+        Blob imgBlob = new javax.sql.rowset.serial.SerialBlob(entity.getImg());
 
         return SQLutil.execute("insert into item(itemId,description,qty,name,price,img,category) values (?,?,?,?,?,?,?)"
-                ,dto.getItemId(),dto.getDescription(),dto.getQty(),dto.getName(),dto.getPrice(),imgBlob,dto.getCategory());
+                ,entity.getItemId(),entity.getDescription(),entity.getQty(),entity.getName(),entity.getPrice(),imgBlob,entity.getCategory());
     }
 
     @Override
-    public List<ItemDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Item> getAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLutil.execute("SELECT * FROM item");
 
-        ArrayList<ItemDto> dto=new ArrayList<>();
+        ArrayList<Item> dto=new ArrayList<>();
 
         while (resultSet.next()) {
-            dto.add(new ItemDto(
+            dto.add(new Item(
                     resultSet.getInt("itemId"),
                     resultSet.getString("description"),
                     resultSet.getInt("qty"),
@@ -125,11 +124,11 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean update(ItemDto dto) throws SQLException, ClassNotFoundException {
-        Blob imgBlob = new javax.sql.rowset.serial.SerialBlob(dto.getImg());
+    public boolean update(Item entity) throws SQLException, ClassNotFoundException {
+        Blob imgBlob = new javax.sql.rowset.serial.SerialBlob(entity.getImg());
 
         return SQLutil.execute("UPDATE item SET description=?,qty=?,name=?,price=?,img=?,category=? WHERE itemId=?",
-                dto.getDescription(),dto.getQty(),dto.getName(),dto.getPrice(),imgBlob,dto.getCategory(),dto.getItemId());
+                entity.getDescription(),entity.getQty(),entity.getName(),entity.getPrice(),imgBlob,entity.getCategory(),entity.getItemId());
     }
 
     @Override
@@ -147,10 +146,10 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public ItemDto search(int id) throws SQLException, ClassNotFoundException {
+    public Item search(int id) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLutil.execute("select * from item where itemId=?",id);
 
-        ItemDto dto=null;
+        Item dto=null;
 
         if (resultSet.next()){
             int text=resultSet.getInt("itemId");
@@ -161,7 +160,7 @@ public class ItemDAOImpl implements ItemDAO {
             byte[] img = resultSet.getBytes("img");
             String category = resultSet.getString("category");
 
-            dto=new ItemDto(text,description,qty,name,price,img,category);
+            dto=new Item(text,description,qty,name,price,img,category);
 
         }
 
@@ -169,10 +168,10 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public ItemDto searchItemName(String id) throws SQLException, ClassNotFoundException {
+    public Item searchItemName(String id) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLutil.execute("select * from item where name=?",id);
 
-        ItemDto dto=null;
+        Item dto=null;
         if (resultSet.next()){
             int text=resultSet.getInt("itemId");
             String description = resultSet.getString("description");
@@ -182,7 +181,7 @@ public class ItemDAOImpl implements ItemDAO {
             byte[] img = resultSet.getBytes("img");
             String category = resultSet.getString("category");
 
-            dto=new ItemDto(text,description,qty,name,price,img,category);
+            dto=new Item(text,description,qty,name,price,img,category);
 
         }
 
@@ -191,13 +190,13 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public List<ItemDto> getCategoryName(String category) throws SQLException, ClassNotFoundException {
+    public List<Item> getCategoryName(String category) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLutil.execute("SELECT * FROM item WHERE category =? ",category);
 
-        ArrayList<ItemDto> dto=new ArrayList<>();
+        ArrayList<Item> dto=new ArrayList<>();
 
         while (resultSet.next()) {
-            dto.add(new ItemDto(
+            dto.add(new Item(
                     resultSet.getInt("itemId"),
                     resultSet.getString("description"),
                     resultSet.getInt("qty"),
