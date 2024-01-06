@@ -2,11 +2,7 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.SupplierDAO;
-import lk.ijse.db.DbConnection;
-import lk.ijse.dto.SupplierDto;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import lk.ijse.entity.Supplier;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,19 +10,19 @@ import java.util.List;
 
 public class SupplierDAOImpl implements SupplierDAO {
     @Override
-    public boolean save(SupplierDto dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Supplier entity) throws SQLException, ClassNotFoundException {
         return SQLutil.execute("INSERT INTO supplier(supId, name, contact, address, category) VALUES(?,?,?,?,?)",
-                dto.getId(),dto.getName(),dto.getContact(),dto.getAddress(),dto.getCategory());
+                entity.getId(),entity.getName(),entity.getContact(),entity.getAddress(),entity.getCategory());
     }
 
     @Override
-    public List<SupplierDto> getAll() throws SQLException, ClassNotFoundException {
+    public List<Supplier> getAll() throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLutil.execute("SELECT * FROM supplier");
-        ArrayList<SupplierDto> dtoList=new ArrayList<>();
+        ArrayList<Supplier> dtoList=new ArrayList<>();
 
         while (resultSet.next()){
-            dtoList.add(new SupplierDto(
+            dtoList.add(new Supplier(
                     resultSet.getInt(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -38,9 +34,9 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     @Override
-    public boolean update(SupplierDto dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Supplier entity) throws SQLException, ClassNotFoundException {
         return SQLutil.execute("UPDATE supplier SET name = ? , contact = ? , address=? , category=? WHERE supId=?",
-                dto.getName(),dto.getContact(),dto.getAddress(),dto.getCategory(),dto.getId());
+                entity.getName(),entity.getContact(),entity.getAddress(),entity.getCategory(),entity.getId());
     }
 
     @Override
@@ -58,10 +54,10 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     @Override
-    public SupplierDto search(int id) throws SQLException, ClassNotFoundException {
+    public Supplier search(int id) throws SQLException, ClassNotFoundException {
         ResultSet resultSet =SQLutil.execute("select * from supplier where supId = ?",id);
 
-        SupplierDto dto =null;
+        Supplier dto =null;
         while (resultSet.next()) {
             int textId = resultSet.getInt(1);
             String textName = resultSet.getString(2);
@@ -69,7 +65,7 @@ public class SupplierDAOImpl implements SupplierDAO {
             String textAddress = resultSet.getString(4);
             String textCategory = resultSet.getString(5);
 
-            dto = new SupplierDto(textId,textName,textmobile,textAddress,textCategory);
+            dto = new Supplier(textId,textName,textmobile,textAddress,textCategory);
         }
         return dto;
     }
@@ -92,13 +88,13 @@ public class SupplierDAOImpl implements SupplierDAO {
     }
 
     @Override
-    public List<SupplierDto> getItemSupplier(String code) throws SQLException, ClassNotFoundException {
+    public List<Supplier> getItemSupplier(String code) throws SQLException, ClassNotFoundException {
 
         ResultSet resultSet = SQLutil.execute("SELECT * FROM supplier WHERE category=?",code);
-        ArrayList<SupplierDto> dtoList=new ArrayList<>();
+        ArrayList<Supplier> dtoList=new ArrayList<>();
 
         while (resultSet.next()){
-            dtoList.add(new SupplierDto(
+            dtoList.add(new Supplier(
                     resultSet.getInt(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
