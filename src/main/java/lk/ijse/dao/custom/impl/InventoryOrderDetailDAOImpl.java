@@ -1,12 +1,10 @@
 package lk.ijse.dao.custom.impl;
 
 import lk.ijse.dao.SQLutil;
-import lk.ijse.dao.custom.InventoryOrderDAO;
 import lk.ijse.dao.custom.InventoryOrderDetailDAO;
-import lk.ijse.db.DbConnection;
-import lk.ijse.dto.InventoryOrderItemDto;
 import lk.ijse.dto.InventoryOrderViewDto;
 import lk.ijse.dto.tm.InventoryOrderTm;
+import lk.ijse.entity.InventoryOrderDetail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,15 +29,15 @@ public class InventoryOrderDetailDAOImpl implements InventoryOrderDetailDAO {
     }
 
     @Override
-    public List<InventoryOrderItemDto> getAllValues(int id) throws SQLException, ClassNotFoundException {
+    public List<InventoryOrderDetail> getAllValues(int id) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLutil.execute("SELECT so.supOrderId,so.orderDate,sod.itemId,sod.qty,so.description,so.category,item.name,item.price FROM supplier_order so JOIN suporderdetail sod on so.supOrderId = sod.supOrderId JOIN item item on sod.itemId = item.itemId WHERE sod.supOrderId=?");
 
 
-        ArrayList<InventoryOrderItemDto> dtoList = new ArrayList<>();
+        ArrayList<InventoryOrderDetail> dtoList = new ArrayList<>();
 
         while (resultSet.next()) {
             System.out.println("resultset");
-            dtoList.add(new InventoryOrderItemDto(
+            dtoList.add(new InventoryOrderDetail(
                     resultSet.getInt("itemId"),
                     resultSet.getInt("supOrderId"),
                     resultSet.getString("description"),

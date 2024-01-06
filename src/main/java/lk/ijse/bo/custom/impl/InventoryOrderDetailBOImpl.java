@@ -9,8 +9,10 @@ import lk.ijse.dto.InventoryOrderDto;
 import lk.ijse.dto.InventoryOrderItemDto;
 import lk.ijse.dto.InventoryOrderViewDto;
 import lk.ijse.dto.tm.InventoryOrderTm;
+import lk.ijse.entity.InventoryOrderDetail;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryOrderDetailBOImpl implements InventoryOrderDetailBO {
@@ -25,7 +27,20 @@ public class InventoryOrderDetailBOImpl implements InventoryOrderDetailBO {
 
     @Override
     public List<InventoryOrderItemDto> getAllValues(int id) throws SQLException, ClassNotFoundException {
-        return inventoryOrderDetailDAO.getAllValues(id);
+        List<InventoryOrderDetail> allValues = inventoryOrderDetailDAO.getAllValues(id);
+        ArrayList<InventoryOrderItemDto> allItems = new ArrayList<InventoryOrderItemDto>();
+        for (InventoryOrderDetail item : allValues){
+            allItems.add(new InventoryOrderItemDto(item.getItemId(),
+                    item.getSupOrderId(),
+                    item.getDescription(),
+                    item.getName(),
+                    item.getPrice(),
+                    item.getCategory(),
+                    item.getQty(),
+                    item.getOrderDate())
+            );
+        }
+        return allItems;
     }
 
     @Override
