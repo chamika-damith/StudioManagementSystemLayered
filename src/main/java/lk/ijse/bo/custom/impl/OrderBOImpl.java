@@ -4,6 +4,7 @@ import lk.ijse.bo.custom.OrderBO;
 import lk.ijse.dao.DAOFactory;
 import lk.ijse.dao.custom.OrderDAO;
 import lk.ijse.dto.OrderDto;
+import lk.ijse.entity.Order;
 
 import java.sql.SQLException;
 
@@ -33,6 +34,7 @@ public class OrderBOImpl implements OrderBO {
 
     @Override
     public boolean placeOrder(OrderDto orderDto) throws SQLException, ClassNotFoundException {
-        return orderDAO.placeOrder(orderDto);
+        return orderDAO.placeOrder(new Order(orderDto.getOrderId(),orderDto.getOrderDate(),orderDto.getReturnDate(),orderDto.getUserId(),
+                orderDto.getCusId(),orderDto.getTotal(),orderDto.getQty(),orderDto.getBuyItemQty(),orderDto.getCartTmList()));
     }
 }

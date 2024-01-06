@@ -2,14 +2,11 @@ package lk.ijse.dao.custom.impl;
 
 import lk.ijse.bo.BOFactory;
 import lk.ijse.bo.custom.ItemBO;
-import lk.ijse.bo.custom.OrderBO;
 import lk.ijse.bo.custom.OrderDetailBO;
 import lk.ijse.dao.SQLutil;
-import lk.ijse.dao.custom.ItemDAO;
 import lk.ijse.dao.custom.OrderDAO;
-import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.OrderDto;
+import lk.ijse.entity.Order;
 
 import java.sql.*;
 
@@ -74,16 +71,16 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public boolean placeOrder(OrderDto orderDto) throws SQLException, ClassNotFoundException {
+    public boolean placeOrder(Order entity) throws SQLException, ClassNotFoundException {
 
-        int orderId = orderDto.getOrderId();
-        Date orderDate = orderDto.getOrderDate();
-        Date returnDate = orderDto.getReturnDate();
-        int userId = orderDto.getUserId();
-        int cusId = orderDto.getCusId();
-        double total = orderDto.getTotal();
-        int buyItemQty = orderDto.getBuyItemQty();
-        int qty = orderDto.getQty();
+        int orderId = entity.getOrderId();
+        Date orderDate = entity.getOrderDate();
+        Date returnDate = entity.getReturnDate();
+        int userId = entity.getUserId();
+        int cusId = entity.getCusId();
+        double total = entity.getTotal();
+        int buyItemQty = entity.getBuyItemQty();
+        int qty = entity.getQty();
 
         Connection connection=null;
 
@@ -94,10 +91,10 @@ public class OrderDAOImpl implements OrderDAO {
             boolean isOrderSave = saveOrder(orderId, orderDate, returnDate, userId, cusId, total);
             if (isOrderSave) {
                 System.out.println("order saved");
-                boolean isItemSave = itemBO.updateItems(orderDto.getCartTmList(),qty);
+                boolean isItemSave = itemBO.updateItems(entity.getCartTmList(),qty);
                 System.out.println("item saved");
                 if (isItemSave) {
-                    boolean isOrderDetailSave = orderDetailBO.saveOrderDetails(orderId, orderDto.getCartTmList());
+                    boolean isOrderDetailSave = orderDetailBO.saveOrderDetails(orderId, entity.getCartTmList());
                     if (isOrderDetailSave){
                         System.out.println("Order details saved");
                         connection.commit();
