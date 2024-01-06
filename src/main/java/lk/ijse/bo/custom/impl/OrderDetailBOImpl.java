@@ -7,8 +7,10 @@ import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.dto.OrderItemDetailFormDto;
 import lk.ijse.dto.OrderViewDto;
 import lk.ijse.dto.tm.CartTm;
+import lk.ijse.entity.OrderDetail;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailBOImpl implements OrderDetailBO {
@@ -26,6 +28,13 @@ public class OrderDetailBOImpl implements OrderDetailBO {
 
     @Override
     public List<OrderItemDetailFormDto> getAllValues(int id) throws SQLException, ClassNotFoundException {
-        return orderDetailDAO.getAllValues(id);
+        List<OrderDetail> allValues = orderDetailDAO.getAllValues(id);
+        ArrayList<OrderItemDetailFormDto> dto = new ArrayList<>();
+        for (OrderDetail orderDetail : allValues) {
+            dto.add(new OrderItemDetailFormDto(orderDetail.getOrderId(),orderDetail.getOrderDate(),orderDetail.getItemId(),orderDetail.getDescription(),
+                    orderDetail.getName(),orderDetail.getTotprice(),orderDetail.getPrice(),orderDetail.getCategory(),orderDetail.getQty(),orderDetail.getImg()));
+
+        }
+        return dto;
     }
 }

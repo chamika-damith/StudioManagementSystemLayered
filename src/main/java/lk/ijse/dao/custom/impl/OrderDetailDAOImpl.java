@@ -3,9 +3,9 @@ package lk.ijse.dao.custom.impl;
 import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.OrderDetailDAO;
 import lk.ijse.db.DbConnection;
-import lk.ijse.dto.OrderItemDetailFormDto;
 import lk.ijse.dto.OrderViewDto;
 import lk.ijse.dto.tm.CartTm;
+import lk.ijse.entity.OrderDetail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,15 +49,15 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     }
 
     @Override
-    public List<OrderItemDetailFormDto> getAllValues(int id) throws SQLException, ClassNotFoundException {
+    public List<OrderDetail> getAllValues(int id) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLutil.execute("SELECT orders.orderId,orders.orderDate,orders.totprice,item.itemId,od.qty,item.description,item.price,item.name,item.category,item.img FROM orders JOIN order_detail od on orders.orderId = od.orderId JOIN item item on od.itemId = item.itemId WHERE od.orderId=?",
                 id);
 
-        ArrayList<OrderItemDetailFormDto> dtoList = new ArrayList<>();
+        ArrayList<OrderDetail> dtoList = new ArrayList<>();
 
         while (resultSet.next()) {
             System.out.println("resultset");
-            dtoList.add(new OrderItemDetailFormDto(
+            dtoList.add(new OrderDetail(
                     resultSet.getInt("orderId"),
                     resultSet.getDate("orderDate"),
                     resultSet.getInt("itemId"),
