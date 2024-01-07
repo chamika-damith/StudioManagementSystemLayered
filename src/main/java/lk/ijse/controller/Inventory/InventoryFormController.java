@@ -327,34 +327,36 @@ public class InventoryFormController {
         int id = Integer.parseInt(txtid.getText());
 
         try {
-            ItemDto itemDto = itemBO.search(id);
-            if (itemDto != null) {
-                txtdescription.setText(itemDto.getDescription());
-                txtprice.setText(String.valueOf(itemDto.getPrice()));
-                txtqty.setText(String.valueOf(itemDto.getQty()));
-                txtname.setText(itemDto.getName());
+            if (itemBO.isExists(id)){
+                ItemDto itemDto = itemBO.search(id);
+                if (itemDto != null) {
+                    txtdescription.setText(itemDto.getDescription());
+                    txtprice.setText(String.valueOf(itemDto.getPrice()));
+                    txtqty.setText(String.valueOf(itemDto.getQty()));
+                    txtname.setText(itemDto.getName());
 
-                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(itemDto.getImg());
+                    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(itemDto.getImg());
 
-                // Use the input stream to create an Image
-                Image image = new Image(byteArrayInputStream);
-                img.setImage(image);
+                    // Use the input stream to create an Image
+                    Image image = new Image(byteArrayInputStream);
+                    img.setImage(image);
 
 
 
-                Image image1=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image1));
-                    notifications.text("Item Search Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
+                    Image image1=new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image1));
+                        notifications.text("Item Search Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
                 }
-
             }else {
                 Image image=new Image("/Icon/icons8-cancel-50.png");
                 try {
