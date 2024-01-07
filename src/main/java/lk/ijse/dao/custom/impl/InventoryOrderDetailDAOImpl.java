@@ -40,31 +40,11 @@ public class InventoryOrderDetailDAOImpl implements InventoryOrderDetailDAO {
 
     @Override
     public int getAllTotal(int id) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = SQLutil.execute("SELECT b.bookingId,p.price,SUM(p.price) OVER () AS total FROM booking b JOIN packages p on b.packageId = p.packageId WHERE b.bookingId=? GROUP BY b.bookingId",id);
-        int total = 0;
-
-        if (resultSet.next()){
-            total = resultSet.getInt("total");
-        }
-
-        return total;
+        return queryDAO.getAllTotal(id);
     }
 
     @Override
     public List<InventoryOrderViewDto> getAllItemsOrder() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = SQLutil.execute("SELECT o.supOrderId,s.name,s.address,s.category,s.contact FROM supplier_order o JOIN supplier s ON o.supId = s.supId");
-
-        ArrayList<InventoryOrderViewDto> dto=new ArrayList<>();
-
-        while (resultSet.next()) {
-            dto.add(new InventoryOrderViewDto(
-                    resultSet.getInt("supOrderId"),
-                    resultSet.getString("name"),
-                    resultSet.getString("address"),
-                    resultSet.getString("category"),
-                    resultSet.getString("contact")
-            ));
-        }
-        return dto;
+        return queryDAO.getAllItemsOrder();
     }
 }

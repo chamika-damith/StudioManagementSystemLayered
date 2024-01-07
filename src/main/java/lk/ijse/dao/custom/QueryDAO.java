@@ -2,6 +2,7 @@ package lk.ijse.dao.custom;
 
 import lk.ijse.dao.SuperDAO;
 import lk.ijse.dto.BookingReportDto;
+import lk.ijse.dto.InventoryOrderViewDto;
 import lk.ijse.dto.ViewBookingDto;
 import lk.ijse.entity.InventoryOrderDetail;
 
@@ -14,4 +15,6 @@ public interface QueryDAO extends SuperDAO {
     List<ViewBookingDto> getTodayBooking(Date date) throws SQLException, ClassNotFoundException;
     List<ViewBookingDto> getAllBooking() throws SQLException, ClassNotFoundException;
     List<InventoryOrderDetail> getAllValues(int id) throws SQLException, ClassNotFoundException;
+    int getAllTotal(int id) throws SQLException, ClassNotFoundException;
+    List<InventoryOrderViewDto> getAllItemsOrder() throws SQLException, ClassNotFoundException;
 }
