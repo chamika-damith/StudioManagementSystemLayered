@@ -3,8 +3,10 @@ import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.QueryDAO;
 import lk.ijse.dto.BookingReportDto;
 import lk.ijse.dto.InventoryOrderViewDto;
+import lk.ijse.dto.OrderViewDto;
 import lk.ijse.dto.ViewBookingDto;
 import lk.ijse.entity.InventoryOrderDetail;
+import lk.ijse.entity.OrderDetail;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -122,6 +124,50 @@ public class QueryDAOImpl implements QueryDAO {
             ));
         }
         return dto;
+    }
+
+    @Override
+    public List<OrderViewDto> getAllItems() throws SQLException, ClassNotFoundException {
+
+        ResultSet resultSet = SQLutil.execute("SELECT o.orderId,c.name,c.address,c.email,c.mobile FROM orders o JOIN customer c ON o.cusId = c.cusId");
+
+        ArrayList<OrderViewDto> dto=new ArrayList<>();
+
+        while (resultSet.next()) {
+            dto.add(new OrderViewDto(
+                    resultSet.getInt("orderId"),
+                    resultSet.getString("name"),
+                    resultSet.getString("address"),
+                    resultSet.getString("email"),
+                    resultSet.getString("mobile")
+            ));
+        }
+        return dto;
+    }
+
+    @Override
+    public List<OrderDetail> getAllOrderDetailValues(int id) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = SQLutil.execute("SELECT orders.orderId,orders.orderDate,orders.totprice,item.itemId,od.qty,item.description,item.price,item.name,item.category,item.img FROM orders JOIN order_detail od on orders.orderId = od.orderId JOIN item item on od.itemId = item.itemId WHERE od.orderId=?",
+                id);
+
+        ArrayList<OrderDetail> dtoList = new ArrayList<>();
+
+        while (resultSet.next()) {
+            System.out.println("resultset");
+            dtoList.add(new OrderDetail(
+                    resultSet.getInt("orderId"),
+                    resultSet.getDate("orderDate"),
+                    resultSet.getInt("itemId"),
+                    resultSet.getString("description"),
+                    resultSet.getString("name"),
+                    resultSet.getDouble("totprice"),
+                    resultSet.getDouble("price"),
+                    resultSet.getString("category"),
+                    resultSet.getInt("qty"),
+                    resultSet.getBytes("img")
+            ));
+        }
+        return dtoList;
     }
 
 }
