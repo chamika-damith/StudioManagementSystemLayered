@@ -306,26 +306,28 @@ public class EmployeeFormController {
         int empId = Integer.parseInt(txtEmpId.getText());
 
         try {
-            EmployeeDto dto = employeeBO.searchEmployee(empId);
-            if (dto != null){
-                txtName.setText(dto.getName());
-                txtSalary.setText(String.valueOf(dto.getSalary()));
-                txtEmail.setText(dto.getEmail());
-                comboBox.setValue(dto.getType());
-                txtSalary.setText(String.valueOf(dto.getSalary()));
-                txtAddress.setText(dto.getAddress());
+            if (employeeBO.isExistsEmployee(empId)){
+                EmployeeDto dto = employeeBO.searchEmployee(empId);
+                if (dto != null){
+                    txtName.setText(dto.getName());
+                    txtSalary.setText(String.valueOf(dto.getSalary()));
+                    txtEmail.setText(dto.getEmail());
+                    comboBox.setValue(dto.getType());
+                    txtSalary.setText(String.valueOf(dto.getSalary()));
+                    txtAddress.setText(dto.getAddress());
 
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Employee Search Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
+                    Image image=new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Employee Search Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }else {
                 Image image=new Image("/Icon/icons8-cancel-50.png");

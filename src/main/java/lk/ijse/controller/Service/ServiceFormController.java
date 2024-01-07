@@ -164,23 +164,25 @@ public class ServiceFormController {
         int id = Integer.parseInt(txtId.getText());
 
         try {
-            ServiceDto dto = packageBO.searchPackage(id);
-            if (dto != null){
-                txtName.setText(dto.getName());
-                txtName.setText(dto.getName());
-                txtPrice.setText(String.valueOf(dto.getPrice()));
-                cmbType.setValue(dto.getType());
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Service Search Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
+            if (packageBO.isExistsPackage(id)){
+                ServiceDto dto = packageBO.searchPackage(id);
+                if (dto != null){
+                    txtName.setText(dto.getName());
+                    txtName.setText(dto.getName());
+                    txtPrice.setText(String.valueOf(dto.getPrice()));
+                    cmbType.setValue(dto.getType());
+                    Image image=new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Service Search Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }else {
                 Image image=new Image("/Icon/icons8-cancel-50.png");

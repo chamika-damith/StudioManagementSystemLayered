@@ -6,11 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f9044844-a320-46b1-a9c2-08af69801f59" name="Changes" comment="updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/controller/Inventory/InventoryFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/controller/Inventory/InventoryFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/dao/custom/QueryDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/dao/custom/QueryDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/dao/custom/impl/BookingDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/dao/custom/impl/BookingDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/dao/custom/impl/QueryDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/dao/custom/impl/QueryDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lk/ijse/controller/Booking/BookingFormController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lk/ijse/controller/Booking/BookingFormController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/controller/Employee/EmployeeFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/controller/Employee/EmployeeFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/controller/Service/ServiceFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/controller/Service/ServiceFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/controller/Supplier/SupplierFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/controller/Supplier/SupplierFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lk/ijse/controller/Customer/CustomerFormController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lk/ijse/controller/Customer/CustomerFormController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/QueryDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/QueryDAO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/impl/BookingDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/impl/BookingDAOImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/impl/QueryDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/impl/QueryDAOImpl.class" afterDir="false" />
@@ -220,23 +219,7 @@
       <workItem from="1704517228026" duration="8434000" />
       <workItem from="1704560596242" duration="1354000" />
       <workItem from="1704602423267" duration="215000" />
-      <workItem from="1704603245271" duration="2521000" />
-    </task>
-    <task id="LOCAL-00001" summary="updated">
-      <option name="closed" value="true" />
-      <created>1703612280219</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1703612280219</updated>
-    </task>
-    <task id="LOCAL-00002" summary="updated">
-      <option name="closed" value="true" />
-      <created>1703612298461</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1703612298461</updated>
+      <workItem from="1704603245271" duration="4656000" />
     </task>
     <task id="LOCAL-00003" summary="updated">
       <option name="closed" value="true" />
@@ -614,7 +597,23 @@
       <option name="project" value="LOCAL" />
       <updated>1704605173994</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="updated">
+      <option name="closed" value="true" />
+      <created>1704605882116</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1704605882117</updated>
+    </task>
+    <task id="LOCAL-00051" summary="updated">
+      <option name="closed" value="true" />
+      <created>1704606539196</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1704606539196</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

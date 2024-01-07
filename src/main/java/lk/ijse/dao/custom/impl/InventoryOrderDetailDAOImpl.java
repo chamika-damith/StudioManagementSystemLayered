@@ -1,7 +1,9 @@
 package lk.ijse.dao.custom.impl;
 
+import lk.ijse.dao.DAOFactory;
 import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.InventoryOrderDetailDAO;
+import lk.ijse.dao.custom.QueryDAO;
 import lk.ijse.dto.InventoryOrderViewDto;
 import lk.ijse.dto.tm.InventoryOrderTm;
 import lk.ijse.entity.InventoryOrderDetail;
@@ -14,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryOrderDetailDAOImpl implements InventoryOrderDetailDAO {
+
+    private QueryDAO queryDAO= (QueryDAO) DAOFactory.getFactory().getDao(DAOFactory.DADTypes.QUERY);
+
     public boolean saveOrderDetail(InventoryOrderTm cartTmList, int supOrderId, int qty) throws SQLException, ClassNotFoundException {
         return SQLutil.execute("INSERT INTO suporderdetail (itemId,supOrderId,qty) VALUES(?,?,?)",cartTmList.getId(),supOrderId,qty);
     }
@@ -30,25 +35,7 @@ public class InventoryOrderDetailDAOImpl implements InventoryOrderDetailDAO {
 
     @Override
     public List<InventoryOrderDetail> getAllValues(int id) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = SQLutil.execute("SELECT so.supOrderId,so.orderDate,sod.itemId,sod.qty,so.description,so.category,item.name,item.price FROM supplier_order so JOIN suporderdetail sod on so.supOrderId = sod.supOrderId JOIN item item on sod.itemId = item.itemId WHERE sod.supOrderId=?");
-
-
-        ArrayList<InventoryOrderDetail> dtoList = new ArrayList<>();
-
-        while (resultSet.next()) {
-            System.out.println("resultset");
-            dtoList.add(new InventoryOrderDetail(
-                    resultSet.getInt("itemId"),
-                    resultSet.getInt("supOrderId"),
-                    resultSet.getString("description"),
-                    resultSet.getString("name"),
-                    resultSet.getDouble("price"),
-                    resultSet.getString("category"),
-                    resultSet.getInt("qty"),
-                    resultSet.getDate("orderDate")
-            ));
-        }
-        return dtoList;
+        return queryDAO.getAllValues(id);
     }
 
     @Override

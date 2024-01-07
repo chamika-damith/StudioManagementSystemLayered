@@ -3,6 +3,7 @@ import lk.ijse.dao.SQLutil;
 import lk.ijse.dao.custom.QueryDAO;
 import lk.ijse.dto.BookingReportDto;
 import lk.ijse.dto.ViewBookingDto;
+import lk.ijse.entity.InventoryOrderDetail;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -68,6 +69,29 @@ public class QueryDAOImpl implements QueryDAO {
             ));
         }
         return dto;
+    }
+
+    @Override
+    public List<InventoryOrderDetail> getAllValues(int id) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = SQLutil.execute("SELECT so.supOrderId,so.orderDate,sod.itemId,sod.qty,so.description,so.category,item.name,item.price FROM supplier_order so JOIN suporderdetail sod on so.supOrderId = sod.supOrderId JOIN item item on sod.itemId = item.itemId WHERE sod.supOrderId=?");
+
+
+        ArrayList<InventoryOrderDetail> dtoList = new ArrayList<>();
+
+        while (resultSet.next()) {
+            System.out.println("resultset");
+            dtoList.add(new InventoryOrderDetail(
+                    resultSet.getInt("itemId"),
+                    resultSet.getInt("supOrderId"),
+                    resultSet.getString("description"),
+                    resultSet.getString("name"),
+                    resultSet.getDouble("price"),
+                    resultSet.getString("category"),
+                    resultSet.getInt("qty"),
+                    resultSet.getDate("orderDate")
+            ));
+        }
+        return dtoList;
     }
 
 }
