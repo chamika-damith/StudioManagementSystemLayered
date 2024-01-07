@@ -11,4 +11,5 @@ import java.util.List;
 public interface QueryDAO extends SuperDAO {
     BookingReportDto getReportDetail(int id) throws SQLException, ClassNotFoundException;
     List<ViewBookingDto> getTodayBooking(Date date) throws SQLException, ClassNotFoundException;
+    List<ViewBookingDto> getAllBooking() throws SQLException, ClassNotFoundException;
 }

@@ -341,24 +341,26 @@ public class CustomerFormController {
         int id = Integer.parseInt(txtId.getText());
 
         try {
-            CustomerDto dto = customerBO.searchCustomer(id);
-            if (dto != null){
-                txtName.setText(dto.getName());
-                txtMobile.setText(dto.getMobile());
-                txtEmail.setText(dto.getEmail());
-                txtAddress.setText(dto.getAddress());
+            if (customerBO.isExistsCustomer(id)){
+                CustomerDto dto = customerBO.searchCustomer(id);
+                if (dto != null){
+                    txtName.setText(dto.getName());
+                    txtMobile.setText(dto.getMobile());
+                    txtEmail.setText(dto.getEmail());
+                    txtAddress.setText(dto.getAddress());
 
-                Image image=new Image("/Icon/iconsOk.png");
-                try {
-                    Notifications notifications=Notifications.create();
-                    notifications.graphic(new ImageView(image));
-                    notifications.text("Customer Search Successfully");
-                    notifications.title("Successfully");
-                    notifications.hideAfter(Duration.seconds(5));
-                    notifications.position(Pos.TOP_RIGHT);
-                    notifications.show();
-                }catch (Exception e){
-                    e.printStackTrace();
+                    Image image=new Image("/Icon/iconsOk.png");
+                    try {
+                        Notifications notifications=Notifications.create();
+                        notifications.graphic(new ImageView(image));
+                        notifications.text("Customer Search Successfully");
+                        notifications.title("Successfully");
+                        notifications.hideAfter(Duration.seconds(5));
+                        notifications.position(Pos.TOP_RIGHT);
+                        notifications.show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }else {
                 Image image=new Image("/Icon/icons8-cancel-50.png");

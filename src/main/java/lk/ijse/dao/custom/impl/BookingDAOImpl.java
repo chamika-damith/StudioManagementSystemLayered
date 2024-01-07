@@ -107,21 +107,7 @@ public class BookingDAOImpl implements BookingDAO {
 
     @Override
     public List<ViewBookingDto> getAllBooking() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet =SQLutil.execute("SELECT b.bookingId,b.status,c.name,b.location,c.email,c.mobile FROM booking b JOIN customer c ON b.custId = c.cusId");
-
-        ArrayList<ViewBookingDto> dto=new ArrayList<>();
-
-        while (resultSet.next()) {
-            dto.add(new ViewBookingDto(
-                    resultSet.getInt("bookingId"),
-                    resultSet.getString("name"),
-                    resultSet.getString("location"),
-                    resultSet.getString("email"),
-                    resultSet.getString("mobile"),
-                    resultSet.getBoolean("status")
-            ));
-        }
-        return dto;
+        return queryDAO.getAllBooking();
     }
 
     @Override
