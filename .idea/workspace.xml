@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f9044844-a320-46b1-a9c2-08af69801f59" name="Changes" comment="updated">
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/bo/custom/impl/InventoryOrderBOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/bo/custom/impl/InventoryOrderBOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/dao/custom/InventoryOrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/dao/custom/InventoryOrderDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/dao/custom/impl/InventoryOrderDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/dao/custom/impl/InventoryOrderDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lk/ijse/bo/custom/impl/OrderBOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lk/ijse/bo/custom/impl/OrderBOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/OrderDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/OrderDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/QueryDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/QueryDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/impl/OrderDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/impl/OrderDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/impl/OrderDetailDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/impl/OrderDetailDAOImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/impl/QueryDAOImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lk/ijse/dao/custom/impl/QueryDAOImpl.class" afterDir="false" />
-    </list>
+    <list default="true" id="f9044844-a320-46b1-a9c2-08af69801f59" name="Changes" comment="updated" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -221,15 +211,7 @@
       <workItem from="1704560596242" duration="1354000" />
       <workItem from="1704602423267" duration="215000" />
       <workItem from="1704603245271" duration="9401000" />
-      <workItem from="1704687313799" duration="4582000" />
-    </task>
-    <task id="LOCAL-00007" summary="updated">
-      <option name="closed" value="true" />
-      <created>1703654056856</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1703654056856</updated>
+      <workItem from="1704687313799" duration="4922000" />
     </task>
     <task id="LOCAL-00008" summary="updated">
       <option name="closed" value="true" />
@@ -615,7 +597,15 @@
       <option name="project" value="LOCAL" />
       <updated>1704692223680</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="updated">
+      <option name="closed" value="true" />
+      <created>1704692972520</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1704692972520</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
