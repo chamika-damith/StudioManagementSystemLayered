@@ -64,64 +64,11 @@ public class OrderDAOImpl implements OrderDAO {
         return null;
     }
 
+    @Override
     public boolean saveOrder(int orderId, Date orderDate, Date returnDate, int userId, int cusId, double total) throws SQLException, ClassNotFoundException {
 
         return SQLutil.execute("INSERT INTO orders(orderId, orderDate, returnDate, userId, cusId, totprice) VALUES(?, ?, ?, ?, ?,?)",
                 orderId,orderDate,returnDate,userId,cusId,total);
-    }
-
-    @Override
-    public boolean placeOrder(Order entity) throws SQLException, ClassNotFoundException {
-
-        int orderId = entity.getOrderId();
-        Date orderDate = entity.getOrderDate();
-        Date returnDate = entity.getReturnDate();
-        int userId = entity.getUserId();
-        int cusId = entity.getCusId();
-        double total = entity.getTotal();
-        int buyItemQty = entity.getBuyItemQty();
-        int qty = entity.getQty();
-
-        Connection connection=null;
-
-        try {
-            connection = DbConnection.getInstance().getConnection();
-            connection.setAutoCommit(false);
-
-            boolean isOrderSave = saveOrder(orderId, orderDate, returnDate, userId, cusId, total);
-            if (isOrderSave) {
-                System.out.println("order saved");
-                boolean isItemSave = itemBO.updateItems(entity.getCartTmList(),qty);
-                System.out.println("item saved");
-                if (isItemSave) {
-                    boolean isOrderDetailSave = orderDetailBO.saveOrderDetails(orderId, entity.getCartTmList());
-                    if (isOrderDetailSave){
-                        System.out.println("Order details saved");
-                        connection.commit();
-                        return true;
-                    }else {
-                        System.out.println("Failed to save order details");
-                    }
-                }else {
-                    System.out.println("Failed to update item quantity");
-                }
-            }else {
-                System.out.println("Failed to save the order");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                }
-            } catch (SQLException rollbackException) {
-                rollbackException.printStackTrace();
-            }
-        }finally {
-            connection.setAutoCommit(true);
-        }
-        return false;
     }
 
 }
