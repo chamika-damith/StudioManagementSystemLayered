@@ -42,53 +42,10 @@ public class InventoryOrderDAOImpl implements InventoryOrderDAO {
         return false;
     }
 
+    @Override
     public boolean saveOrder(int supOrderId, String description, Date orderDate, Date returnDate, String category, int supId) throws SQLException, ClassNotFoundException {
         return SQLutil.execute("INSERT INTO supplier_order (supOrderId,description,orderDate,returnDate,category,supId) VALUES(?,?,?,?,?,?)",
                 supOrderId,description,orderDate,returnDate,category,supId);
-    }
-
-    @Override
-    public boolean placeOrder(InventoryOrder entity) throws SQLException, ClassNotFoundException {
-        Connection connection=null;
-
-        try {
-
-            connection = DbConnection.getInstance().getConnection();
-            connection.setAutoCommit(false);
-
-            boolean isOrderSave = saveOrder(entity.getSupOrderId(), entity.getDescription(), entity.getOrderDate(), entity.getReturnDate(), entity.getCategory(), entity.getSupId());
-            if (isOrderSave) {
-                System.out.println("Inventory Order saved successfully");
-                boolean isItemUpdate = itemBO.updateInventoryOrderItem(entity.getCartTmList(), entity.getTxtqty());
-                if (isItemUpdate) {
-                    System.out.println("item updated successfully");
-                    boolean isOrderDetailSave = inventoryOrderDetailBO.saveOrderDetails(entity.getCartTmList(), entity.getSupOrderId(), entity.getQty());
-                    if (isOrderDetailSave) {
-                        System.out.println("order detail saved successfully");
-                        connection.commit();
-                        return true;
-                    }else {
-                        System.out.println("not saved inventory order detail");
-                    }
-                }else {
-                    System.out.println("not update item");
-                }
-            }else {
-                System.out.println("not saved inventory order");
-            }
-        }catch (SQLException e){
-            e.printStackTrace();try {
-                if (connection != null) {
-                    connection.rollback();
-                }
-            } catch (SQLException rollbackException) {
-                rollbackException.printStackTrace();
-            }
-
-        }finally {
-            connection.setAutoCommit(true);
-        }
-        return false;
     }
 
 }
